@@ -12,17 +12,17 @@ const Header = () => {
   return (
     <Fragment>
    <Navbar>
-  <Navbar.Brand href="#home">Dverse</Navbar.Brand>
+  <Navbar.Brand href="/">Dverse</Navbar.Brand>
   <Nav className="mr-auto">
-      <Nav.Link>  <Link to={"/"}></Link>Search Candidates</Nav.Link>
-      <Nav.Link href="#link">My Job Postings</Nav.Link>
-      <Nav.Link href="#home">Create Job Posting</Nav.Link>
-      <Nav.Link href="#link">Applications</Nav.Link>
+      <Nav.Link href="/candidates">Search Candidates</Nav.Link>
+      <Nav.Link href="/jobs">My Job Postings</Nav.Link>
+      <Nav.Link href="/job">Create Job Posting</Nav.Link>
+      <Nav.Link href="/applications">Applications</Nav.Link>
     </Nav>
   <Navbar.Toggle />
   <Navbar.Collapse className="justify-content-end">
     <Navbar.Text>
-      Signed in as: <a href="#login">Mark Otto</a>
+      Signed in as: Sahnun Mohamud <a href="#login"></a>
     </Navbar.Text>
   </Navbar.Collapse>
 </Navbar>

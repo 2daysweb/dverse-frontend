@@ -1,7 +1,9 @@
 
 import React, { Component } from 'react';
-import Header from './Header';
-import { Route } from 'react-router'
+// import Header from './Header';
+import { Route } from 'react-router';
+import Applications from './Applications'
+import LandingPage from './LandingPage'
 
 import JobPostingContainer from './JobPostingContainer';
 
@@ -9,9 +11,18 @@ class App extends Component {
   render() {
     return (
       <div className="app">
-      <Route
-  path='/'
+       
+<Route
+  exact path='/candidates'
   render={(props) => <JobPostingContainer{...props} />}
+/>
+<Route
+  exact path='/applications'
+  render={(props) => <Applications{...props} />}
+/>
+<Route
+  exact path='/'
+  render={(props) => <LandingPage{...props} />}
 />
       </div>
     );
