@@ -5,7 +5,6 @@ import Sidebar from "./Sidebar";
 import Content from "./Content";
 import {Route, Link } from "react-router-dom";
 
-
 const BASE_URL = "http://localhost:3000/";
 //Static, only updates on "Component Did Mount" --- Avoids the problem of the new "allJobs" filtering
 
@@ -122,7 +121,7 @@ class JobPostingContainer extends Component {
     let newJob = { title: "Deafult Title", body: "Deafult Body", user_id: 1 };
     let URL = BASE_URL + "api/v1/job_postings";
     console.log("Is URL Printing", URL);
-    debugger;
+    // debugger;
     return fetch(URL, {
       method: "POST",
       headers: {

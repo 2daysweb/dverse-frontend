@@ -1,35 +1,108 @@
-
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import SignUp from "./SignUpHeader";
+import LoginHeader from "./LoginHeader";
+import LandingPage from "./LandingPage";
+import JobPostingContainer from "./JobPostingContainer";
+import Applications from "./Applications";
 // import Header from './Header';
-import { Route } from 'react-router';
-import Applications from './Applications'
-import LandingPage from './LandingPage'
+import { BrowserRouter as Switch, Route } from "react-router-dom";
 
-import JobPostingContainer from './JobPostingContainer';
+const routes = [
+  //Sign Up
+  { path: "/user", component: <SignUp /> },
+  { path: "/login/:", component: <LoginHeader /> },
+  { path: "/candidates", component: <JobPostingContainer /> },
+  { path: "/applications", component: <Applications /> },
+  { path: "/", component: <LandingPage /> }
+];
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currInputLoginUN: "",
+      currInputLoginPW: ""
+      //isAuth --- use when adding authentication
+    };
+  }
+
+  authenticate = (UN, PW) => {};
+
+  handleChangeInputUN = e => {
+    debugger;
+    console.log("In Handle Text Input Change Parent in App");
+  };
+
+  handleChangeInputPW = e => {
+    debugger;
+    console.log("In Handle Text Input Change Parent in App");
+  };
+
+  handleChangeInputNewUN = e => {
+    debugger;
+    console.log("In Handle Text Input Change Parent in App");
+  };
+
+  handleChangeInputNewPW = e => {
+    debugger;
+    console.log("In Handle Text Input Change Parent in App");
+  };
+
   render() {
     return (
       <div className="app">
-       
-<Route
-  exact path='/candidates'
-  render={(props) => <JobPostingContainer{...props} />}
-/>
-<Route
-  exact path='/applications'
-  render={(props) => <Applications{...props} />}
-/>
-<Route
-  exact path='/'
-  render={(props) => <LandingPage{...props} />}
-/>
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={props => (
+              <LandingPage
+                {...props}
+                handleChangeInputUN={this.handleChangeInputUN}
+                handleChangeInputUN={this.handleChangeInputPW}
+                handleChangeInputNewUN={this.handleChangeInputNewUN}
+                handleChangeInputNewPW={this.handleChangeInputNewPW}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/login"
+            render={props => <LoginHeader {...props} />}
+          />
+          <Route
+            exact
+            path="/createUser"
+            render={props => (
+              <SignUp
+                {...props}
+           
+              />
+            )}
+          />
+          <Route exact path="/candidates" />
+          <Route
+            exact
+            path="/applications"
+            render={props => <Applications {...props} />}
+          />
+        </Switch>
+        ))}
       </div>
     );
   }
 }
 
+
+
 export default App;
+
+//TODO: Finish refactoring JSX to use .map with routes array
+// {routes.map(({ path, component:C }) => (
+//   <Route path={path}
+//   render={props => <C {...props} />}
+
+//    />
 
 // <Router>
 // <div>
@@ -48,7 +121,6 @@ export default App;
 //   ))}
 // </div>
 // </Router>
-
 
 // const routes = [
 //   {
