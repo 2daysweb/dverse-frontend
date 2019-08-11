@@ -3,21 +3,17 @@ import LoginHeader from "./LoginHeader";
 // import SignUpHeader from "./SignUpHeader"
 
 export default class LandingPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currInputLoginUN: "",
-      currInputLoginPW: ""
-      //isAuth --- use when adding authentication
-    };
-  }
-
-  //   authenticate = (UN, PW) => {};
 
   render() {
     return (
       <div>
-        <LoginHeader handleChangeInputUN={this.props.handleChangeInputUN} />
+        <LoginHeader handleChangeInputUN={this.props.handleChangeInputUN}
+                handleChangeInputPW={this.props.handleChangeInputPW}
+                currInputLoginUN={this.props.state.currInputLoginUN}
+                currInputLoginPW={this.props.state.currInputLoginPW}
+                handleLoginSubmit={this.props.handleLoginSubmit}
+
+         />
       </div>
     );
   }

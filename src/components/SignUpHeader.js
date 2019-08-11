@@ -1,26 +1,26 @@
 import React, { Component } from 'react'
-
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 
-
 export default class SignUpHeader extends Component {
 
+  handleChangeInputNewUN = (e) => {
+      e.persist()
+      let un = e.target.value
+      this.props.handleChangeInputNewUN(un)
+ 
+      console.log(e)
+  }
 
-
-
-    handleChangeInputNewPW = e => {
-    console.log(e);
-    debugger;
-  };
-
-    handleChangeInputNewUN = () => {
-    console.log();
-    debugger;
-  };
+  handleChangeInputNewPW = (e) => {
+    e.persist()
+    let pw = e.target.value 
+    this.props.handleChangeInputNewPW(pw)
+    console.log(e)
+}
 
   render(){
   return (
@@ -39,21 +39,20 @@ export default class SignUpHeader extends Component {
         </Navbar.Collapse>
       </Navbar>
       <h1>New User Sign Up</h1>
-      <Form>
+      <Form onSubmit={()=>this.props.handleSubmitSignup()}>
         <Form.Row>
           <Form.Group as={Col} controlId="formGridEmail">
             <Form.Label>Email</Form.Label>
             <Form.Control
-             onChange={() => this.handleChangeInputNewUN}
+             onChange={this.handleChangeInputNewUN.bind(this)}
              type="email"
              placeholder="Enter email"
             />
           </Form.Group>
-
           <Form.Group as={Col} controlId="formGridPassword">
             <Form.Label>Password</Form.Label>
             <Form.Control 
-              onChange={() => this.handleChangeInputNewPW}
+             onChange={this.handleChangeInputNewPW.bind(this)}
               type="password"
               placeholder="Password"
             />

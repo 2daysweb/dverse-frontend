@@ -6,11 +6,30 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
 export default class LoginHeader extends Component {
+
   handleChangeInputUN = e => {
-  console.log(e)
-debugger 
+  e.persist()
+  let un = e.target.value 
+  this.props.handleChangeInputUN(un)
+
+// debugger 
   };
 
+  handleChangeInputPW = e => {
+    e.persist()
+    let pw = e.target.value 
+    this.props.handleChangeInputPW(pw)
+
+  }
+
+  handleLoginSubmit = () => {
+
+    console.log("IN LOGIN SUBMIT")
+
+    this.props.handleLoginSubmit()
+  
+  }
+  
   render() {
     return (
       <div>
@@ -29,7 +48,7 @@ debugger
             </Navbar.Collapse>
           </Navbar>
           <h1>Login</h1>
-          <Form>
+          <Form onSubmit={ () => this.handleLoginSubmit()}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
               <Form.Control
@@ -38,7 +57,7 @@ debugger
                 placeholder="Enter email"
               />
               <Form.Text
-                onChange={this.handleChangeInputUN.bind(this)}
+                
                 className="text-muted"
               >
                 We'll never share your email with anyone else.
@@ -48,7 +67,7 @@ debugger
             <Form.Group controlId="formBasicPassword">
               <Form.Label>Password</Form.Label>
               <Form.Control
-                onChange={this.handleChangeInputUN.bind(this)}
+                onChange={this.handleChangeInputPW.bind(this)}
                 type="password"
                 placeholder="Password"
               />
@@ -56,12 +75,12 @@ debugger
             <Form.Group controlId="formBasicChecbox">
               <Form.Check type="checkbox" label="Check me out" />
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <Button  variant="primary" type="submit">
               Submit
             </Button>
           </Form>
         </Fragment>
-        ;
+        
       </div>
     );
   }

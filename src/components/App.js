@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import SignUp from "./SignUpHeader";
+import SignUpHeader from "./SignUpHeader";
 import LoginHeader from "./LoginHeader";
 import LandingPage from "./LandingPage";
 import JobPostingContainer from "./JobPostingContainer";
@@ -7,46 +7,94 @@ import Applications from "./Applications";
 // import Header from './Header';
 import { BrowserRouter as Switch, Route } from "react-router-dom";
 
-const routes = [
-  //Sign Up
-  { path: "/user", component: <SignUp /> },
-  { path: "/login/:", component: <LoginHeader /> },
-  { path: "/candidates", component: <JobPostingContainer /> },
-  { path: "/applications", component: <Applications /> },
-  { path: "/", component: <LandingPage /> }
-];
+// const routes = [
+//   //Sign Up
+//   { path: "/user", component: <SignUp /> },
+//   { path: "/login/:", component: <LoginHeader /> },
+//   { path: "/candidates", component: <JobPostingContainer /> },
+//   { path: "/applications", component: <Applications /> },
+//   { path: "/", component: <LandingPage /> }
+// ];
 
 class App extends Component {
-  constructor(props) {
-    super(props);
+  //authenticate = (UN, PW) => {};
+
+  constructor() {
+    super();
     this.state = {
+      currUser:null,
       currInputLoginUN: "",
       currInputLoginPW: ""
-      //isAuth --- use when adding authentication
     };
   }
 
-  authenticate = (UN, PW) => {};
+//--------------------BEGIN LOGIN UN/PW INPUT, SUBMIT LOGIN CREDENTIALS---------------//
+  
+updateCurrentUser = (user) => {
+  this.setState({user})
+}
 
-  handleChangeInputUN = e => {
-    debugger;
+  handleChangeInputUN = currUsername => {
+    this.setState({ currInputLoginUN: currUsername });
+  };
+
+  handleChangeInputPW = currPassword => {
+    this.setState({ currInputLoginPW: currPassword });
+  };
+
+  handleLoginSubmit = () =>  {
+ 
+    fetch('http://localhost:3000/api/v1/login', {
+    	method: "POST",
+    	headers: {"Content-Type":"application/json"},
+    	body: JSON.stringify({
+    	  email: this.state.currInputLoginUN,
+    		password: this.state.currInputLoginPW
+    	})
+    }).then(res => res.json())
+    .then(data => console.log(data))
+  }
+
+
+  // (data => {
+  //   if(data.authenticated){
+  //     //update state
+  //     this.props.updateCurrentUser(data.user)
+  //     //store the token in localStorage
+  //     localStorage.setItem("jwt", data.token)
+  //   }else{
+  //     alert("incorrect username or password")
+  //   }
+  // })
+//-----------------END LOGIN INPUTs, SUBMIT LOGIN CREDENTIALS---------------------------//
+
+  //--------------------BEGIN NEW USER SIGN UP INPUTs, SUBMIT SIGNUP DETAILS----------------//
+
+  handleChangeInputNewUN = currNewUsername => {
+    this.setState({currInputLoginUN:currNewUsername})
     console.log("In Handle Text Input Change Parent in App");
   };
 
-  handleChangeInputPW = e => {
-    debugger;
+  handleChangeInputNewPW = currNewPassword => {
+    this.setState({currInputLoginPW:currNewPassword})
     console.log("In Handle Text Input Change Parent in App");
   };
 
-  handleChangeInputNewUN = e => {
-    debugger;
-    console.log("In Handle Text Input Change Parent in App");
-  };
 
-  handleChangeInputNewPW = e => {
-    debugger;
-    console.log("In Handle Text Input Change Parent in App");
-  };
+  handleSubmitSignup = () =>  {
+//  debugger 
+    fetch('http://localhost:3000/api/v1/users', {
+    	method: "POST",
+    	headers: {"Content-Type":"application/json"},
+    	body: JSON.stringify({
+    		username: this.state.currInputLoginUN,
+    		password: this.state.currInputLoginPW
+    	})
+    }).then(res => res.json())
+    .then(data => console.log(data))
+  }
+  
+    //--------------------END NEW USER SIGN UP INPUTs, SUBMIT SIGNUP DETAILS----------------//
 
   render() {
     return (
@@ -59,28 +107,44 @@ class App extends Component {
               <LandingPage
                 {...props}
                 handleChangeInputUN={this.handleChangeInputUN}
-                handleChangeInputUN={this.handleChangeInputPW}
-                handleChangeInputNewUN={this.handleChangeInputNewUN}
-                handleChangeInputNewPW={this.handleChangeInputNewPW}
+                handleChangeInputPW={this.handleChangeInputPW}
+                currInputLoginUN={this.state.currInputLoginUN}
+                currInputLoginPW={this.state.currInputLoginPW}
+                handleLoginSubmit={this.handleLoginSubmit}
               />
             )}
           />
           <Route
             exact
             path="/login"
-            render={props => <LoginHeader {...props} />}
+            render={props => (
+              <LoginHeader
+                {...props}
+                handleChangeInputUN={this.handleChangeInputUN}
+                handleChangeInputPW={this.handleChangeInputPW}
+                currInputLoginUN={this.state.currInputLoginUN}
+                currInputLoginPW={this.state.currInputLoginPW}
+                handleLoginSubmit={this.handleLoginSubmit}
+              />
+            )}
           />
           <Route
             exact
             path="/createUser"
-            render={props => (
-              <SignUp
-                {...props}
-           
-              />
-            )}
+            render={props => <SignUpHeader 
+              {...props}
+            handleChangeInputNewUN={this.handleChangeInputNewUN}
+            handleChangeInputNewPW={this.handleChangeInputNewPW}
+            currInputLoginUN={this.state.currInputLoginUN}
+            currInputLoginPW={this.state.currInputLoginPW}
+            handleSubmitSignup={this.handleSubmitSignup} 
+            />}
           />
-          <Route exact path="/candidates" />
+          <Route
+            exact
+            path="/candidates"
+            render={props => <JobPostingContainer {...props} />}
+          />
           <Route
             exact
             path="/applications"
@@ -92,8 +156,6 @@ class App extends Component {
     );
   }
 }
-
-
 
 export default App;
 

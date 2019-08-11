@@ -29,7 +29,10 @@ class JobPostingContainer extends Component {
         this.setState({ allJobs: jobsArray });
         this.setState({ filteredJobs: jobsArray });
         console.log(jobsArray);
-      });
+      })
+      fetch(BASE_URL + "api/v1/users")
+      .then(resp => resp.json())
+      .then(data => console.log(data))
   }
 
   //Login Page --- Username input Password Input
@@ -45,7 +48,7 @@ class JobPostingContainer extends Component {
 
   getFilteredJobs = () => {
     let allJobs = [...this.state.allJobs];
-    console.log(allJobs);
+    // console.log(allJobs);
 
     let newFilteredJobs = allJobs.filter(job => {
       return job.title.includes(this.state.searchText);
@@ -150,6 +153,7 @@ class JobPostingContainer extends Component {
   render() {
     return (
       <Fragment>
+      
         <Search
           latestClick={this.state.latestClick}
           handleChangeSearchText={this.handleChangeSearchText}
