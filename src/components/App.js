@@ -1,24 +1,16 @@
 import React, { Component } from "react";
 // import LoginForm from "./LoginForm";
 import LandingPage from "./LandingPage";
+import CandidatePortalContainer from "./CandidatePortalContainer";
+import AdminPortalContainer from "./AdminPortalContainer";
 import JobPostingContainer from "./JobPostingContainer";
+import EmployerPortalContainer from "./EmployerPortalContainer";
 import Applications from "./Applications";
-import SignUpForm from './SignUpForm';
-import NavBar from './Nav';
-import { Switch,  Route, Redirect, withRouter } from "react-router-dom";
-
-// const routes = [
-//   //Sign Up
-//   { path: "/user", component: <SignUp /> },
-//   { path: "/login/:", component: <LoginHeader /> },
-//   { path: "/candidates", component: <JobPostingContainer /> },
-//   { path: "/applications", component: <Applications /> },
-//   { path: "/", component: <LandingPage /> }
-// ];
+import SignUpForm from "./SignUpForm";
+import NavBar from "./Nav";
+import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 
 class App extends Component {
-  //authenticate = (UN, PW) => {};
-
   constructor() {
     super();
     this.state = {
@@ -37,8 +29,8 @@ class App extends Component {
       })
         .then(res => res.json())
         .then(userObj => {
-          console.log(userObj)
-          this.setState({logged_in:true, currUser:userObj})
+          console.log(userObj);
+          this.setState({ logged_in: true, currUser: userObj });
         });
     }
   }
@@ -46,13 +38,12 @@ class App extends Component {
   //--------------------BEGIN LOGIN UN/PW INPUT, SUBMIT LOGIN CREDENTIALS---------------//
 
   updateCurrentUser = currUser => {
-    this.setState({ currUser:currUser });
+    this.setState({ currUser: currUser });
   };
 
   //-----------------END LOGIN INPUTs, SUBMIT LOGIN CREDENTIALS---------------------------//
 
   //--------------------BEGIN NEW USER SIGN UP INPUTs, SUBMIT SIGNUP DETAILS----------------//
-
 
   handleSubmitSignup = () => {
     fetch("http://localhost:3000/api/v1/users", {
@@ -61,7 +52,7 @@ class App extends Component {
       body: JSON.stringify({
         username: this.state.username,
         password: this.state.password
-            })
+      })
     })
       .then(res => res.json())
       .then(data => console.log(data));
@@ -69,18 +60,45 @@ class App extends Component {
 
   //--------------------END NEW USER SIGN UP INPUTs, SUBMIT SIGNUP DETAILS----------------//
 
+  //Conditionally render portal based on curr user type
+  renderPortal = () => {
+    let userType = this.state.currUser.user_type;
+    switch (userType) {
+      case "employer":
+        return <EmployerPortalContainer />;
+        break;
+      case "candidate":
+        return <CandidatePortalContainer />;
+        break;
+      case "admin":
+        return <AdminPortalContainer />;
+        break;
+      default:
+        return false;
+    }
+  };
+
   render() {
-    console.log(this.state.currUser)
     return (
-      
       <div className="app">
-      <NavBar updateCurrentUser={this.updateCurrentUser} currUser={this.state.currUser}/>
-        <Switch>
-        <Route exact path="/login" render={() => this.state.currUser ?
-          //Conditionally render Employer, Admin, or Candidate Portal If Authenticated
-          <JobPostingContainer/> : <Redirect to="/login" />}
+        <NavBar
+          updateCurrentUser={this.updateCurrentUser}
+          currUser={this.state.currUser}
         />
-           <Route
+        <Switch>
+          <Route
+            exact
+            path="/login"
+            render={() =>
+              this.state.currUser ? (
+                //Conditionally render Employer, Admin, or Candidate Portal If Authenticated
+                this.renderPortal()
+              ) : (
+                <Redirect to="/login" />
+              )
+            }
+          />
+          <Route
             exact
             path="/landing"
             render={props => (
@@ -93,21 +111,23 @@ class App extends Component {
                 handleLoginSubmit={this.handleLoginSubmit}
               />
             )}
-          /> 
+          />
           <Route
-            exact path="/candidates"
+            exact
+            path="/candidates"
             component={props => <JobPostingContainer />}
           />
           <Route
-            exact path="/applications"
+            exact
+            path="/applications"
             render={props => <Applications {...props} />}
           />
-            <Route
-            exact path="/createUser"
+          <Route
+            exact
+            path="/createUser"
             render={props => <SignUpForm {...props} />}
           />
           <Route exact path="/" render={() => <Redirect to="/login" />} />
-       
         </Switch>
       </div>
     );
@@ -201,7 +221,7 @@ export default withRouter(App);
               />
             )}
           /> */
- /* <Nav
+/* <Nav
           user={this.state.currUser}
           logged_in={this.state.logged_in}
           handleChangeInputUN={this.handleChangeInputUN}
@@ -212,13 +232,12 @@ export default withRouter(App);
           // handleLoginSubmit={this.handleLoginSubmit}
         /> */
 
+// handleChangeInputNewUN = currNewUsername => {
+//   this.setState({ currInputLoginUN: currNewUsername });
+//   console.log("In Handle Text Input Change Parent in App");
+// };
 
-  // handleChangeInputNewUN = currNewUsername => {
-  //   this.setState({ currInputLoginUN: currNewUsername });
-  //   console.log("In Handle Text Input Change Parent in App");
-  // };
-
-  // handleChangeInputNewPW = currNewPassword => {
-  //   this.setState({ currInputLoginPW: currNewPassword });
-  //   console.log("In Handle Text Input Change Parent in App");
-  // };
+// handleChangeInputNewPW = currNewPassword => {
+//   this.setState({ currInputLoginPW: currNewPassword });
+//   console.log("In Handle Text Input Change Parent in App");
+// };

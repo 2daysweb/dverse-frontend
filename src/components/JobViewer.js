@@ -2,6 +2,8 @@ import React, { Fragment } from 'react';
 
 const JobViewer = (props) => {
 
+
+
   return (
     <Fragment>
       <h2>{props.currJob.title}</h2>

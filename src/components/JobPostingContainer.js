@@ -1,12 +1,9 @@
 import React, { Component, Fragment } from "react";
 import Search from "./Search";
 import Sidebar from "./Sidebar";
-// import Applications from "./Applications";
 import Content from "./Content";
-import {Route, Link } from "react-router-dom";
 
 const BASE_URL = "http://localhost:3000/";
-//Static, only updates on "Component Did Mount" --- Avoids the problem of the new "allJobs" filtering
 
 class JobPostingContainer extends Component {
   constructor() {
@@ -29,24 +26,16 @@ class JobPostingContainer extends Component {
         this.setState({ allJobs: jobsArray });
         this.setState({ filteredJobs: jobsArray });
         console.log(jobsArray);
-      })
-   
+      });
   }
-
-  //Login Page --- Username input Password Input
-  handleChangeInput = e => {
-    let currTitle = e.target.value;
-    this.setState({ currTitle: currTitle });
-  };
-
-  handleChangeTextArea = e => {
-    let currBody = e.target.value;
-    this.setState({ currBody: currBody });
-  };
 
   getFilteredJobs = () => {
     let allJobs = [...this.state.allJobs];
     // console.log(allJobs);
+
+    // toString()
+    //         .toLowerCase()
+    //         .includes(this.state.searchText.toLowerCase());
 
     let newFilteredJobs = allJobs.filter(job => {
       return job.title.includes(this.state.searchText);
@@ -56,10 +45,7 @@ class JobPostingContainer extends Component {
   };
 
   handleChangeSearchText = e => {
-    //ALL NOTES ARRAY:
-    // console.log("ALL NOTES STATE ARRAY", this.state.allJobs)
     this.setState({ searchText: e.target.value }, this.getFilteredJobs);
-    // debugger
     //Update "all jobs" to only return filtered jobs based on job Title
   };
 
@@ -138,7 +124,7 @@ class JobPostingContainer extends Component {
       });
   };
 
-//Discard any changes made and render "Show" of Current Job
+  //Discard any changes made and render "Show" of Current Job
   handleClickCancelBtn = () => {
     this.setState({ latestClick: "ShowJob" });
   };
@@ -147,26 +133,36 @@ class JobPostingContainer extends Component {
     let id = this.state.currJob.id;
     //create new job object with newTitle and newBody
     let URL = BASE_URL + "api/v1/job_postings/" + id;
-    let jobPosting = {id: id}
-    
+    let jobPosting = { id: id };
+
+    //Remove deleted job from
 
     return fetch(URL, {
-      method:"DELETE",
+      method: "DELETE",
       headers: {
-        "Content-Type": "application/json",     
+        "Content-Type": "application/json"
       },
       body: JSON.stringify(jobPosting) // body data type must match "Content-Type" header
     })
-      .then(response => response.json())
+      .then(response => response.json()) // parses JSON response into native JavaScript objects
       .then(data => console.log(data))
-      .catch(errors => console.log(errors)); // parses JSON response into native JavaScript objects
+      .then(this.deleteJob(id));
   };
-  
+
+  //Delete a job from allJobs on click of Delete Button
+
+  deleteJob = id => {
+    //Make copy of existing currJobs array
+    let currAllJobs = [...this.state.allJobs];
+    let newAllJobs = currAllJobs.filter(job => job.id !== id);
+    //update state of allJobs, without deleted job
+    this.setState({ allJobs: [...newAllJobs] });
+    console.log(this.state.allJobs);
+  };
 
   render() {
     return (
       <Fragment>
-      
         <Search
           latestClick={this.state.latestClick}
           handleChangeSearchText={this.handleChangeSearchText}
@@ -199,10 +195,6 @@ class JobPostingContainer extends Component {
     );
   }
 }
-
-// toString()
-//         .toLowerCase()
-//         .includes(this.state.searchText.toLowerCase());
 
 
 
