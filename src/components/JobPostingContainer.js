@@ -30,9 +30,7 @@ class JobPostingContainer extends Component {
         this.setState({ filteredJobs: jobsArray });
         console.log(jobsArray);
       })
-      fetch(BASE_URL + "api/v1/users")
-      .then(resp => resp.json())
-      .then(data => console.log(data))
+   
   }
 
   //Login Page --- Username input Password Input
@@ -140,15 +138,30 @@ class JobPostingContainer extends Component {
       });
   };
 
-  // - [ ] When in edit mode, also show a `Cancel` button which
-  // discards any changes and reverts back to displaying the note.
+//Discard any changes made and render "Show" of Current Job
   handleClickCancelBtn = () => {
-    console.log("In Cancel Btn!!");
-    // this.setState({ currJob: currJob });
-    // this.setState({ currBody: currJob.body });
-    // this.setState({ currTitle: currJob.title });
-    // this.setState({ latestClick: "ShowJob" });
+    this.setState({ latestClick: "ShowJob" });
   };
+
+  handleClickDeleteBtn = () => {
+    let id = this.state.currJob.id;
+    //create new job object with newTitle and newBody
+    let URL = BASE_URL + "api/v1/job_postings/" + id;
+    let jobPosting = {id: id}
+    
+
+    return fetch(URL, {
+      method:"DELETE",
+      headers: {
+        "Content-Type": "application/json",     
+      },
+      body: JSON.stringify(jobPosting) // body data type must match "Content-Type" header
+    })
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(errors => console.log(errors)); // parses JSON response into native JavaScript objects
+  };
+  
 
   render() {
     return (
@@ -171,6 +184,7 @@ class JobPostingContainer extends Component {
             currJob={this.state.currJob}
             editJob={this.handleClickEditBtn}
             cancelJob={this.handleClickCancelBtn}
+            deleteJob={this.handleClickDeleteBtn}
             newJob={this.handleClickNewBtn}
             handleChangeTextArea={this.handleChangeTextArea}
             handleChangeInput={this.handleChangeInput}
@@ -189,5 +203,7 @@ class JobPostingContainer extends Component {
 // toString()
 //         .toLowerCase()
 //         .includes(this.state.searchText.toLowerCase());
+
+
 
 export default JobPostingContainer;

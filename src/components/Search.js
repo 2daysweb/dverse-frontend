@@ -6,7 +6,7 @@ const Search = (props) => {
       <input onChange={(e)=> props.handleChangeSearchText(e)}
         // id="search-bar"
         type="text"
-        placeholder="Search Jobs"
+        placeholder="Search Candidates"
       />
     </div>
   );

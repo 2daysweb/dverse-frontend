@@ -6,7 +6,8 @@
 @import url('https://fonts.googleapis.com/css?family=Didact+Gothic|IBM+Plex+Mono|Poppins');
 
 * {
-  font-family: 'Didact Gothic'
+  font-family: 'Arial, Helvetica, sans-serif'	
+	
 }
 
 body {
@@ -17,7 +18,8 @@ body {
 
 /* Styles */
 h2, input[name="title"], textarea {
-  font-family: 'IBM Plex Mono'
+  font-family: 'Arial, Helvetica, sans-serif'	
+
 }
 
 p.instructions {
@@ -29,14 +31,14 @@ p.instructions {
 .note-editor input[name="title"] {
   font-size: 24px;
   font-weight: 700;
-  border: 1px dashed grey;
+  border: 1px solid grey;
   margin: 0.5em 0;
   box-sizing: border-box;
 }
 
 .note-editor textarea {
   font-size: 1em;
-  border: 1px dashed grey;
+  border: 1px solid grey;
   box-sizing: border-box;
   resize: none;
 }
@@ -45,7 +47,8 @@ p.instructions {
   width: 100%;
   background-image: linear-gradient(to right top, #8C33E3, #696CE8, #4A9EEC);
   background-repeat: no-repeat;
-  font-family: 'IBM Plex Mono';
+  font-family: 'Arial, Helvetica, sans-serif'	
+  ;
   font-size: 16px;
   letter-spacing: 1.5px;
   font-weight: bolder;
@@ -67,7 +70,7 @@ p.instructions {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  border: 2px dashed grey;
+  border: 2px solid grey;
 }
 
 input {
@@ -136,7 +139,7 @@ div.sidebar ul li:hover {
   float:left;
   margin: 10px 0px;
   padding: 20px;
-  border: 2px dashed grey;
+  border: 2px solid grey;
 }
 
 .sidebar {

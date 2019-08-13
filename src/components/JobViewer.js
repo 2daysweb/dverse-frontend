@@ -8,6 +8,7 @@ const JobViewer = (props) => {
       <p>{props.currJob.body}</p>
       <button onClick={props.editJob}>Edit</button>
       <button onClick={props.cancelJob}>Cancel</button>
+      <button onClick={props.deleteJob}>Delete</button>
     </Fragment>
   );
 }

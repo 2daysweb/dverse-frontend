@@ -26,6 +26,7 @@ class Content extends Component {
           handleChangeTextArea={this.props.handleChangeTextArea}
           handleChangeInput={this.props.handleChangeInput}
           saveJob={this.props.saveJob}
+          cancelJob={this.props.cancelJob}
           latestClick={this.props.latestClick}
         />
       );
@@ -35,6 +36,7 @@ class Content extends Component {
           currJob={this.props.currJob}
           editJob={this.props.editJob}
           showJob={this.props.showJob}
+          deleteJob={this.props.deleteJob}
           latestClick={this.props.latestClick}
         />
       );

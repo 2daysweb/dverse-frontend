@@ -7,16 +7,19 @@ export default class LandingPage extends Component {
   render() {
     return (
       <div>
-        <LoginHeader handleChangeInputUN={this.props.handleChangeInputUN}
-                handleChangeInputPW={this.props.handleChangeInputPW}
-                currInputLoginUN={this.props.state.currInputLoginUN}
-                currInputLoginPW={this.props.state.currInputLoginPW}
-                handleLoginSubmit={this.props.handleLoginSubmit}
-
-         />
+        This is the barebones landing page
       </div>
     );
   }
 }
 
         /* <SignUpHeader handleChangeInputNewUN={this.props.handleChangeInputNewUN} /> */
+
+  //       <LoginHeader 
+  //       handleChangeInputUN={this.props.handleChangeInputUN}
+  //        handleChangeInputPW={this.props.handleChangeInputPW}
+  //        currInputLoginUN={this.props.currInputLoginUN}
+  //        currInputLoginPW={this.props.currInputLoginPW}
+  //        handleLoginSubmit={this.props.handleLoginSubmit}
+
+  // />
