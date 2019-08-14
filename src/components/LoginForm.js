@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import Navbar from "react-bootstrap/Navbar";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -13,9 +13,6 @@ export default class LoginForm extends Component {
       password: ""
     };
   }
-
- 
-
 
   handleChangeEmail = e => {
     console.log(e);
@@ -58,10 +55,13 @@ export default class LoginForm extends Component {
     return (
       <div>
         <Fragment>
-        <Navbar>
+          <Navbar>
             <Navbar.Brand href="/">Dverse</Navbar.Brand>
             <Nav className="mr-auto">
-          <Link to="/signup"> <Nav.Link>SignUp</Nav.Link> </Link>
+              <Link to="/signup">
+                {" "}
+                <Nav.Link>SignUp</Nav.Link>{" "}
+              </Link>
             </Nav>
             <Navbar.Toggle />
             <Navbar.Collapse className="justify-content-end">
