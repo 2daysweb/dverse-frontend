@@ -1,21 +1,25 @@
 import React, { Component } from "react";
-// import LoginForm from "./LoginForm";
+import LoginForm from "./LoginForm";
 import LandingPage from "./LandingPage";
 import CandidatePortalContainer from "./CandidatePortalContainer";
 import AdminPortalContainer from "./AdminPortalContainer";
-import JobPostingContainer from "./JobPostingContainer";
+import PortalContainer from "./PortalContainer";
 import EmployerPortalContainer from "./EmployerPortalContainer";
 import Applications from "./Applications";
 import SignUpForm from "./SignUpForm";
-import NavBar from "./Nav";
-import { Switch, Route, Redirect, withRouter } from "react-router-dom";
+import LandingNav from "./LandingNav";
+import NavBar from "./LandingNav";
+import { Switch, Route, withRouter } from "react-router-dom";
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
       currUser: null,
-      logged_in: false
+      logged_in: false,
+      
+      //landing or login 
+      currPath: ''
     };
   }
 
@@ -32,6 +36,19 @@ class App extends Component {
           console.log(userObj);
           this.setState({ logged_in: true, currUser: userObj });
         });
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (this.props.userID !== prevProps.userID) {
+      this.fetchData(this.props.userID);
+    }
+  }
+
+  componentDidUpdate(prevProps){
+    if(this.props.location.pathname !== prevProps.location.pathname){
+    this.setState({currPath:this.props.location.pathname})
     }
   }
 
@@ -60,7 +77,16 @@ class App extends Component {
 
   //--------------------END NEW USER SIGN UP INPUTs, SUBMIT SIGNUP DETAILS----------------//
 
+  //Conditionally render Login or Landing based on current path
+  renderLandingOrLogin = () => {
+    return (this.state.currPath === '/login'?
+    (<LoginForm/>):(<div><LandingNav/><LandingPage/></div>)
+    )
+  
+  };
+
   //Conditionally render portal based on curr user type
+
   renderPortal = () => {
     let userType = this.state.currUser.user_type;
     switch (userType) {
@@ -78,24 +104,19 @@ class App extends Component {
     }
   };
 
+  //Conditionally render Employer, Admin, or Candidate Portal If Authenticated
+
   render() {
     return (
       <div className="app">
-        <NavBar
-          updateCurrentUser={this.updateCurrentUser}
-          currUser={this.state.currUser}
-        />
         <Switch>
           <Route
             exact
-            path="/login"
+            path="/"
             render={() =>
-              this.state.currUser ? (
-                //Conditionally render Employer, Admin, or Candidate Portal If Authenticated
-                this.renderPortal()
-              ) : (
-                <Redirect to="/login" />
-              )
+              this.state.currUser ? 
+                  this.renderPortal()
+                : this.renderLandingOrLogin()
             }
           />
           <Route
@@ -104,38 +125,59 @@ class App extends Component {
             render={props => (
               <LandingPage
                 {...props}
-                handleChangeInputUN={this.handleChangeInputUN}
-                handleChangeInputPW={this.handleChangeInputPW}
-                currInputLoginUN={this.state.currInputLoginUN}
-                currInputLoginPW={this.state.currInputLoginPW}
                 handleLoginSubmit={this.handleLoginSubmit}
+                handleSignupSubmit={this.handleSignUpSubmit}
               />
             )}
           />
           <Route
             exact
             path="/candidates"
-            component={props => <JobPostingContainer />}
+            component={props => <PortalContainer />}
           />
           <Route
             exact
             path="/applications"
-            render={props => <Applications {...props} />}
+            render={props => <Applications currUser={this.state.currUser} />}
           />
           <Route
             exact
-            path="/createUser"
+            path="/signup"
             render={props => <SignUpForm {...props} />}
           />
-          <Route exact path="/" render={() => <Redirect to="/login" />} />
+          <Route
+            exact
+            path="/login"
+            render={props => <LoginForm {...props} />}
+          />
+          <Route
+            exact
+            path="/jobs"
+            render={() => <CandidatePortalContainer />}
+          />
         </Switch>
       </div>
     );
   }
 }
 
-export default withRouter(App);
+const AppWithRouter = withRouter(App);
+export default AppWithRouter;
 
+// {
+//   this.props.location.pathname === ("landing" || '/') ? (
+//      <LandingNav/>
+//   ) : (
+//     <NavBar
+//     updateCurrentUser={this.updateCurrentUser}
+//     currUser={this.state.currUser}
+//   />
+//   )
+// }
+
+// <Route exact path="/jobs" render={() => currUser.user_type === 'candidate'?
+// (<CandidatePortalContainer/>):(<EmployerPortalContainer/>)
+//   />}
 // fetch('http://localhost:3000/api/v1/users/1',{
 //   method: 'GET',
 //   headers: {'Content-Type':'application/json'},

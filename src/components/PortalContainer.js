@@ -1,11 +1,12 @@
 import React, { Component, Fragment } from "react";
+import NavBar from "./Nav";
 import Search from "./Search";
 import Sidebar from "./Sidebar";
 import Content from "./Content";
 
 const BASE_URL = "http://localhost:3000/";
 
-class JobPostingContainer extends Component {
+class PortalContainer extends Component {
   constructor() {
     super();
     this.state = {
@@ -19,6 +20,7 @@ class JobPostingContainer extends Component {
     };
   }
 
+  //Set all jobs and filtered jobs on load of Portal Container
   componentDidMount() {
     fetch(BASE_URL + "api/v1/job_postings")
       .then(resp => resp.json())
@@ -29,16 +31,14 @@ class JobPostingContainer extends Component {
       });
   }
 
+  //Filter all jobs based on searchText
   getFilteredJobs = () => {
     let allJobs = [...this.state.allJobs];
-    // console.log(allJobs);
-
-    // toString()
-    //         .toLowerCase()
-    //         .includes(this.state.searchText.toLowerCase());
 
     let newFilteredJobs = allJobs.filter(job => {
-      return job.title.includes(this.state.searchText);
+      return job.title
+        .toLowerCase()
+        .includes(this.state.searchText.toLowerCase());
     });
 
     return newFilteredJobs;
@@ -46,7 +46,6 @@ class JobPostingContainer extends Component {
 
   handleChangeSearchText = e => {
     this.setState({ searchText: e.target.value }, this.getFilteredJobs);
-    //Update "all jobs" to only return filtered jobs based on job Title
   };
 
   //Refactor the SetState to be only one single object --- with KV pairs
@@ -57,50 +56,9 @@ class JobPostingContainer extends Component {
     this.setState({ latestClick: "ShowJob" });
   };
 
-  //Change latestClick and update state of
-  handleClickEditBtn = e => {
-    console.log(e);
-    this.setState({ changesCount: (this.state.changesCount += 1) });
-    let startTitle = e.target.parentElement.children[0].innerText;
-    let startBody = e.target.parentElement.children[1].innerText;
-    //change latestClick to "edit"
-    this.setState({ latestClick: "EditJob" });
-    this.setState({ currTitle: startTitle });
-    this.setState({ currBody: startBody });
-  };
+  //Create a new user on click of sign up btn
+  handleClickSignupBtn = () => {};
 
-  handleClickSaveBtn = currJob => {
-    //get current id of current job
-    let id = currJob.id;
-    let body = currJob.body;
-
-    // let currUserId = currJob.user.id
-
-    //get new current title from editJob view
-    let newTitle = this.state.currTitle;
-    //get new current body from editJob view
-    let newBody = this.state.currBody;
-
-    //create new job object with newTitle and newBody
-    let newJob = { title: newTitle, body: newBody, id: id };
-    let URL = BASE_URL + "api/v1/job_postings/" + id;
-    console.log(URL);
-
-    return fetch(URL, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: JSON.stringify(newJob) // body data type must match "Content-Type" header
-    })
-      .then(response => response.json())
-      .then(data => console.log(data)); // parses JSON response into native JavaScript objects
-  };
-
-  //First hit the debugger
-  //Set the CurrJob title and body to "defaults"
-  //create a new note from sidebar, NoteList component
   handleClickNewBtn = () => {
     this.setState({ latestClick: "" });
 
@@ -124,6 +82,45 @@ class JobPostingContainer extends Component {
       });
   };
 
+  //Change latestClick and update state of
+  handleClickEditBtn = e => {
+    //update latestClick to "edit"
+    this.setState({ latestClick: "EditJob" });
+  };
+
+  handleChangeTextArea = editedBody => {
+    let newBody = editedBody;
+    this.setState({ currBody: newBody });
+  };
+
+  handleChangeInput = editedTitle => {
+    this.setState({ currTitle: editedTitle });
+  };
+
+  handleClickSaveBtn = currJob => {
+    //get current id of current job
+    let id = currJob.id;
+    //get new current title from editJob view
+    let newTitle = this.state.currTitle;
+    //get new current body from editJob view
+    let newBody = this.state.currBody;
+    //create new job object with newTitle and newBody
+    let newJob = { title: newTitle, body: newBody, id: id };
+    let URL = BASE_URL + "api/v1/job_postings/" + id;
+    console.log(URL);
+
+    return fetch(URL, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify(newJob) // body data type must match "Content-Type" header
+    })
+      .then(response => response.json())
+      .then(data => console.log(data)); // parses JSON response into native JavaScript objects
+  };
+
   //Discard any changes made and render "Show" of Current Job
   handleClickCancelBtn = () => {
     this.setState({ latestClick: "ShowJob" });
@@ -136,7 +133,6 @@ class JobPostingContainer extends Component {
     let jobPosting = { id: id };
 
     //Remove deleted job from
-
     return fetch(URL, {
       method: "DELETE",
       headers: {
@@ -150,7 +146,6 @@ class JobPostingContainer extends Component {
   };
 
   //Delete a job from allJobs on click of Delete Button
-
   deleteJob = id => {
     //Make copy of existing currJobs array
     let currAllJobs = [...this.state.allJobs];
@@ -163,32 +158,35 @@ class JobPostingContainer extends Component {
   render() {
     return (
       <Fragment>
+        <NavBar />
         <Search
           latestClick={this.state.latestClick}
           handleChangeSearchText={this.handleChangeSearchText}
         />
         <div className="container">
           <Sidebar
+          //State variables
+            latestClick={this.state.latestClick}
             allJobs={this.state.allJobs}
             filteredJobs={this.getFilteredJobs()}
-            showJob={this.handleClickShowJob}
             currJob={this.state.currJob}
+            //CRUD event handlers 
+            showJob={this.handleClickShowJob}
             newJob={this.handleClickNewBtn}
-            latestClick={this.state.latestClick}
           />
           <Content
+          //State variables 
+            latestClick={this.state.latestClick}
+            currTitle={this.state.currTitle}
+            currBody={this.state.currBody}
             currJob={this.state.currJob}
+            //CRUD event handlers
             editJob={this.handleClickEditBtn}
+            showJob={this.handleClickShowJob}
+            saveJob={this.handleClickSaveBtn}
             cancelJob={this.handleClickCancelBtn}
             deleteJob={this.handleClickDeleteBtn}
             newJob={this.handleClickNewBtn}
-            handleChangeTextArea={this.handleChangeTextArea}
-            handleChangeInput={this.handleChangeInput}
-            showJob={this.handleClickShowJob}
-            saveJob={this.handleClickSaveBtn}
-            currTitle={this.state.currTitle}
-            currBody={this.state.currBody}
-            latestClick={this.state.latestClick}
           />
         </div>
       </Fragment>
@@ -196,6 +194,4 @@ class JobPostingContainer extends Component {
   }
 }
 
-
-
-export default JobPostingContainer;
+export default PortalContainer;

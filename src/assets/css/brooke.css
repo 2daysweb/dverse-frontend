@@ -172,7 +172,7 @@ input[type="submit"] {
   width: auto;
 }
 
-button, input[type="submit"] {
+/* button, input[type="submit"] {
   width: 125px;
   border-radius: 200px;
   margin-right: 10px;
@@ -183,10 +183,10 @@ button, input[type="submit"] {
   color: white;
   font-size: 14px;
   letter-spacing: 0.5px;
-}
+} */
 
-button:hover, .nav-bar:hover, input[type="submit"]:hover {
-  background-image: linear-gradient(to right top, #8A2387, #E94057, #F27121);
+.nav-bar:hover, input[type="submit"]:hover {
+  background-image: linear-gradient(to right top, #B32, #E94057, #F27121);
   background-repeat: no-repeat;
 }
 

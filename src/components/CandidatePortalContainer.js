@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import JobPostingContainer from './JobPostingContainer'
+import PortalContainer from './PortalContainer'
 
 export default class CandidatePortalContainer extends Component {
   render() {
     return (
       <div>
-        <JobPostingContainer/>
+        <PortalContainer/>
       </div>
     )
   }
