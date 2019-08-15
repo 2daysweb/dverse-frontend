@@ -26,6 +26,7 @@ const NavBar = props => {
   const renderNavbar = () => {
     //Check if Candidate, Employer, or Admin User-Type, conditionally render NavBar
     let userType = props.currUser.user_type;
+    debugger 
     switch (userType) {
       case "employer":
         return (
@@ -79,7 +80,7 @@ const NavBar = props => {
           </Navbar>)
         break;
       default:
-        return false;
+        return <LoginForm/>
     }
   };
   
