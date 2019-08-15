@@ -20,7 +20,6 @@ export default class SignUpForm extends Component {
   }
 
   handleChangeEmail = e => {
-    console.log(e);
     console.log(e.target.value);
     let un = e.target.value;
     this.setState({ email: un });
@@ -120,7 +119,7 @@ export default class SignUpForm extends Component {
       </div>
     ) : (
       <div>
-        <h1>Candidate Sign Up</h1>
+        <h1>Employer Sign Up</h1>
         <Form onSubmit={() => this.props.handleSubmitSignup}>
           <Form.Row>
             <Form.Group as={Col} controlId="formGridEmail">
@@ -159,10 +158,7 @@ export default class SignUpForm extends Component {
 
             <Form.Group as={Col} controlId="formGridState">
               <Form.Label>State</Form.Label>
-              <Form.Control as="select">
-                <option>Choose...</option>
-                <option>...</option>
-              </Form.Control>
+              <Form.Control />
             </Form.Group>
 
             <Form.Group as={Col} controlId="formGridZip">

@@ -18,17 +18,20 @@ export default class LoginForm extends Component {
     console.log(e);
     console.log(e.target.value);
     let un = e.target.value;
-    this.setState({ email: un });
+    this.setState({ email: un })
 
     // debugger
   };
 
   handleChangePassword = e => {
+  
     let pw = e.target.value;
     this.setState({ password: pw });
+    // debugger 
   };
 
-  handleLoginSubmit = e => {
+  handleLoginSubmit = (e) => {
+    
     e.preventDefault();
     fetch("http://localhost:3000/api/v1/login", {
       method: "POST",
@@ -40,6 +43,7 @@ export default class LoginForm extends Component {
     })
       .then(res => res.json())
       .then(data => {
+
         if (data.authenticated) {
           //update state
           this.props.updateCurrentUser(data.user);
@@ -50,6 +54,7 @@ export default class LoginForm extends Component {
         }
       });
   };
+  
 
   render() {
     return (
@@ -59,8 +64,7 @@ export default class LoginForm extends Component {
             <Navbar.Brand href="/">Dverse</Navbar.Brand>
             <Nav className="mr-auto">
               <Link to="/signup">
-                {" "}
-                <Nav.Link>SignUp</Nav.Link>{" "}
+                <Nav.Link>SignUp</Nav.Link>
               </Link>
             </Nav>
             <Navbar.Toggle />
@@ -69,7 +73,7 @@ export default class LoginForm extends Component {
             </Navbar.Collapse>
           </Navbar>
           <h1>Login</h1>
-          <Form onSubmit={this.handleLoginSubmit}>
+          <Form onSubmit={(e) => this.handleLoginSubmit(e)}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
               <Form.Control

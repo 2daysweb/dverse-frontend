@@ -16,10 +16,11 @@ class PortalContainer extends Component {
       currBody: "",
       currTitle: "",
       latestClick: "",
-      searchText: ""
+      searchText: "",
+      userType:""
     };
   }
-
+ 
   //Set all jobs and filtered jobs on load of Portal Container
   componentDidMount() {
     fetch(BASE_URL + "api/v1/job_postings")
@@ -158,10 +159,10 @@ class PortalContainer extends Component {
   render() {
     return (
       <Fragment>
-        <NavBar />
         <Search
           latestClick={this.state.latestClick}
           handleChangeSearchText={this.handleChangeSearchText}
+          currUser={this.props.currUser}
         />
         <div className="container">
           <Sidebar
@@ -180,6 +181,8 @@ class PortalContainer extends Component {
             currTitle={this.state.currTitle}
             currBody={this.state.currBody}
             currJob={this.state.currJob}
+            handleChangeInput = {this.handleChangeInput}
+            handleChangeTextArea = {this.handleChangeTextArea}
             //CRUD event handlers
             editJob={this.handleClickEditBtn}
             showJob={this.handleClickShowJob}
@@ -187,6 +190,7 @@ class PortalContainer extends Component {
             cancelJob={this.handleClickCancelBtn}
             deleteJob={this.handleClickDeleteBtn}
             newJob={this.handleClickNewBtn}
+
           />
         </div>
       </Fragment>
