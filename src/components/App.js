@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import LoginForm from "./LoginForm";
+import LoginPage from "./LoginPage";
 import LandingPage from "./LandingPage";
 import NavBar from "./Nav";
 import CandidatePortalContainer from "./CandidatePortalContainer";
@@ -15,8 +15,8 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      currUser: null,
-      logged_in: false
+      currUser: null
+      // logged_in: false
     };
   }
 
@@ -30,30 +30,18 @@ class App extends Component {
       })
         .then(res => res.json())
         .then(userObj => {
-          console.log(userObj);
-          this.setState({ logged_in: true, currUser: userObj });
+          this.setState({ currUser: userObj });
         });
     }
   }
 
-  // componentDidUpdate(prevProps) {
-  //   // Typical usage (don't forget to compare props):
-  //   if (this.props.userID !== prevProps.userID) {
-  //     this.fetchData(this.props.userID);
-  //   }
-  // }
-
-  // componentDidUpdate(prevProps){
-  //   if(this.props.location.pathname !== prevProps.location.pathname){
-  //   this.setState({currPath:this.props.location.pathname})
-  //   }
-  // }
   //--------------------BEGIN LOGIN UN/PW INPUT, SUBMIT LOGIN CREDENTIALS---------------//
 
   updateCurrentUser = currUser => {
-    debugger;
+ 
     this.setState({ currUser: currUser });
-    this.setState({ loggedIn: true });
+     
+
   };
 
   //-----------------END LOGIN INPUTs, SUBMIT LOGIN CREDENTIALS---------------------------//
@@ -75,55 +63,53 @@ class App extends Component {
 
   //--------------------END NEW USER SIGN UP INPUTs, SUBMIT SIGNUP DETAILS----------------//
 
-  // Conditionally render Login or Landing based on current path
-  renderLandingOrLogin = () => {
-    return this.state.currPath === "/login" ? (
-      <LoginForm updateCurrentUser={this.updateCurrentUser} />
-    ) : (
-      <div>
-        <LandingNav />
-        <LandingPage />
-      </div>
-    );
-  };
-
   //Conditionally render portal based on curr user type
 
   renderPortal = () => {
-    debugger;
+    //////debugger   ;
     let userType = this.state.currUser.user_type;
     switch (userType) {
       case "employer":
         return (
           <div>
-            <NavBar  updateCurrentUser={this.updateCurrentUser} currUser={this.state.currUser} />
+            <NavBar
+              updateCurrentUser={this.updateCurrentUser}
+              currUser={this.state.currUser}
+            />
             <EmployerPortalContainer currUser={this.state.currUser} />
           </div>
         );
-        break;
+
       case "candidate":
         return (
           <div>
-            <NavBar updateCurrentUser={this.updateCurrentUser}  currUser={this.state.currUser} />
-            <CandidatePortalContainer currUser={this.statecurrUser} />
+            <NavBar
+              updateCurrentUser={this.updateCurrentUser}
+              currUser={this.state.currUser}
+            />
+            <CandidatePortalContainer currUser={this.state.currUser} />
           </div>
         );
-        break;
+
       case "admin":
         return (
           <div>
-            <NavBar updateCurrentUser={this.updateCurrentUser} currUser={this.state.currUser} />
+            <NavBar
+              updateCurrentUser={this.updateCurrentUser}
+              currUser={this.state.currUser}
+            />
             <AdminPortalContainer currUser={this.state.currUser} />
           </div>
         );
-        break;
+
       default:
         return false;
     }
   };
   //If there's a current user, go to renderPortal method with the user_type
-  //Else, go to to LoginForm
-  //Conditionally render Employer, Admin, or Candidate Portal If Authenticated
+  //Else, go to to LoginPage
+
+  //Conditionally render Employer, Admin, or Candidate Portal If Authenticated --- Else, render LandingPage
 
   render() {
     return (
@@ -136,7 +122,10 @@ class App extends Component {
               this.state.currUser ? (
                 this.renderPortal()
               ) : (
-                <LoginForm updateCurrentUser={this.updateCurrentUser} />
+                <LoginPage
+                  updateCurrentUser={this.updateCurrentUser}
+                  currUser={this.state.currUser}
+                />
               )
             }
           />
@@ -160,7 +149,15 @@ class App extends Component {
           <Route
             exact
             path="/applications"
-            render={props => <Applications currUser={this.state.currUser} />}
+            render={() => (
+              <div>
+                <NavBar
+                  updateCurrentUser={this.updateCurrentUser}
+                  currUser={this.state.currUser}
+                />
+                <Applications currUser={this.state.currUser} />
+              </div>
+            )}
           />
           <Route
             exact
@@ -171,7 +168,15 @@ class App extends Component {
           <Route
             exact
             path="/jobs"
-            render={() => <CandidatePortalContainer />}
+            render={() => (
+              <div>
+                <NavBar
+                  updateCurrentUser={this.updateCurrentUser}
+                  currUser={this.state.currUser}
+                />
+                <CandidatePortalContainer currUser={this.state.currUser} />
+              </div>
+            )}
           />
           <Route
             exact
@@ -192,6 +197,19 @@ class App extends Component {
 
 const AppWithRouter = withRouter(App);
 export default AppWithRouter;
+
+// componentDidUpdate(prevProps) {
+//   // Typical usage (don't forget to compare props):
+//   if (this.props.userID !== prevProps.userID) {
+//     this.fetchData(this.props.userID);
+//   }
+// }
+
+// componentDidUpdate(prevProps){
+//   if(this.props.location.pathname !== prevProps.location.pathname){
+//   this.setState({currPath:this.props.location.pathname})
+//   }
+// }
 // /*
 //           <Route
 //             path="/about"
@@ -208,6 +226,16 @@ export default AppWithRouter;
 //   )
 // }
 
+// renderLandingOrLogin = () => {
+//   return this.state.currPath === "/login" ? (
+//     <LoginPage updateCurrentUser={this.updateCurrentUser} />
+//   ) : (
+//     <div>
+//       <LandingNav />
+//       <LandingPage />
+//     </div>
+//   );
+// };
 // <Route exact path="/jobs" render={() => currUser.user_type === 'candidate'?
 // (<CandidatePortalContainer/>):(<EmployerPortalContainer/>)
 //   />}
@@ -316,3 +344,13 @@ export default AppWithRouter;
 //   this.setState({ currInputLoginPW: currNewPassword });
 //   console.log("In Handle Text Input Change Parent in App");
 // };
+
+//Highest impact changes to make:
+
+//1. DONE---------DONE------Landing page routes properly----DONE------
+//2.) DONE---------DONE------Remove the check box from the signup form-------DONE---------DONE------
+//2.5) Update the NavBar in EmployerPortalContainer to look halfway decent
+//3.) Update signup form to include data from signup from
+//4.) Update the User controller to set user data once there
+//5.) Create an Employer Home component that is first view on login, Repeat for Candidate
+//6.) Update UserModel to include a field for candidate_name

@@ -25,8 +25,8 @@ const CandidateItem = props => {
   return (
     <div>
       <li onClick={() => props.showJob(props.currJob)}>
-        <h2>{props.currJob.user.email}</h2>
-        <p>{truncateJob(props.currJob.user.bio)}</p>
+        <h2>{props.currJob.body}</h2>
+        <p>{truncateJob(props.currJob.title)}</p>
       </li>
     </div>
   );

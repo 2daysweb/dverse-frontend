@@ -1,12 +1,9 @@
 import React, { Component, Fragment } from "react";
-import Navbar from "react-bootstrap/Navbar";
-import Button from "react-bootstrap/Button";
-import Nav from "react-bootstrap/Nav";
-import Form from "react-bootstrap/Form";
+import { Nav, Navbar, Form, Button } from "react-bootstrap";
 import { Link, withRouter } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 
-class LoginForm extends Component {
+class LoginPage extends Component {
   constructor() {
     super();
     this.state = {
@@ -46,8 +43,9 @@ class LoginForm extends Component {
         if (data.authenticated) {
           ////debugger
           //update state
-          // localStorage.setItem('user', data.user)
           this.props.updateCurrentUser(data.user);
+          localStorage.setItem('user', data.user)
+        
           //store the token in localStorage
           localStorage.setItem("jwt", data.token);
         } else {
@@ -97,9 +95,7 @@ class LoginForm extends Component {
                 value={this.state.password}
               />
             </Form.Group>
-            <Form.Group controlId="formBasicChecbox">
-              <Form.Check type="checkbox" label="Check me out" />
-            </Form.Group>
+       
             <Button variant="primary" type="submit">
               Submit
             </Button>
@@ -110,4 +106,4 @@ class LoginForm extends Component {
   }
 }
 
-export default withRouter(LoginForm)
+export default withRouter(LoginPage)

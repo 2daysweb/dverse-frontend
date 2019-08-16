@@ -8,19 +8,17 @@ export default class SignUpForm extends Component {
     super();
     this.state = {
       email: "",
-      password: "",
-      address: ""
-
+      password: ""
     };
   }
 
   //On mount, set state of isEmployer based on location props passed from LandingPage
   componentDidMount() {
-    if(this.props.location.state){
-    this.setState((prevState, prevProps) => ({
-      isEmployer: prevProps.location.state.isEmployer
-    }));
-  }
+    if (this.props.location.state) {
+      this.setState((prevState, prevProps) => ({
+        isEmployer: prevProps.location.state.isEmployer
+      }));
+    }
   }
 
   handleChangeEmail = e => {
@@ -36,7 +34,8 @@ export default class SignUpForm extends Component {
 
   handleSignupSubmit = e => {
     e.preventDefault();
-    debugger 
+
+    //debugger ugger
     fetch("http://localhost:3000/api/v1/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -46,8 +45,7 @@ export default class SignUpForm extends Component {
       })
     })
       .then(res => res.json())
-      .then(data => console.log(data))
-      
+      .then(data => console.log(data));
   };
 
   //Conditionally render Employer or Candidate form based on state var isEmployer
@@ -55,126 +53,118 @@ export default class SignUpForm extends Component {
     return !this.state.isEmployer ? (
       <div>
         <h1>Candidate Sign Up</h1>
-        <form onSubmit={ (e) => this.handleSignupSubmit(e)}>
-        <Form >
-          <Form.Row>
-            <Form.Group as={Col} controlId="formGridEmail">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                onChange={this.handleChangeEmail}
-                type="email"
-                placeholder="Enter email"
-              />
-            </Form.Group>
-            <Form.Group as={Col} controlId="formGridPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                onChange={this.handleChangePassword}
-                type="password"
-                placeholder="Password"
-              />
-            </Form.Group>
-          </Form.Row>
+        <form onSubmit={e => this.handleSignupSubmit(e)}>
+          <Form>
+            <Form.Row>
+              <Form.Group as={Col} controlId="formGridEmail">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  onChange={this.handleChangeEmail}
+                  type="email"
+                  placeholder="Enter email"
+                />
+              </Form.Group>
+              <Form.Group as={Col} controlId="formGridPassword">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  onChange={this.handleChangePassword}
+                  type="password"
+                  placeholder="Password"
+                />
+              </Form.Group>
+            </Form.Row>
 
-          <Form.Group controlId="formGridAddress1">
-            <Form.Label>Address</Form.Label>
-            <Form.Control placeholder="1234 Main St" />
-          </Form.Group>
-
-          <Form.Group controlId="formGridAddress2">
-            <Form.Label>Address 2</Form.Label>
-            <Form.Control placeholder="Apartment, studio, or floor" />
-          </Form.Group>
-
-          <Form.Row>
-            <Form.Group as={Col} controlId="formGridCity">
-              <Form.Label>City</Form.Label>
-              <Form.Control />
+            <Form.Group controlId="formGridAddress1">
+              <Form.Label>Address</Form.Label>
+              <Form.Control placeholder="1234 Main St" />
             </Form.Group>
 
-            <Form.Group as={Col} controlId="formGridState">
-              <Form.Label>State</Form.Label>
-              <Form.Control as="select">
-                <option>Choose...</option>
-                <option>...</option>
-              </Form.Control>
+            <Form.Group controlId="formGridAddress2">
+              <Form.Label>Address 2</Form.Label>
+              <Form.Control placeholder="Apartment, studio, or floor" />
             </Form.Group>
 
-            <Form.Group as={Col} controlId="formGridZip">
-              <Form.Label>Zip</Form.Label>
-              <Form.Control />
-            </Form.Group>
-          </Form.Row>
+            <Form.Row>
+              <Form.Group as={Col} controlId="formGridCity">
+                <Form.Label>City</Form.Label>
+                <Form.Control />
+              </Form.Group>
 
-          <Form.Group id="formGridCheckbox">
-            <Form.Check type="checkbox" label="Check me out" />
-          </Form.Group>
+              <Form.Group as={Col} controlId="formGridState">
+                <Form.Label>State</Form.Label>
+                <Form.Control as="select">
+                  <option>Choose...</option>
+                  <option>...</option>
+                </Form.Control>
+              </Form.Group>
 
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-        </Form>
+              <Form.Group as={Col} controlId="formGridZip">
+                <Form.Label>Zip</Form.Label>
+                <Form.Control />
+              </Form.Group>
+            </Form.Row>
+
+            <Button variant="primary" type="submit">
+              Submit
+            </Button>
+          </Form>
         </form>
       </div>
     ) : (
       <div>
         <h1>Employer Sign Up</h1>
-        <form onSubmit={ (e) => this.handleSignupSubmit(e)} >
-        <Form>
-          <Form.Row>
-            <Form.Group as={Col} controlId="formGridEmail">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                onChange={this.handleChangeEmail}
-                type="email"
-                placeholder="Enter email"
-              />
-            </Form.Group>
-            <Form.Group as={Col} controlId="formGridPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                onChange={this.handleChangePassword}
-                type="password"
-                placeholder="Password"
-              />
-            </Form.Group>
-          </Form.Row>
+        <form onSubmit={e => this.handleSignupSubmit(e)}>
+          <Form>
+            <Form.Row>
+              <Form.Group as={Col} controlId="formGridEmail">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  onChange={this.handleChangeEmail}
+                  type="email"
+                  placeholder="Enter email"
+                />
+              </Form.Group>
+              <Form.Group as={Col} controlId="formGridPassword">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  onChange={this.handleChangePassword}
+                  type="password"
+                  placeholder="Password"
+                />
+              </Form.Group>
+            </Form.Row>
 
-          <Form.Group controlId="formGridAddress1">
-            <Form.Label>Address</Form.Label>
-            <Form.Control placeholder="1234 Main St" />
-          </Form.Group>
-
-          <Form.Group controlId="formGridAddress2">
-            <Form.Label>Address 2</Form.Label>
-            <Form.Control placeholder="Apartment, studio, or floor" />
-          </Form.Group>
-
-          <Form.Row>
-            <Form.Group as={Col} controlId="formGridCity">
-              <Form.Label>City</Form.Label>
-              <Form.Control />
+            <Form.Group controlId="formGridAddress1">
+              <Form.Label>Address</Form.Label>
+              <Form.Control placeholder="1234 Main St" />
             </Form.Group>
 
-            <Form.Group as={Col} controlId="formGridState">
-              <Form.Label>State</Form.Label>
-              <Form.Control />
+            <Form.Group controlId="formGridAddress2">
+              <Form.Label>Address 2</Form.Label>
+              <Form.Control placeholder="Apartment, studio, or floor" />
             </Form.Group>
 
-            <Form.Group as={Col} controlId="formGridZip">
-              <Form.Label>Zip</Form.Label>
-              <Form.Control />
-            </Form.Group>
-          </Form.Row>
+            <Form.Row>
+              <Form.Group as={Col} controlId="formGridCity">
+                <Form.Label>City</Form.Label>
+                <Form.Control />
+              </Form.Group>
 
-          <Form.Group id="formGridCheckbox">
-            <Form.Check type="checkbox" label="Check me out" />
-          </Form.Group>
+              <Form.Group as={Col} controlId="formGridState">
+                <Form.Label>State</Form.Label>
+                <Form.Control />
+              </Form.Group>
 
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-        </Form>
+              <Form.Group as={Col} controlId="formGridZip">
+                <Form.Label>Zip</Form.Label>
+                <Form.Control />
+              </Form.Group>
+            </Form.Row>
+
+            <Button variant="primary" type="submit">
+              Submit
+            </Button>
+          </Form>
         </form>
       </div>
     );

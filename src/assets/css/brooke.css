@@ -172,6 +172,10 @@ input[type="submit"] {
   width: auto;
 }
 
+.container{
+  display: flex
+}
+
 /* button, input[type="submit"] {
   width: 125px;
   border-radius: 200px;

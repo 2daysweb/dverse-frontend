@@ -6,7 +6,7 @@ class JobList extends Component {
   //Conditionally Render Job or Candidate Item
   renderCandidateOrJobPosting = () => {
     let currUser = this.props.currUser;
-    // debugger;
+    // //debugger ;
     if (currUser) {
       let userType = currUser.user_type;
       switch (userType) {
@@ -22,9 +22,9 @@ class JobList extends Component {
         case "candidate":
           return (
             <ul>
-              {this.props.filteredJobs.map(job => 
+              {this.props.filteredJobs.map(job => (
                <CandidateItem currJob={job} showJob={this.props.showJob} />
-              )}
+              ))}
             </ul>
           );
 
