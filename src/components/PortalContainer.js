@@ -41,7 +41,7 @@ class PortalContainer extends Component {
         .toLowerCase()
         .includes(this.state.searchText.toLowerCase());
     });
-
+    //debugger  
     return newFilteredJobs;
   };
 
@@ -67,7 +67,7 @@ class PortalContainer extends Component {
     let newJob = { title: "Deafult Title", body: "Deafult Body", user_id: 1 };
     let URL = BASE_URL + "api/v1/job_postings";
     console.log("Is URL Printing", URL);
-    // debugger;
+    // //debugger ;
     return fetch(URL, {
       method: "POST",
       headers: {
@@ -174,6 +174,7 @@ class PortalContainer extends Component {
             //CRUD event handlers 
             showJob={this.handleClickShowJob}
             newJob={this.handleClickNewBtn}
+            currUser={this.props.currUser}
           />
           <Content
           //State variables 

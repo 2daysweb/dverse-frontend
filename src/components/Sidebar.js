@@ -12,6 +12,7 @@ class Sidebar extends Component {
                  editJob={this.props.editJob}
                  currJob={this.props.currJob}
                  deleteJob={this.props.deleteJob}
+                 currUser={this.props.currUser}
 
         />
         <button onClick={this.props.newJob}>New</button>

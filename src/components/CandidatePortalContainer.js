@@ -5,7 +5,7 @@ export default class CandidatePortalContainer extends Component {
   render() {
     return (
       <div>
-        <PortalContainer />
+        <PortalContainer currUser={this.props.currUser} />
       </div>
     )
   }

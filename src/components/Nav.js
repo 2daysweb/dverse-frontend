@@ -1,22 +1,21 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
-import Button from 'react-bootstrap/Button'
+import Button from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
 import LoginForm from "./LoginForm";
-
 
 const NavBar = props => {
   let {
     location: { pathname }
   } = props;
 
-  let logged_in = props.logged_in;
+  // let logged_in = props.logged_in;
   let currUser = props.currUser;
-  let updateCurrentUser = props.updateCurrentUser;
-  
-  let logout = () => {
+  // let updateCurrentUser = props.updateCurrentUser;
 
+  let logout = () => {
+    //debugger  
     //clear localStorage of our jwt
     localStorage.removeItem("jwt");
     //set the user state back to null
@@ -26,7 +25,7 @@ const NavBar = props => {
   const renderNavbar = () => {
     //Check if Candidate, Employer, or Admin User-Type, conditionally render NavBar
     let userType = props.currUser.user_type;
-    debugger 
+    //debugger ;
     switch (userType) {
       case "employer":
         return (
@@ -43,29 +42,36 @@ const NavBar = props => {
                 <a href="#login/:" />
               </Navbar.Text>
             </Navbar.Collapse>
-            <Button onClick={logout} variant="primary">Logout</Button>
+            <Button onClick={logout} variant="primary">
+              Logout
+            </Button>
           </Navbar>
         );
         break;
       case "candidate":
-        return  (<Navbar>
-        <Nav className="mr-auto">
-          <Nav.Link href="/jobs">Jobs</Nav.Link>
-          <Nav.Link href="/applications">My Applications</Nav.Link>
-          <Nav.Link href="/candidates">Inbox</Nav.Link>
-          <Nav.Link href="/candidates">Help</Nav.Link>
-        </Nav>
-        <Navbar.Toggle />
-        <Navbar.Collapse className="justify-content-end">
-          <Navbar.Text>
-            <a href="#login/:" />
-          </Navbar.Text>
-        </Navbar.Collapse>
-        <Button onClick={logout} variant="primary">Logout</Button>
-      </Navbar>)
+        return (
+          <Navbar>
+            <Nav className="mr-auto">
+              <Nav.Link href="/jobs">Jobs</Nav.Link>
+              <Nav.Link href="/applications">My Applications</Nav.Link>
+              <Nav.Link href="/candidates">Inbox</Nav.Link>
+              <Nav.Link href="/candidates">Help</Nav.Link>
+            </Nav>
+            <Navbar.Toggle />
+            <Navbar.Collapse className="justify-content-end">
+              <Navbar.Text>
+                <a href="#login/:" />
+              </Navbar.Text>
+            </Navbar.Collapse>
+            <Button onClick={logout} variant="primary">
+              Logout
+            </Button>
+          </Navbar>
+        );
         break;
       case "admin":
-        return  (<Navbar>
+        return (
+          <Navbar>
             <Nav className="mr-auto">
               <Nav.Link href="/jobs">Job Post Requests</Nav.Link>
               <Nav.Link href="/candidates">New Candidate Applications</Nav.Link>
@@ -76,14 +82,17 @@ const NavBar = props => {
                 <a href="#login/:" />
               </Navbar.Text>
             </Navbar.Collapse>
-            <Button onClick={logout} variant="primary">Logout</Button>
-          </Navbar>)
+            <Button onClick={logout} variant="primary">
+              Logout
+            </Button>
+          </Navbar>
+        );
         break;
       default:
-        return <LoginForm/>
+        return <LoginForm />;
     }
   };
-  
+
   //If User is not logged in (i.e.currUser is NULL) render NavBar component with Login / SignUp Headers only
 
   return (
@@ -93,7 +102,7 @@ const NavBar = props => {
       ) : (
         <Navbar>
           <Nav className="mr-auto">
-            <LoginForm updateCurrentUser={updateCurrentUser} />
+            <LoginForm  />
           </Nav>
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">

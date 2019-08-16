@@ -96,7 +96,7 @@ class App extends Component {
       case "employer":
         return (
           <div>
-            <NavBar currUser={this.state.currUser} />
+            <NavBar  updateCurrentUser={this.updateCurrentUser} currUser={this.state.currUser} />
             <EmployerPortalContainer currUser={this.state.currUser} />
           </div>
         );
@@ -104,7 +104,7 @@ class App extends Component {
       case "candidate":
         return (
           <div>
-            <NavBar currUser={this.state.currUser} />
+            <NavBar updateCurrentUser={this.updateCurrentUser}  currUser={this.state.currUser} />
             <CandidatePortalContainer currUser={this.statecurrUser} />
           </div>
         );
@@ -112,8 +112,8 @@ class App extends Component {
       case "admin":
         return (
           <div>
-            <NavBar currUser={this.state.currUser} />
-            <AdminPortalContainer />
+            <NavBar updateCurrentUser={this.updateCurrentUser} currUser={this.state.currUser} />
+            <AdminPortalContainer currUser={this.state.currUser} />
           </div>
         );
         break;
@@ -124,7 +124,7 @@ class App extends Component {
   //If there's a current user, go to renderPortal method with the user_type
   //Else, go to to LoginForm
   //Conditionally render Employer, Admin, or Candidate Portal If Authenticated
-  
+
   render() {
     return (
       <div className="app">
@@ -165,7 +165,7 @@ class App extends Component {
           <Route
             exact
             path="/signup"
-            render={props => <SignUpForm {...props} />}
+            component={props => <SignUpForm {...props} />}
           />
 
           <Route

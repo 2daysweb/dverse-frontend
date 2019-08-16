@@ -8,15 +8,19 @@ export default class SignUpForm extends Component {
     super();
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      address: ""
+
     };
   }
 
   //On mount, set state of isEmployer based on location props passed from LandingPage
   componentDidMount() {
+    if(this.props.location.state){
     this.setState((prevState, prevProps) => ({
       isEmployer: prevProps.location.state.isEmployer
     }));
+  }
   }
 
   handleChangeEmail = e => {
@@ -32,6 +36,7 @@ export default class SignUpForm extends Component {
 
   handleSignupSubmit = e => {
     e.preventDefault();
+    debugger 
     fetch("http://localhost:3000/api/v1/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -41,16 +46,8 @@ export default class SignUpForm extends Component {
       })
     })
       .then(res => res.json())
-      .then(data => {
-        if (data.authenticated) {
-          //update state
-          this.props.updateCurrentUser(data.user);
-          //store the token in localStorage
-          localStorage.setItem("jwt", data.token);
-        } else {
-          alert("incorrect username or password");
-        }
-      });
+      .then(data => console.log(data))
+      
   };
 
   //Conditionally render Employer or Candidate form based on state var isEmployer
@@ -58,7 +55,8 @@ export default class SignUpForm extends Component {
     return !this.state.isEmployer ? (
       <div>
         <h1>Candidate Sign Up</h1>
-        <Form onSubmit={() => this.props.handleSubmitSignup}>
+        <form onSubmit={ (e) => this.handleSignupSubmit(e)}>
+        <Form >
           <Form.Row>
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label>Email</Form.Label>
@@ -116,11 +114,13 @@ export default class SignUpForm extends Component {
             Submit
           </Button>
         </Form>
+        </form>
       </div>
     ) : (
       <div>
         <h1>Employer Sign Up</h1>
-        <Form onSubmit={() => this.props.handleSubmitSignup}>
+        <form onSubmit={ (e) => this.handleSignupSubmit(e)} >
+        <Form>
           <Form.Row>
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label>Email</Form.Label>
@@ -175,6 +175,7 @@ export default class SignUpForm extends Component {
             Submit
           </Button>
         </Form>
+        </form>
       </div>
     );
   };

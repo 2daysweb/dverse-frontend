@@ -5,7 +5,7 @@ export default class AdminPortalContainer extends Component {
     render() {
         return (
             <div>
-                <PortalContainer/>
+                <PortalContainer  currUser={this.props.currUser}/>
             </div>
         )
     }

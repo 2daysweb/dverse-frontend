@@ -1,11 +1,12 @@
 import React, { Component, Fragment } from "react";
 import Navbar from "react-bootstrap/Navbar";
-import { Link } from "react-router-dom";
+import Button from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+import { Link, withRouter } from "react-router-dom";
+import { LinkContainer } from "react-router-bootstrap";
 
-export default class LoginForm extends Component {
+class LoginForm extends Component {
   constructor() {
     super();
     this.state = {
@@ -18,20 +19,19 @@ export default class LoginForm extends Component {
     console.log(e);
     console.log(e.target.value);
     let un = e.target.value;
-    this.setState({ email: un })
+    this.setState({ email: un });
 
-    // debugger
+    // ////debugger
   };
 
   handleChangePassword = e => {
-  
     let pw = e.target.value;
     this.setState({ password: pw });
-    // debugger 
+    // ////debugger
   };
 
-  handleLoginSubmit = (e) => {
-    
+  handleLoginSubmit = e => {
+    debugger
     e.preventDefault();
     fetch("http://localhost:3000/api/v1/login", {
       method: "POST",
@@ -43,9 +43,10 @@ export default class LoginForm extends Component {
     })
       .then(res => res.json())
       .then(data => {
-
         if (data.authenticated) {
+          ////debugger
           //update state
+          // localStorage.setItem('user', data.user)
           this.props.updateCurrentUser(data.user);
           //store the token in localStorage
           localStorage.setItem("jwt", data.token);
@@ -54,7 +55,6 @@ export default class LoginForm extends Component {
         }
       });
   };
-  
 
   render() {
     return (
@@ -63,9 +63,10 @@ export default class LoginForm extends Component {
           <Navbar>
             <Navbar.Brand href="/">Dverse</Navbar.Brand>
             <Nav className="mr-auto">
-              <Link to="/signup">
-                <Nav.Link>SignUp</Nav.Link>
-              </Link>
+              <LinkContainer to= {{ pathname:"/signup" }}><Nav.Link>Job Seeker Sign Up</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to={{ pathname:'/signup', state: { isEmployer:true }}}><Nav.Link>Employer Sign Up</Nav.Link>
+              </LinkContainer>
             </Nav>
             <Navbar.Toggle />
             <Navbar.Collapse className="justify-content-end">
@@ -73,7 +74,7 @@ export default class LoginForm extends Component {
             </Navbar.Collapse>
           </Navbar>
           <h1>Login</h1>
-          <Form onSubmit={(e) => this.handleLoginSubmit(e)}>
+          <Form onSubmit={e => this.handleLoginSubmit(e)}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
               <Form.Control
@@ -108,3 +109,5 @@ export default class LoginForm extends Component {
     );
   }
 }
+
+export default withRouter(LoginForm)
