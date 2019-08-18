@@ -10,12 +10,13 @@ import Applications from "./Applications";
 import SignUpForm from "./SignUpForm";
 import LandingNav from "./LandingNav";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
+import EmployerHome from './EmployerHome'
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      currUser: null
+      currUser: null,
       // logged_in: false
     };
   }
@@ -38,10 +39,7 @@ class App extends Component {
   //--------------------BEGIN LOGIN UN/PW INPUT, SUBMIT LOGIN CREDENTIALS---------------//
 
   updateCurrentUser = currUser => {
- 
     this.setState({ currUser: currUser });
-     
-
   };
 
   //-----------------END LOGIN INPUTs, SUBMIT LOGIN CREDENTIALS---------------------------//
@@ -66,7 +64,6 @@ class App extends Component {
   //Conditionally render portal based on curr user type
 
   renderPortal = () => {
-    //////debugger   ;
     let userType = this.state.currUser.user_type;
     switch (userType) {
       case "employer":
@@ -76,7 +73,7 @@ class App extends Component {
               updateCurrentUser={this.updateCurrentUser}
               currUser={this.state.currUser}
             />
-            <EmployerPortalContainer currUser={this.state.currUser} />
+            <EmployerHome currUser={this.state.currUser} />
           </div>
         );
 
@@ -130,6 +127,18 @@ class App extends Component {
             }
           />
 
+        {/* <Route
+            exact
+            path="/login"
+            render={props => (
+              <LoginPage
+                {...props}
+                updateCurrentUser={this.updateCurrentUser}
+                currUser={this.state.currUser}
+              />
+            )}
+          /> */}
+
           <Route
             exact
             path="/landing"
@@ -144,7 +153,16 @@ class App extends Component {
           <Route
             exact
             path="/candidates"
-            component={props => <PortalContainer />}
+            render={props => (
+              <div>
+                  <NavBar
+                  updateCurrentUser={this.updateCurrentUser}
+                  currUser={this.state.currUser}
+                />
+                <EmployerPortalContainer currUser={this.state.currUser} />
+              </div>
+             
+            )}
           />
           <Route
             exact
@@ -167,7 +185,7 @@ class App extends Component {
 
           <Route
             exact
-            path="/jobs"
+            path="/login"
             render={() => (
               <div>
                 <NavBar
@@ -195,8 +213,7 @@ class App extends Component {
   }
 }
 
-const AppWithRouter = withRouter(App);
-export default AppWithRouter;
+export default withRouter(App);
 
 // componentDidUpdate(prevProps) {
 //   // Typical usage (don't forget to compare props):

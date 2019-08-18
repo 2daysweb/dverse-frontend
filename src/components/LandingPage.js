@@ -12,10 +12,9 @@ class LandingPage extends Component {
         <Row>
           <Col>
             <Jumbotron>
-              <h1>Hello, world!</h1>
+              <h1>I'm Looking for the Perfect Employee!</h1>
               <p>
-                This is a simple hero unit, a simple jumbotron-style component
-                for calling extra attention to featured content or information.
+                We have the best talent in the DMV. Let's connect you to our talent today.
               </p>
               <p>
                 <Button variant="light">
@@ -46,10 +45,9 @@ class LandingPage extends Component {
           <Col>
             <Jumbotron>
               {" "}
-              <h1>Hello, world!</h1>
+              <h1>I'm Looking for the Perfect Job!</h1>
               <p>
-                This is a simple hero unit, a simple jumbotron-style component
-                for calling extra attention to featured content or information.
+               We have the best employers in the DMV, we help people like you find their dream jobs everyday.
               </p>
               <p>
                 <Button variant="light">
@@ -82,6 +80,13 @@ class LandingPage extends Component {
               </p>
             </Jumbotron>
           </Col>
+        </Row>
+        <Row>
+          <Jumbotron>
+         <p> Dverse is dedicated to providing employers and job seekers with the best possible matches, ever, ever, ever...! 
+
+Please select the option that best describes your needs today!</p> 
+          </Jumbotron>
         </Row>
       </div>
     );

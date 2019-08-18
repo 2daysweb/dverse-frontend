@@ -5,7 +5,7 @@ export default class EmployerPortal extends Component {
   render() {
     return (
       <div>
-        <PortalContainer currUser={this.props.currUser} />
+        <PortalContainer currUser={this.props.currUser} updateCurrentUser={this.props.updateCurrentUser} />
       </div>
     );
   }

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, Redirect, withRouter } from "react-router-dom";
-import { LinkContainer} from 'react-router-bootstrap'
+import { LinkContainer } from "react-router-bootstrap";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
@@ -16,13 +16,14 @@ const NavBar = props => {
   //updateCurrentUser = props.updateCurrentUser;
 
   let logout = () => {
-    //debugger  
+    //debugger
     //clear localStorage of our jwt
     localStorage.clear();
     //set the user state back to null
     props.updateCurrentUser(null);
-
-
+    
+    
+    debugger 
   };
 
   const renderNavbar = () => {
@@ -34,6 +35,7 @@ const NavBar = props => {
         return (
           <Navbar>
             <Nav className="mr-auto">
+              <Link to="/login">Home</Link>
               <Link to="/candidates">Candidates</Link>
               <Link to="/applications">Applications</Link>
               <Link to="/inbox">Inbox</Link>
@@ -52,24 +54,24 @@ const NavBar = props => {
         );
       case "candidate":
         return (
-            <Navbar>
-              <Nav className="mr-auto">
-                <Link to="/jobs">Jobs</Link>
-                <Link to="/applications">My Applications</Link>
-                <Link to="/inbox">Inbox</Link>
-                <Link to="/questions">Discussion Board</Link>
-              </Nav>
-              <Navbar.Toggle />
-              <Navbar.Collapse className="justify-content-end">
-                <Navbar.Text>
-                  <a href="#login/:" />
-                </Navbar.Text>
-              </Navbar.Collapse>
-              <Button onClick={logout} variant="primary">
-                Logout
-              </Button>
-            </Navbar>
-          );
+          <Navbar>
+            <Nav className="mr-auto">
+              <Link to="/login">Jobs</Link>
+              <Link to="/applications">My Applications</Link>
+              <Link to="/inbox">Inbox</Link>
+              <Link to="/questions">Discussion Board</Link>
+            </Nav>
+            <Navbar.Toggle />
+            <Navbar.Collapse className="justify-content-end">
+              <Navbar.Text>
+                <a href="#login/:" />
+              </Navbar.Text>
+            </Navbar.Collapse>
+            <Button onClick={logout} variant="primary">
+              Logout
+            </Button>
+          </Navbar>
+        );
       case "admin":
         return (
           <Navbar>
@@ -103,7 +105,7 @@ const NavBar = props => {
       ) : (
         <Navbar>
           <Nav className="mr-auto">
-            <LoginPage  />
+            <LoginPage />
           </Nav>
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">
@@ -115,6 +117,9 @@ const NavBar = props => {
       )}
     </div>
   );
+};
+
+  export default withRouter(NavBar);
 
   //   <Navbar>
   //   <Navbar.Brand href="/">Dverse</Navbar.Brand>
@@ -155,8 +160,6 @@ const NavBar = props => {
   //     </Menu>
   //   );
   // };
-};
-export default withRouter(NavBar);
 
 
 
@@ -184,7 +187,6 @@ export default withRouter(NavBar);
 //     //set the user state back to null
 //     props.updateCurrentUser(null);
 //   };
-
 
 //   const renderNavbar = () => {
 //     //Check if Candidate, Employer, or Admin User-Type, conditionally render NavBar

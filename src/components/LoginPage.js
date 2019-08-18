@@ -18,7 +18,7 @@ class LoginPage extends Component {
     let un = e.target.value;
     this.setState({ email: un });
 
-    // ////debugger
+   //debugger
   };
 
   handleChangePassword = e => {
@@ -28,7 +28,6 @@ class LoginPage extends Component {
   };
 
   handleLoginSubmit = e => {
-    debugger
     e.preventDefault();
     fetch("http://localhost:3000/api/v1/login", {
       method: "POST",
@@ -40,9 +39,10 @@ class LoginPage extends Component {
     })
       .then(res => res.json())
       .then(data => {
+
+        //---AUTHENTICATION-----If User Authenticates, Update current user, issue JWT Token
         if (data.authenticated) {
-          ////debugger
-          //update state
+          //
           this.props.updateCurrentUser(data.user);
           localStorage.setItem('user', data.user)
         

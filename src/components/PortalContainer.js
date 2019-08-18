@@ -17,13 +17,14 @@ class PortalContainer extends Component {
       currTitle: "",
       latestClick: "",
       searchText: "",
-      userType:""
+      userType: ""
     };
   }
- 
+
   //Set all jobs and filtered jobs on load of Portal Container
   componentDidMount() {
-    fetch(BASE_URL + "api/v1/job_postings")
+    debugger 
+    fetch(BASE_URL + "api/v1/jobs")
       .then(resp => resp.json())
       .then(jobsArray => {
         this.setState({ allJobs: jobsArray });
@@ -41,15 +42,18 @@ class PortalContainer extends Component {
         .toLowerCase()
         .includes(this.state.searchText.toLowerCase());
     });
-    //debugger  
+    //debugger
     return newFilteredJobs;
   };
+
+  //----------BEGIN EVENT HANDLERS, CLICKS, SUBMITS,
 
   handleChangeSearchText = e => {
     this.setState({ searchText: e.target.value }, this.getFilteredJobs);
   };
 
   //Refactor the SetState to be only one single object --- with KV pairs
+
   handleClickShowJob = currJob => {
     this.setState({ currJob: currJob });
     this.setState({ currBody: currJob.body });
@@ -57,15 +61,12 @@ class PortalContainer extends Component {
     this.setState({ latestClick: "ShowJob" });
   };
 
-  //Create a new user on click of sign up btn
-  handleClickSignupBtn = () => {};
-
   handleClickNewBtn = () => {
     this.setState({ latestClick: "" });
 
     //Create new empty job object --- hard-coded UserID = 2
     let newJob = { title: "Deafult Title", body: "Deafult Body", user_id: 1 };
-    let URL = BASE_URL + "api/v1/job_postings";
+    let URL = BASE_URL + "api/v1/jobs";
     console.log("Is URL Printing", URL);
     // //debugger ;
     return fetch(URL, {
@@ -83,7 +84,8 @@ class PortalContainer extends Component {
       });
   };
 
-  //Change latestClick and update state of
+  //---------------BEGIN-----Event Handlers for Editing, Saving  Job-------------------------------//
+
   handleClickEditBtn = e => {
     //update latestClick to "edit"
     this.setState({ latestClick: "EditJob" });
@@ -107,7 +109,7 @@ class PortalContainer extends Component {
     let newBody = this.state.currBody;
     //create new job object with newTitle and newBody
     let newJob = { title: newTitle, body: newBody, id: id };
-    let URL = BASE_URL + "api/v1/job_postings/" + id;
+    let URL = BASE_URL + "api/v1/jobs/" + id;
     console.log(URL);
 
     return fetch(URL, {
@@ -122,6 +124,8 @@ class PortalContainer extends Component {
       .then(data => console.log(data)); // parses JSON response into native JavaScript objects
   };
 
+  //--------------------END-----Event Handlers for Editing, Saving  Job-------------------------------//
+
   //Discard any changes made and render "Show" of Current Job
   handleClickCancelBtn = () => {
     this.setState({ latestClick: "ShowJob" });
@@ -130,8 +134,8 @@ class PortalContainer extends Component {
   handleClickDeleteBtn = () => {
     let id = this.state.currJob.id;
     //create new job object with newTitle and newBody
-    let URL = BASE_URL + "api/v1/job_postings/" + id;
-    let jobPosting = { id: id };
+    let URL = BASE_URL + "api/v1/jobs/" + id;
+    let job = { id: id };
 
     //Remove deleted job from
     return fetch(URL, {
@@ -139,7 +143,7 @@ class PortalContainer extends Component {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(jobPosting) // body data type must match "Content-Type" header
+      body: JSON.stringify(job) // body data type must match "Content-Type" header
     })
       .then(response => response.json()) // parses JSON response into native JavaScript objects
       .then(data => console.log(data))
@@ -166,24 +170,24 @@ class PortalContainer extends Component {
         />
         <div className="container">
           <Sidebar
-          //State variables
+            //State variables
             latestClick={this.state.latestClick}
             allJobs={this.state.allJobs}
             filteredJobs={this.getFilteredJobs()}
             currJob={this.state.currJob}
-            //CRUD event handlers 
+            //CRUD event handlers
             showJob={this.handleClickShowJob}
             newJob={this.handleClickNewBtn}
             currUser={this.props.currUser}
           />
           <Content
-          //State variables 
+            //State variables
             latestClick={this.state.latestClick}
             currTitle={this.state.currTitle}
             currBody={this.state.currBody}
             currJob={this.state.currJob}
-            handleChangeInput = {this.handleChangeInput}
-            handleChangeTextArea = {this.handleChangeTextArea}
+            handleChangeInput={this.handleChangeInput}
+            handleChangeTextArea={this.handleChangeTextArea}
             //CRUD event handlers
             editJob={this.handleClickEditBtn}
             showJob={this.handleClickShowJob}
@@ -191,7 +195,6 @@ class PortalContainer extends Component {
             cancelJob={this.handleClickCancelBtn}
             deleteJob={this.handleClickDeleteBtn}
             newJob={this.handleClickNewBtn}
-
           />
         </div>
       </Fragment>
