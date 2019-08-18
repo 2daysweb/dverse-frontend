@@ -106,6 +106,8 @@ class App extends Component {
   //If there's a current user, go to renderPortal method with the user_type
   //Else, go to to LoginPage
 
+//
+
   //Conditionally render Employer, Admin, or Candidate Portal If Authenticated --- Else, render LandingPage
 
   render() {
@@ -120,6 +122,7 @@ class App extends Component {
                 this.renderPortal()
               ) : (
                 <LoginPage
+                  debugger 
                   updateCurrentUser={this.updateCurrentUser}
                   currUser={this.state.currUser}
                 />
