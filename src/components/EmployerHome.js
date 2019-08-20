@@ -1,9 +1,6 @@
-import React from 'react'
+import React from "react";
+import Home from "./Home";
 
 export default function EmployerHome() {
-    return (
-        <div>
-            Employer Home 
-        </div>
-    )
+  return <Home />
 }

@@ -3,6 +3,9 @@ import NavBar from "./Nav";
 import Search from "./Search";
 import Sidebar from "./Sidebar";
 import Content from "./Content";
+import EmployerSidebar from "./EmployerSidebar";
+import CandidateSidebar from "./CandidateSidebar";
+import AdminSidebar from "./AdminSidebar";
 
 const BASE_URL = "http://localhost:3000/";
 
@@ -23,7 +26,7 @@ class PortalContainer extends Component {
 
   //Set all jobs and filtered jobs on load of Portal Container
   componentDidMount() {
-    debugger 
+    debugger;
     fetch(BASE_URL + "api/v1/jobs")
       .then(resp => resp.json())
       .then(jobsArray => {
@@ -160,45 +163,138 @@ class PortalContainer extends Component {
     console.log(this.state.allJobs);
   };
 
+  //Consider compoletely removing the "CandidatePortalContainer etc etcs if this works out"
+
+  renderPortal = () => {
+      let userType = this.props.currUser.user_type;
+      switch (userType) {
+        case "employer":
+          return (
+            <Fragment>
+              <Search
+                latestClick={this.state.latestClick}
+                handleChangeSearchText={this.handleChangeSearchText}
+                currUser={this.props.currUser}
+              />
+              <div className="container">
+                <Sidebar
+                  //State variables
+                  latestClick={this.state.latestClick}
+                  allJobs={this.state.allJobs}
+                  filteredJobs={this.getFilteredJobs()}
+                  currJob={this.state.currJob}
+                  //CRUD event handlers
+                  showJob={this.handleClickShowJob}
+                  newJob={this.handleClickNewBtn}
+                  currUser={this.props.currUser}
+                />
+                <Content
+                  //State variables
+                  latestClick={this.state.latestClick}
+                  currTitle={this.state.currTitle}
+                  currBody={this.state.currBody}
+                  currJob={this.state.currJob}
+                  handleChangeInput={this.handleChangeInput}
+                  handleChangeTextArea={this.handleChangeTextArea}
+                  //CRUD event handlers
+                  editJob={this.handleClickEditBtn}
+                  showJob={this.handleClickShowJob}
+                  saveJob={this.handleClickSaveBtn}
+                  cancelJob={this.handleClickCancelBtn}
+                  deleteJob={this.handleClickDeleteBtn}
+                  newJob={this.handleClickNewBtn}
+                />
+              </div>
+            </Fragment>
+          );
+
+        case "candidate":
+          return (
+            <Fragment>
+              <Search
+                latestClick={this.state.latestClick}
+                handleChangeSearchText={this.handleChangeSearchText}
+                currUser={this.props.currUser}
+              />
+              <div className="container">
+                <Sidebar
+                  //State variables
+                  latestClick={this.state.latestClick}
+                  allJobs={this.state.allJobs}
+                  filteredJobs={this.getFilteredJobs()}
+                  currJob={this.state.currJob}
+                  //CRUD event handlers
+                  showJob={this.handleClickShowJob}
+                  newJob={this.handleClickNewBtn}
+                  currUser={this.props.currUser}
+                />
+                <Content
+                  //State variables
+                  latestClick={this.state.latestClick}
+                  currTitle={this.state.currTitle}
+                  currBody={this.state.currBody}
+                  currJob={this.state.currJob}
+                  handleChangeInput={this.handleChangeInput}
+                  handleChangeTextArea={this.handleChangeTextArea}
+                  //CRUD event handlers
+                  editJob={this.handleClickEditBtn}
+                  showJob={this.handleClickShowJob}
+                  saveJob={this.handleClickSaveBtn}
+                  cancelJob={this.handleClickCancelBtn}
+                  deleteJob={this.handleClickDeleteBtn}
+                  newJob={this.handleClickNewBtn}
+                />
+              </div>
+            </Fragment>
+          )
+
+        case "admin":
+          return (
+            <Fragment>
+              <Search
+                latestClick={this.state.latestClick}
+                handleChangeSearchText={this.handleChangeSearchText}
+                currUser={this.props.currUser}
+              />
+              <div className="container">
+                <Sidebar
+                  //State variables
+                  latestClick={this.state.latestClick}
+                  allJobs={this.state.allJobs}
+                  filteredJobs={this.getFilteredJobs()}
+                  currJob={this.state.currJob}
+                  //CRUD event handlers
+                  showJob={this.handleClickShowJob}
+                  newJob={this.handleClickNewBtn}
+                  currUser={this.props.currUser}
+                />
+                <Content
+                  //State variables
+                  latestClick={this.state.latestClick}
+                  currTitle={this.state.currTitle}
+                  currBody={this.state.currBody}
+                  currJob={this.state.currJob}
+                  handleChangeInput={this.handleChangeInput}
+                  handleChangeTextArea={this.handleChangeTextArea}
+                  //CRUD event handlers
+                  editJob={this.handleClickEditBtn}
+                  showJob={this.handleClickShowJob}
+                  saveJob={this.handleClickSaveBtn}
+                  cancelJob={this.handleClickCancelBtn}
+                  deleteJob={this.handleClickDeleteBtn}
+                  newJob={this.handleClickNewBtn}
+                />
+              </div>
+            </Fragment>
+          );
+
+        default:
+          return false;
+      }
+    }
+
   render() {
-    return (
-      <Fragment>
-        <Search
-          latestClick={this.state.latestClick}
-          handleChangeSearchText={this.handleChangeSearchText}
-          currUser={this.props.currUser}
-        />
-        <div className="container">
-          <Sidebar
-            //State variables
-            latestClick={this.state.latestClick}
-            allJobs={this.state.allJobs}
-            filteredJobs={this.getFilteredJobs()}
-            currJob={this.state.currJob}
-            //CRUD event handlers
-            showJob={this.handleClickShowJob}
-            newJob={this.handleClickNewBtn}
-            currUser={this.props.currUser}
-          />
-          <Content
-            //State variables
-            latestClick={this.state.latestClick}
-            currTitle={this.state.currTitle}
-            currBody={this.state.currBody}
-            currJob={this.state.currJob}
-            handleChangeInput={this.handleChangeInput}
-            handleChangeTextArea={this.handleChangeTextArea}
-            //CRUD event handlers
-            editJob={this.handleClickEditBtn}
-            showJob={this.handleClickShowJob}
-            saveJob={this.handleClickSaveBtn}
-            cancelJob={this.handleClickCancelBtn}
-            deleteJob={this.handleClickDeleteBtn}
-            newJob={this.handleClickNewBtn}
-          />
-        </div>
-      </Fragment>
-    );
+    return this.renderPortal()
   }
 }
 

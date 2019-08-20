@@ -56,7 +56,8 @@ const NavBar = props => {
         return (
           <Navbar>
             <Nav className="mr-auto">
-              <Link to="/login">Jobs</Link>
+              <Link to="/login">Home</Link>
+              <Link to="/jobs">Jobs</Link>
               <Link to="/applications">My Applications</Link>
               <Link to="/inbox">Inbox</Link>
               <Link to="/questions">Discussion Board</Link>
@@ -76,6 +77,7 @@ const NavBar = props => {
         return (
           <Navbar>
             <Nav className="mr-auto">
+              <Link to="/login">Home</Link>
               <Nav.Link href="/jobs">Job Post Requests</Nav.Link>
               <Nav.Link href="/candidates">New Candidate Applications</Nav.Link>
             </Nav>
