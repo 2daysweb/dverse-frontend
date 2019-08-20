@@ -28,7 +28,7 @@ class LoginPage extends Component {
   };
 
   handleLoginSubmit = e => {
-    e.preventDefault();
+    e.preventDefault()
     fetch("http://localhost:3000/api/v1/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },

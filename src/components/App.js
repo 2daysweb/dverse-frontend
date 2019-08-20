@@ -10,15 +10,15 @@ import Applications from "./Applications";
 import SignUpForm from "./SignUpForm";
 import LandingNav from "./LandingNav";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
-import EmployerHome from './EmployerHome'
+import EmployerHome from "./EmployerHome";
+import Profile from './Profile'
 
 class App extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
-      currUser: null,
-      // logged_in: false
-    };
+      currUser: null
+    }
   }
 
   //On load of Application, check if JWT exists, if it does, set state of logged_in and currUser
@@ -106,7 +106,7 @@ class App extends Component {
   //If there's a current user, go to renderPortal method with the user_type
   //Else, go to to LoginPage
 
-//
+  //
 
   //Conditionally render Employer, Admin, or Candidate Portal If Authenticated --- Else, render LandingPage
 
@@ -122,25 +122,12 @@ class App extends Component {
                 this.renderPortal()
               ) : (
                 <LoginPage
-                  debugger 
                   updateCurrentUser={this.updateCurrentUser}
                   currUser={this.state.currUser}
                 />
               )
             }
           />
-
-        {/* <Route
-            exact
-            path="/login"
-            render={props => (
-              <LoginPage
-                {...props}
-                updateCurrentUser={this.updateCurrentUser}
-                currUser={this.state.currUser}
-              />
-            )}
-          /> */}
 
           <Route
             exact
@@ -155,16 +142,26 @@ class App extends Component {
           />
           <Route
             exact
+            path="/profile"
+            render={props => (
+              <Profile
+                {...props}
+                currUser={this.state.currUser}
+           
+              />
+            )}
+          />
+          <Route
+            exact
             path="/candidates"
             render={props => (
               <div>
-                  <NavBar
+                <NavBar
                   updateCurrentUser={this.updateCurrentUser}
                   currUser={this.state.currUser}
                 />
                 <EmployerPortalContainer currUser={this.state.currUser} />
               </div>
-             
             )}
           />
           <Route
@@ -218,152 +215,6 @@ class App extends Component {
 
 export default withRouter(App);
 
-// componentDidUpdate(prevProps) {
-//   // Typical usage (don't forget to compare props):
-//   if (this.props.userID !== prevProps.userID) {
-//     this.fetchData(this.props.userID);
-//   }
-// }
-
-// componentDidUpdate(prevProps){
-//   if(this.props.location.pathname !== prevProps.location.pathname){
-//   this.setState({currPath:this.props.location.pathname})
-//   }
-// }
-// /*
-//           <Route
-//             path="/about"
-//             render={props => <About {...props} extra={someVariable} />}
-//           /> */
-// {
-//   this.props.location.pathname === ("landing" || '/') ? (
-//      <LandingNav/>
-//   ) : (
-//     <NavBar
-//     updateCurrentUser={this.updateCurrentUser}
-//     currUser={this.state.currUser}
-//   />
-//   )
-// }
-
-// renderLandingOrLogin = () => {
-//   return this.state.currPath === "/login" ? (
-//     <LoginPage updateCurrentUser={this.updateCurrentUser} />
-//   ) : (
-//     <div>
-//       <LandingNav />
-//       <LandingPage />
-//     </div>
-//   );
-// };
-// <Route exact path="/jobs" render={() => currUser.user_type === 'candidate'?
-// (<CandidatePortalContainer/>):(<EmployerPortalContainer/>)
-//   />}
-// fetch('http://localhost:3000/api/v1/users/1',{
-//   method: 'GET',
-//   headers: {'Content-Type':'application/json'},
-//   body: JSON.stringify({
-//     email: 'sahnunhm@gmail.com',
-//     password:'pw1'
-//   })
-// })
-// .then(res => res.json())
-// .then(data => console.log(data))
-
-// fetch('http://localhost:3000/api/v1/login',{
-//   method: 'POST',
-//   headers: {'Content-Type':'application/json'},
-//   body: JSON.stringify({
-//     email: 'sahnunhm@gmail.com',
-//     password:'pw1'
-//   })
-// })
-// .then(res => res.json())
-// .then(data => console.log(data))
-
-// (data => {
-//   if(data.authenticated){
-//     //update state
-//     this.props.updateCurrentUser(data.user)
-//     //store the token in localStorage
-//     localStorage.setItem("jwt", data.token)
-//   }else{
-//     alert("incorrect username or password")
-//   }
-// })
-
-//TODO: Finish refactoring JSX to use .map with routes array
-// {routes.map(({ path, component:C }) => (
-//   <Route path={path}
-//   render={props => <C {...props} />}
-
-//    />
-
-// <Router>
-// <div>
-//   <ul>
-//     <li><Link to="/home">Home</Link></li>
-//     <li><Link to="/applications">Applications</Link></li>
-//     <li><Link to="/logout">Logout</Link></li>
-//   </ul>
-
-//   {routes.map((route) => (
-//     <Route
-//       key={route.path}
-//       path={route.path}
-//       component={route.component}
-//     />
-//   ))}
-// </div>
-// </Router>
-
-// const routes = [
-//   {
-//     path: '/home',
-//     component: EmployerPortalContainer
-//   },
-//   {
-//     path: '/logout',
-//     component: Login,
-//   }
-// ]
-
-/* <Route
-            exact
-            path="/"
-            render={props => (
-              <LoginHeader
-                {...props}
-                handleChangeInputUN={this.handleChangeInputUN}
-                handleChangeInputPW={this.handleChangeInputPW}
-                currInputLoginUN={this.state.currInputLoginUN}
-                currInputLoginPW={this.state.currInputLoginPW}
-                handleLoginSubmit={this.handleLoginSubmit}
-                logged_in={this.state.user}
-                updateCurrentUser={this.updateCurrentUser}
-              />
-            )}
-          /> */
-/* <Nav
-          user={this.state.currUser}
-          logged_in={this.state.logged_in}
-          handleChangeInputUN={this.handleChangeInputUN}
-          handleChangeInputPW={this.handleChangeInputPW}
-          currInputLoginUN={this.state.currInputLoginUN}
-          currInputLoginPW={this.state.currInputLoginPW}
-          updateCurrentUser = {this.updateCurrentUser}
-          // handleLoginSubmit={this.handleLoginSubmit}
-        /> */
-
-// handleChangeInputNewUN = currNewUsername => {
-//   this.setState({ currInputLoginUN: currNewUsername });
-//   console.log("In Handle Text Input Change Parent in App");
-// };
-
-// handleChangeInputNewPW = currNewPassword => {
-//   this.setState({ currInputLoginPW: currNewPassword });
-//   console.log("In Handle Text Input Change Parent in App");
-// };
 
 //Highest impact changes to make:
 
