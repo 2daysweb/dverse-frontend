@@ -41,7 +41,6 @@ class Profile extends Component {
             attribute: "avatar",
             method: "POST"
           }}
-          onSuccess={e => this.handleSuccess(e)}
           onSubmit={user => {
             console.log("user", user);
             this.setState({ avatar: user.avatar });

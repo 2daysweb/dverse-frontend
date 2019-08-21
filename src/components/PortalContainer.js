@@ -3,7 +3,7 @@ import NavBar from "./Nav";
 import Search from "./Search";
 import Sidebar from "./Sidebar";
 import Content from "./Content";
-import EmployerSidebar from "./EmployerSidebar";
+import EmployerSidebar from "./EmployerSidebarAddJob";
 import CandidateSidebar from "./CandidateSidebar";
 import AdminSidebar from "./AdminSidebar";
 
@@ -26,7 +26,7 @@ class PortalContainer extends Component {
 
   //Set all jobs and filtered jobs on load of Portal Container
   componentDidMount() {
-    debugger;
+    
     fetch(BASE_URL + "api/v1/jobs")
       .then(resp => resp.json())
       .then(jobsArray => {
@@ -45,7 +45,6 @@ class PortalContainer extends Component {
         .toLowerCase()
         .includes(this.state.searchText.toLowerCase());
     });
-    //debugger
     return newFilteredJobs;
   };
 
@@ -71,7 +70,7 @@ class PortalContainer extends Component {
     let newJob = { title: "Deafult Title", body: "Deafult Body", user_id: 1 };
     let URL = BASE_URL + "api/v1/jobs";
     console.log("Is URL Printing", URL);
-    // //debugger ;
+   
     return fetch(URL, {
       method: "POST",
       headers: {

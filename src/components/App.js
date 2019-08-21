@@ -11,20 +11,20 @@ import SignUpForm from "./SignUpForm";
 import LandingNav from "./LandingNav";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import EmployerHome from "./EmployerHome";
-import Profile from './Profile'
+import Profile from "./Profile";
 
 class App extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
       currUser: null
-    }
+    };
   }
 
-  //On load of Application, check if JWT exists, if it does, set state of logged_in and currUser
+  //On load of Application, check if JWT exists, if it does, set state of currUser
 
   componentDidMount() {
-    let token = localStorage.getItem("jwt");
+    let token = localStorage.getItem("jwt")
     if (token) {
       fetch("http://localhost:3000/api/v1/profile", {
         headers: { Authentication: `Bearer ${token}` }
@@ -144,11 +144,13 @@ class App extends Component {
             exact
             path="/profile"
             render={props => (
-              <Profile
-                {...props}
-                currUser={this.state.currUser}
-           
-              />
+              <div>
+                <NavBar
+                  updateCurrentUser={this.updateCurrentUser}
+                  currUser={this.state.currUser}
+                />
+                <Profile currUser={this.state.currUser} />
+              </div>
             )}
           />
           <Route
@@ -214,7 +216,6 @@ class App extends Component {
 }
 
 export default withRouter(App);
-
 
 //Highest impact changes to make:
 

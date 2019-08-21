@@ -12,7 +12,8 @@ class SignUpForm extends Component {
     this.state = {
       email: "",
       password: "",
-      currUser: {}
+      currUser: {},
+      userType: ""
     }
   }
 
@@ -21,7 +22,7 @@ class SignUpForm extends Component {
     if (this.props.location.state) {
       this.setState((prevState, prevProps) => ({
         isEmployer: prevProps.location.state.isEmployer
-      }));
+      }))
     }
   }
 
@@ -32,31 +33,30 @@ class SignUpForm extends Component {
   };
 
   handleChangePassword = e => {
+    console.log(e.target.value)
     let pw = e.target.value;
     this.setState({ password: pw })
   };
 
   handleSignupSubmit = e => {
     e.preventDefault();
-
+    
     fetch("http://localhost:3000/api/v1/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         email: this.state.email,
-        password: this.state.password
+        password: this.state.password,
+        user_type: this.state.userType
       })
     })
       .then(res => res.json())
       .then(data => {
         this.setState({ currUser: data })
       })
-      .then(<Redirect to={{
-        pathname: '/profile',
-        state: {  currUser: this.state.currUser }
-    }}
-/>)
-  };
+
+  }
+
 
   //Conditionally render Employer or Candidate form based on state var isEmployer
   renderEmployerOrCandidateForm = () => {
