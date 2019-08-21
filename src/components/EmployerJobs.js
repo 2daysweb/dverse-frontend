@@ -3,13 +3,13 @@ import NavBar from "./Nav";
 import Search from "./Search";
 import Sidebar from "./Sidebar";
 import Content from "./Content";
-import EmployerSidebar from "./EmployerSidebarAddJob";
-import CandidateSidebar from "./CandidateSidebar";
+// import EmployerSidebar from "./EmployerSidebarAddJob";
+// import CandidateSidebar from "./CandidateSidebar";
 import AdminSidebar from "./AdminSidebar";
 
 const BASE_URL = "http://localhost:3000/";
 
-class PortalContainer extends Component {
+class EmployerJobs extends Component {
   constructor() {
     super();
     this.state = {
@@ -32,7 +32,7 @@ class PortalContainer extends Component {
         this.setState({ allJobs: jobsArray });
         this.setState({ filteredJobs: jobsArray });
         console.log(jobsArray);
-      });
+      })
   }
 
   //Filter all jobs based on searchText
@@ -161,7 +161,7 @@ class PortalContainer extends Component {
     console.log(this.state.allJobs);
   };
 
-  //Consider compoletely removing the "CandidatePortalContainer etc etcs if this works out"
+  //Consider compoletely removing the "CandidateEmployerJobs etc etcs if this works out"
 
   renderPortal = () => {
     let userType = this.props.currUser.user_type;
@@ -204,7 +204,7 @@ class PortalContainer extends Component {
               />
             </div>
           </Fragment>
-        );
+        )
 
       case "candidate":
         return (
@@ -296,4 +296,4 @@ class PortalContainer extends Component {
   }
 }
 
-export default PortalContainer;
+export default EmployerJobs;

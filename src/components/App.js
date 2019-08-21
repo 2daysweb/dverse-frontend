@@ -12,6 +12,7 @@ import LandingNav from "./LandingNav";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import EmployerHome from "./EmployerHome";
 import Profile from "./Profile";
+import EmployerJobs from "./EmployerJobs";
 
 class App extends Component {
   constructor() {
@@ -24,7 +25,7 @@ class App extends Component {
   //On load of Application, check if JWT exists, if it does, set state of currUser
 
   componentDidMount() {
-    let token = localStorage.getItem("jwt")
+    let token = localStorage.getItem("jwt");
     if (token) {
       fetch("http://localhost:3000/api/v1/profile", {
         headers: { Authentication: `Bearer ${token}` }
@@ -32,7 +33,7 @@ class App extends Component {
         .then(res => res.json())
         .then(userObj => {
           this.setState({ currUser: userObj });
-        });
+        })
     }
   }
 
@@ -73,9 +74,9 @@ class App extends Component {
               updateCurrentUser={this.updateCurrentUser}
               currUser={this.state.currUser}
             />
-            <EmployerHome currUser={this.state.currUser} />
+            <PortalContainer currUser={this.state.currUser} />
           </div>
-        );
+        )
 
       case "candidate":
         return (
@@ -84,7 +85,7 @@ class App extends Component {
               updateCurrentUser={this.updateCurrentUser}
               currUser={this.state.currUser}
             />
-            <CandidatePortalContainer currUser={this.state.currUser} />
+            <PortalContainer currUser={this.state.currUser} />
           </div>
         );
 
@@ -95,7 +96,7 @@ class App extends Component {
               updateCurrentUser={this.updateCurrentUser}
               currUser={this.state.currUser}
             />
-            <AdminPortalContainer currUser={this.state.currUser} />
+            <PortalContainer currUser={this.state.currUser} />
           </div>
         );
 
@@ -105,8 +106,6 @@ class App extends Component {
   };
   //If there's a current user, go to renderPortal method with the user_type
   //Else, go to to LoginPage
-
-  //
 
   //Conditionally render Employer, Admin, or Candidate Portal If Authenticated --- Else, render LandingPage
 
@@ -162,10 +161,23 @@ class App extends Component {
                   updateCurrentUser={this.updateCurrentUser}
                   currUser={this.state.currUser}
                 />
-                <EmployerPortalContainer currUser={this.state.currUser} />
+                <PortalContainer currUser={this.state.currUser} />
               </div>
             )}
           />
+          {/* <Route
+            exact
+            path="/employerjobs"
+            render={props => (
+              <div>
+                <NavBar
+                  updateCurrentUser={this.updateCurrentUser}
+                  currUser={this.state.currUser}
+                />
+                <EmployerJobs currUser={this.state.currUser} />
+              </div>
+            )}
+          /> */}
           <Route
             exact
             path="/applications"

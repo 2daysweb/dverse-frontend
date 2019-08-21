@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 
 const JobViewer = (props) => {
 
+//Conditionally Render editButtons --- if employer or admin --- yes, delete ---- if candidate can't do it 
 
 
   return (

@@ -49,7 +49,7 @@ const NavBar = props => {
               <LinkContainer to="/applications">
                 <Nav.Link>Applications</Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/jobs">
+              <LinkContainer to="/employerjobs">
                 <Nav.Link>Jobs</Nav.Link>
               </LinkContainer>
               <LinkContainer to="/profile">
@@ -72,7 +72,7 @@ const NavBar = props => {
           <Navbar>
             <Nav className="mr-auto">
               <Link to="/login">Home</Link>
-              <Link to="/jobs">Jobs</Link>
+              <Link to="/candidatejobs">Jobs</Link>
               <Link to="/applications">My Applications</Link>
               <Link to="/inbox">Inbox</Link>
               <Link to="/questions">Discussion Board</Link>

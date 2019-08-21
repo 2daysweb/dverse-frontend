@@ -1,6 +1,10 @@
 import React from "react";
 import { Jumbotron, Container } from "react-bootstrap";
 
+//Conditionally render Home depending on user_type
+
+
+
 export default function Home() {
   return (
     <div>
@@ -15,6 +19,6 @@ export default function Home() {
         </ul>
       </Jumbotron>
     </div>
-  );
+  )
 }
 

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PortalContainer from "./PortalContainer";
 import { Redirect } from "react-router-dom";
 
-export default class EmployerPortal extends Component {
+export default class EmployerPortalContainer extends Component {
   renderPortalOrLogin = () => {
     if (this.props.currUser) {
       return (

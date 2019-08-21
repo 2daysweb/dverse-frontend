@@ -10,6 +10,12 @@ class Sidebar extends Component {
   //   }
   // }
 
+  //Conditionally render JobList depending on if Employer or Candidate or Admin (No Edit for Candidates) 
+ //Conditionally Render a List of Job without an edit Btn --- for candidate portal 
+ //Conditionally Render a List of Candidates (Users where type==Candidate) without an edit Btn --- for Employer Portal
+ //Conditionally Render a List of My Jobs ("Add or Edit Jobs") which renders based on employer ID ---- for Employer Portal
+   
+
   render() {
     return (
       <div className="master-detail-element sidebar">

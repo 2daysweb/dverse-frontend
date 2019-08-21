@@ -4,20 +4,21 @@ import CandidateItem from "./CandidateItem";
 
 class JobList extends Component {
   //Conditionally Render Job or Candidate Item
-  renderCandidateOrJobPosting = () => {
+  renderCandidateOrJobItem = () => {
     let currUser = this.props.currUser;
-    // //debugger ;
+    //debugger 
     if (currUser) {
       let userType = currUser.user_type;
       switch (userType) {
         case "employer":
+
           return (
             <ul>
               {this.props.filteredJobs.map(job => (
                 <JobItem currJob={job} showJob={this.props.showJob} />
               ))}
             </ul>
-          );
+          )
 
         case "candidate":
           return (
@@ -26,7 +27,7 @@ class JobList extends Component {
                <CandidateItem currJob={job} showJob={this.props.showJob} />
               ))}
             </ul>
-          );
+          )
 
         case "admin":
           return (
@@ -35,17 +36,17 @@ class JobList extends Component {
                 <CandidateItem currJob={job} showJob={this.props.showJob} />
               ))}
             </ul>
-          );
+          )
         default:
-          return false;
+          return false
       }
     } else {
-      return null;
+      return null
     }
-  };
+  }
 
   render() {
-    return (this.renderCandidateOrJobPosting());
+    return (this.renderCandidateOrJobItem());
   }
 }
 
