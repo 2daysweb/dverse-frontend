@@ -110,7 +110,7 @@ const NavBar = props => {
             </Button>
           </Navbar>
         )
-        break
+    
       default:
         return null
     }

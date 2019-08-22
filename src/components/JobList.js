@@ -1,10 +1,10 @@
 import React, { Component } from "react"
 import JobItem from "./JobItem"
-import CandidateItem from "./CandidateItem"
+
 
 class JobList extends Component {
-  //Conditionally Render Job or Candidate Item
-  renderCandidateOrJobItem = () => {
+  //Conditionally Render Job or Job Item
+  renderJobItem = () => {
     let currUser = this.props.currUser
     //debugger
     if (currUser) {
@@ -19,11 +19,11 @@ class JobList extends Component {
             </ul>
           )
 
-        case "candidate":
+        case "job":
           return (
             <ul>
               {this.props.filteredJobs.map(job => (
-                <CandidateItem currJob={job} showJob={this.props.showJob} />
+                <JobItem currJob={job} showJob={this.props.showJob} />
               ))}
             </ul>
           )
@@ -32,7 +32,7 @@ class JobList extends Component {
           return (
             <ul>
               {this.props.filteredJobs.map(job => (
-                <CandidateItem currJob={job} showJob={this.props.showJob} />
+                <JobItem currJob={job} showJob={this.props.showJob} />
               ))}
             </ul>
           )
@@ -45,7 +45,7 @@ class JobList extends Component {
   }
 
   render() {
-    return this.renderCandidateOrJobItem()
+    return this.renderJobItem()
   }
 }
 

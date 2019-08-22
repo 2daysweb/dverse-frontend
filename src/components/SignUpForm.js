@@ -1,19 +1,21 @@
-import React, { Component } from "react";
-import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Nav from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
-import { Redirect, withRouter } from "react-router-dom";
+import React, { Component } from "react"
+import Col from "react-bootstrap/Col"
+import Form from "react-bootstrap/Form"
+import Button from "react-bootstrap/Button"
+import Nav from "react-bootstrap"
+import { LinkContainer } from "react-router-bootstrap"
+import { Redirect, withRouter } from "react-router-dom"
 
 class SignUpForm extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
       email: "",
       password: "",
       currUser: {},
-      userType: ""
+      userType: "",
+      firstName: "",
+      lastName: ""
     }
   }
 
@@ -28,41 +30,72 @@ class SignUpForm extends Component {
 
   handleChangeEmail = e => {
     console.log(e.target.value)
-    let un = e.target.value;
+    let un = e.target.value
     this.setState({ email: un })
-  };
+  }
 
   handleChangePassword = e => {
     console.log(e.target.value)
-    let pw = e.target.value;
+    let pw = e.target.value
     this.setState({ password: pw })
-  };
+  }
 
-  handleSignupSubmit = e => {
-    e.preventDefault();
-    
+  handleChangeFirstName = e => {
+    let fn = e.target.value
+    this.setState({ firstName: fn })
+  }
+
+  handleChangeLastName = e => {
+    let ln = e.target.value
+    this.setState({ lastName: ln })
+  }
+
+  handleCandidateSignupSubmit = e => {
+    e.preventDefault()
+
     fetch("http://localhost:3000/api/v1/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         email: this.state.email,
-        password: this.state.password
+        password: this.state.password,
+        first_name: this.state.firstName,
+        last_name: this.state.lastName,
+        user_type: "candidate"
       })
     })
       .then(res => res.json())
       .then(data => {
         this.setState({ currUser: data })
       })
-
   }
 
+  handleEmployerSignupSubmit = e => {
+    e.preventDefault()
+
+    fetch("http://localhost:3000/api/v1/users", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: this.state.email,
+        password: this.state.password,
+        first_name: this.state.firstName,
+        last_name: this.state.lastName,
+        user_type: "employer"
+      })
+    })
+      .then(res => res.json())
+      .then(data => {
+        this.setState({ currUser: data })
+      })
+  }
 
   //Conditionally render Employer or Candidate form based on state var isEmployer
   renderEmployerOrCandidateForm = () => {
     return !this.state.isEmployer ? (
       <div>
         <h1>Candidate Sign Up</h1>
-        <form onSubmit={e => this.handleSignupSubmit(e)}>
+        <form onSubmit={e => this.handleCandidateSignupSubmit(e)}>
           <Form>
             <Form.Row>
               <Form.Group as={Col} controlId="formGridEmail">
@@ -82,36 +115,21 @@ class SignUpForm extends Component {
                 />
               </Form.Group>
             </Form.Row>
+            <Form.Row>
+              <Form.Group controlId="firstName">
+                <Form.Label>First Name</Form.Label>
+                <Form.Control placeholder="First Name" />
+              </Form.Group>
+              <Form.Group controlId="lastName">
+                <Form.Label>Last Name</Form.Label>
+                <Form.Control placeholder="Last Name" />
+              </Form.Group>
+            </Form.Row>
 
             <Form.Group controlId="formGridAddress1">
               <Form.Label>Address</Form.Label>
-              <Form.Control placeholder="1234 Main St" />
+              <Form.Control placeholder="3 Taleex Street, Mogadishu, Somalia" />
             </Form.Group>
-
-            <Form.Group controlId="formGridAddress2">
-              <Form.Label>Address 2</Form.Label>
-              <Form.Control placeholder="Apartment, studio, or floor" />
-            </Form.Group>
-
-            <Form.Row>
-              <Form.Group as={Col} controlId="formGridCity">
-                <Form.Label>City</Form.Label>
-                <Form.Control />
-              </Form.Group>
-
-              <Form.Group as={Col} controlId="formGridState">
-                <Form.Label>State</Form.Label>
-                <Form.Control as="select">
-                  <option>Choose...</option>
-                  <option>...</option>
-                </Form.Control>
-              </Form.Group>
-
-              <Form.Group as={Col} controlId="formGridZip">
-                <Form.Label>Zip</Form.Label>
-                <Form.Control />
-              </Form.Group>
-            </Form.Row>
 
             <Button variant="primary" type="submit">
               Submit
@@ -122,7 +140,7 @@ class SignUpForm extends Component {
     ) : (
       <div>
         <h1>Employer Sign Up</h1>
-        <form onSubmit={e => this.handleSignupSubmit(e)}>
+        <form onSubmit={e => this.handleEmployerSignupSubmit(e)}>
           <Form>
             <Form.Row>
               <Form.Group as={Col} controlId="formGridEmail">
@@ -142,55 +160,47 @@ class SignUpForm extends Component {
                 />
               </Form.Group>
             </Form.Row>
-
-            <Form.Group controlId="formGridAddress1">
-              <Form.Label>Address</Form.Label>
-              <Form.Control placeholder="1234 Main St" />
-            </Form.Group>
+            <Form.Row>
+              <Form.Group controlId="firstName">
+                <Form.Label>First Name</Form.Label>
+                <Form.Control placeholder="First Name" />
+              </Form.Group>
+              <Form.Group controlId="lastName">
+                <Form.Label>Last Name</Form.Label>
+                <Form.Control placeholder="Last Name" />
+              </Form.Group>
+            </Form.Row>
 
             <Form.Group controlId="formGridAddress2">
               <Form.Label>Address 2</Form.Label>
               <Form.Control placeholder="Apartment, studio, or floor" />
             </Form.Group>
 
-            <Form.Row>
-              <Form.Group as={Col} controlId="formGridCity">
-                <Form.Label>City</Form.Label>
-                <Form.Control />
-              </Form.Group>
-
-              <Form.Group as={Col} controlId="formGridState">
-                <Form.Label>State</Form.Label>
-                <Form.Control />
-              </Form.Group>
-
-              <Form.Group as={Col} controlId="formGridZip">
-                <Form.Label>Zip</Form.Label>
-                <Form.Control />
-              </Form.Group>
-            </Form.Row>
+            <Form.Row />
 
             <LinkContainer
               to={{
                 pathname: "/login",
-                state: { currUser: this.state.currUser}
+                state: { currUser: this.state.currUser }
               }}
             >
-              <Button variant="primary" type="submit" onClick={this.handleSignupSibmit}>
+              <Button
+                variant="primary"
+                type="submit"
+                onClick={this.handleSignupSibmit}
+              >
                 Submit
               </Button>
             </LinkContainer>
-
-        
           </Form>
         </form>
       </div>
-    );
-  };
+    )
+  }
 
   render() {
-    return this.renderEmployerOrCandidateForm();
+    return this.renderEmployerOrCandidateForm()
   }
 }
 
-export default withRouter(SignUpForm);
+export default withRouter(SignUpForm)

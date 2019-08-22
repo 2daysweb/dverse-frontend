@@ -245,13 +245,3 @@ class App extends Component {
 }
 
 export default withRouter(App);
-
-//Highest impact changes to make:
-
-//1. DONE---------DONE------Landing page routes properly----DONE------
-//2.) DONE---------DONE------Remove the check box from the signup form-------DONE---------DONE------
-//2.5) Update the NavBar in EmployerPortalContainer to look halfway decent
-//3.) Update signup form to include data from signup from
-//4.) Update the User controller to set user data once there
-//5.) Create an Employer Home component that is first view on login, Repeat for Candidate
-//6.) Update UserModel to include a field for candidate_name

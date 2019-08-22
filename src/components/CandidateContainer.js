@@ -4,7 +4,6 @@ import Search from "./Search"
 import Sidebar from "./Sidebar"
 import CandidateContent from "./CandidateContent"
 import CandidateSidebar from "./CandidateSidebar"
-import AdminSidebar from "./AdminSidebar"
 import {withRouter} from 'react-router-dom'
 
 const BASE_URL = "http://localhost:3000/"
@@ -23,8 +22,6 @@ class CandidateContainer extends Component {
       currCandidate: {},
       currFirstName: "",
       currLastName: "",
-      currHomeAddress:"",
-      currZip:"",
       currResume:"",
       currAvatar:"",
       currSkills:[],
@@ -42,18 +39,17 @@ class CandidateContainer extends Component {
       .then(candidatesArray => {
         this.setState({ allCandidates: candidatesArray })
         this.setState({ filteredCandidates: candidatesArray })
-        console.log(candidatesArray)
+        console.log(this.state.filteredCandidates)
+        
       })
   }
 
   //Filter all candidates based on searchText
   getFilteredCandidates = () => {
     let allCandidates = [...this.state.allCandidates]
-
+    debugger 
     let newFilteredCandidates = allCandidates.filter(candidate => {
-      return candidate.title
-        .toLowerCase()
-        .includes(this.state.searchText.toLowerCase())
+      return candidate.first_name
     })
     return newFilteredCandidates
   }
@@ -69,7 +65,7 @@ class CandidateContainer extends Component {
   handleClickShowCandidate = currCandidate => {
     this.setState({ currCandidate: currCandidate })
     this.setState({ currBody: currCandidate.body })
-    this.setState({ currTitle: currCandidate.title })
+    this.setState({ currTitle: currCandidate.first_name })
     this.setState({ latestClick: "ShowCandidate" })
   }
 
@@ -77,7 +73,7 @@ class CandidateContainer extends Component {
     this.setState({ latestClick: "" })
 
     //Create new empty candidate object --- hard-coded UserID = 2
-    let newCandidate = { title: "Deafult Title", body: "Deafult Body", user_id: 1 }
+    let newCandidate = { first_name: "Deafult Title", body: "Deafult Body", user_id: 1 }
     let URL = BASE_URL + "api/v1/candidates"
     console.log("Is URL Printing", URL)
 
@@ -117,12 +113,12 @@ class CandidateContainer extends Component {
     debugger 
     //get current id of current candidate
     let id = currCandidate.id
-    //get new current title from editCandidate view
+    //get new current first_name from editCandidate view
     let newTitle = this.state.currTitle
     //get new current body from editCandidate view
     let newBody = this.state.currBody
     //create new candidate object with newTitle and newBody
-    let newCandidate = { title: newTitle, body: newBody, id: id }
+    let newCandidate = { first_name: newTitle, body: newBody, id: id }
     let URL = BASE_URL + "api/v1/candidates/" + id
     console.log(URL)
 
@@ -184,7 +180,7 @@ class CandidateContainer extends Component {
               currUser={this.props.currUser}
             />
             <div className="container">
-              <Sidebar
+              <CandidateSidebar
                 //State variables
                 latestClick={this.state.latestClick}
                 allCandidates={this.state.allCandidates}

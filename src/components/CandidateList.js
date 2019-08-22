@@ -1,9 +1,23 @@
-import React from 'react'
+import React, { Component } from "react"
+import CandidateItem from "./CandidateItem"
 
-export default function CandidateList() {
-    return (
-        <div>
-            
-        </div>
-    )
+class CandidateList extends Component {
+
+  
+
+  render() {
+     return (
+        <ul>
+          {this.props.filteredCandidates.map(candidate => (
+            <CandidateItem
+              currCandidate={candidate}
+              showCandidate={this.props.showCandidate}
+            />
+          ))}
+        </ul>
+      )
+  }
 }
+
+
+export default CandidateList
