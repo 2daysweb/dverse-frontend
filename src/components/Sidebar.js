@@ -15,6 +15,9 @@ class Sidebar extends Component {
  //Conditionally Render a List of Candidates (Users where type==Candidate) without an edit Btn --- for Employer Portal
  //Conditionally Render a List of My Jobs ("Add or Edit Jobs") which renders based on employer ID ---- for Employer Portal
    
+ renderJobList = () => {
+
+ }
 
   render() {
     return (

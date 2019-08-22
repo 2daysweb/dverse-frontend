@@ -4,22 +4,24 @@ import LandingPage from "./LandingPage";
 import NavBar from "./Nav";
 import CandidatePortalContainer from "./CandidatePortalContainer";
 import AdminPortalContainer from "./AdminPortalContainer";
-import PortalContainer from "./PortalContainer";
+import MainContainer from "./MainContainer";
 import EmployerPortalContainer from "./EmployerPortalContainer";
 import Applications from "./Applications";
 import SignUpForm from "./SignUpForm";
 import LandingNav from "./LandingNav";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import EmployerHome from "./EmployerHome";
+import CandidateHome from "./CandidateHome";
+import AdminHome from "./AdminHome";
 import Profile from "./Profile";
 import EmployerJobs from "./EmployerJobs";
 
 class App extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
       currUser: null
-    };
+    }
   }
 
   //On load of Application, check if JWT exists, if it does, set state of currUser
@@ -41,7 +43,7 @@ class App extends Component {
 
   updateCurrentUser = currUser => {
     this.setState({ currUser: currUser });
-  };
+  }
 
   //-----------------END LOGIN INPUTs, SUBMIT LOGIN CREDENTIALS---------------------------//
 
@@ -58,7 +60,7 @@ class App extends Component {
     })
       .then(res => res.json())
       .then(data => console.log(data));
-  };
+  }
 
   //--------------------END NEW USER SIGN UP INPUTs, SUBMIT SIGNUP DETAILS----------------//
 
@@ -74,9 +76,9 @@ class App extends Component {
               updateCurrentUser={this.updateCurrentUser}
               currUser={this.state.currUser}
             />
-            <PortalContainer currUser={this.state.currUser} />
+            <EmployerHome currUser={this.state.currUser} />
           </div>
-        )
+        );
 
       case "candidate":
         return (
@@ -85,9 +87,9 @@ class App extends Component {
               updateCurrentUser={this.updateCurrentUser}
               currUser={this.state.currUser}
             />
-            <PortalContainer currUser={this.state.currUser} />
+            <CandidateHome currUser={this.state.currUser} />
           </div>
-        );
+        )
 
       case "admin":
         return (
@@ -96,7 +98,7 @@ class App extends Component {
               updateCurrentUser={this.updateCurrentUser}
               currUser={this.state.currUser}
             />
-            <PortalContainer currUser={this.state.currUser} />
+            <AdminHome currUser={this.state.currUser} />
           </div>
         );
 
@@ -130,13 +132,26 @@ class App extends Component {
 
           <Route
             exact
-            path="/landing"
+            path="/"
             render={props => (
               <LandingPage
                 {...props}
                 handleLoginSubmit={this.handleLoginSubmit}
                 handleSignupSubmit={this.handleSignUpSubmit}
               />
+            )}
+          />
+          <Route
+            exact
+            path="/employhome"
+            render={props => (
+              <div>
+                <NavBar
+                  updateCurrentUser={this.updateCurrentUser}
+                  currUser={this.state.currUser}
+                />
+                <EmployerHome currUser={this.state.currUser} />
+              </div>
             )}
           />
           <Route
@@ -161,11 +176,11 @@ class App extends Component {
                   updateCurrentUser={this.updateCurrentUser}
                   currUser={this.state.currUser}
                 />
-                <PortalContainer currUser={this.state.currUser} />
+                <MainContainer currUser={this.state.currUser} />
               </div>
             )}
           />
-          {/* <Route
+          <Route
             exact
             path="/employerjobs"
             render={props => (
@@ -177,7 +192,7 @@ class App extends Component {
                 <EmployerJobs currUser={this.state.currUser} />
               </div>
             )}
-          /> */}
+          />
           <Route
             exact
             path="/applications"
@@ -191,24 +206,22 @@ class App extends Component {
               </div>
             )}
           />
-          <Route
+             <Route
             exact
-            path="/signup"
-            component={props => <SignUpForm {...props} />}
+            path="/"
+            render={props => (
+              <LoginPage
+                {...props}
+                handleLoginSubmit={this.handleLoginSubmit}
+                handleSignupSubmit={this.handleSignUpSubmit}
+              />
+            )}
           />
 
           <Route
             exact
-            path="/login"
-            render={() => (
-              <div>
-                <NavBar
-                  updateCurrentUser={this.updateCurrentUser}
-                  currUser={this.state.currUser}
-                />
-                <CandidatePortalContainer currUser={this.state.currUser} />
-              </div>
-            )}
+            path="/signup"
+            component={props => <SignUpForm {...props} />}
           />
           <Route
             exact

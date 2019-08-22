@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import PortalContainer from "./PortalContainer";
+import MainContainer from "./MainContainer";
 import {Redirect} from 'react-router-dom'
 
-export default class CandidatePortalContainer extends Component {
+export default class CandidateMainContainer extends Component {
   
-  renderPortalOrLogin = () => {
+  renderMainOrLogin = () => {
       if(this.props.currUser){
-        return <PortalContainer currUser={this.props.currUser} updateCurrentUser={this.props.updateCurrentUser} />
+        return <MainContainer currUser={this.props.currUser} updateCurrentUser={this.props.updateCurrentUser} />
       }
 
       else {
@@ -18,7 +18,7 @@ export default class CandidatePortalContainer extends Component {
   render() {
     return (
       <div>
-        {this.renderPortalOrLogin()}
+        {this.renderMainOrLogin()}
       </div>
     );
   }

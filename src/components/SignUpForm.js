@@ -46,8 +46,7 @@ class SignUpForm extends Component {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         email: this.state.email,
-        password: this.state.password,
-        user_type: this.state.userType
+        password: this.state.password
       })
     })
       .then(res => res.json())
@@ -173,11 +172,11 @@ class SignUpForm extends Component {
 
             <LinkContainer
               to={{
-                pathname: "/profile",
+                pathname: "/login",
                 state: { currUser: this.state.currUser}
               }}
             >
-              <Button variant="primary" type="submit">
+              <Button variant="primary" type="submit" onClick={this.handleSignupSibmit}>
                 Submit
               </Button>
             </LinkContainer>
