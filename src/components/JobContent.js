@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import JobEditor from "./JobEditor";
 import JobViewer from "./JobViewer";
 import Applications from "./Applications";
-import Instructions from "./Instructions";
+import JobInstructions from "./JobInstructions";
 
-class Content extends Component {
+class JobContent extends Component {
   renderContent = () => {
     if (this.props.latestClick === "EditJob") {
       return (
@@ -55,7 +55,7 @@ class Content extends Component {
         />
       )
     } else {
-      return <Instructions />
+      return <JobInstructions />
     }
   }
 
@@ -66,4 +66,4 @@ class Content extends Component {
   }
 }
 
-export default Content
+export default JobContent

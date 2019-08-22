@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import NavBar from "./Nav";
 import Search from "./Search";
 import Sidebar from "./Sidebar";
-import Content from "./Content";
+import Content from "./JobContent";
 import CandidateSidebar from "./CandidateSidebar";
 import AdminSidebar from "./AdminSidebar";
 import { withRouter } from "react-router-dom";
@@ -11,16 +11,16 @@ const BASE_URL = "http://localhost:3000/";
 
 class JobContainer extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
       allJobs: [],
       filteredJobs: [],
-      currJob: {},
+      currJob: null,
       currBody: "",
       currTitle: "",
       allCandidates: [],
       filteredCandidates: [],
-      currCandidate: {},
+      currCandidate: null,
       currFirstName: "",
       currLastName: "",
       currHomeAddress: "",

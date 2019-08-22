@@ -13,7 +13,7 @@ const JobViewer = (props) => {
       <button onClick={props.cancelJob}>Cancel</button>
       <button onClick={props.deleteJob}>Delete</button>
     </Fragment>
-  );
+  )
 }
 
 export default JobViewer;

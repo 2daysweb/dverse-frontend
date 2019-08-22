@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react"
 import NavBar from "./Nav"
 import Search from "./Search"
 import Sidebar from "./Sidebar"
-import Content from "./Content"
+import CandidateContent from "./CandidateContent"
 import CandidateSidebar from "./CandidateSidebar"
 import AdminSidebar from "./AdminSidebar"
 import {withRouter} from 'react-router-dom'
@@ -175,9 +175,6 @@ class CandidateContainer extends Component {
     console.log(this.state.allCandidates)
   }
 
-  //Consider compoletely removing the "CandidateMainContainer etc etcs if this works out"
-
-
   render() {
     return(
     <Fragment>
@@ -187,7 +184,7 @@ class CandidateContainer extends Component {
               currUser={this.props.currUser}
             />
             <div className="container">
-              {/* <Sidebar
+              <Sidebar
                 //State variables
                 latestClick={this.state.latestClick}
                 allCandidates={this.state.allCandidates}
@@ -197,8 +194,8 @@ class CandidateContainer extends Component {
                 showCandidate={this.handleClickShowCandidate}
                 newCandidate={this.handleClickNewBtn}
                 currUser={this.props.currUser}
-              /> */}
-              <Content
+              />
+              <CandidateContent
                 //State variables
                 latestClick={this.state.latestClick}
                 currTitle={this.state.currTitle}

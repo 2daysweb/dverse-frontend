@@ -1,12 +1,23 @@
-import Home from "./Home";
+import React from "react"
+import { Jumbotron, Container } from "react-bootstrap"
+import {withRouter} from 'react-router-dom'
+//Conditionally render Home depending on user_type
 
-
-import React from "react";
-
-export default function CandidateHome() {
+ function CandidateHome() {
   return (
     <div>
-      <Home />
+      <Jumbotron fluid>
+        <Container>
+          <h1>Welcome to Your Employer Home Page!</h1>
+        </Container>
+        <ul>
+          <li>Learn how to add a job posting</li>
+          <li>Learn how to delete a job posting</li>
+          <li>Learn how to filter through our candidates database</li>
+        </ul>
+      </Jumbotron>
     </div>
-  );
+  )
 }
+
+export default withRouter(CandidateHome)

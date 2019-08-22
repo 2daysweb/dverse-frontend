@@ -1,47 +1,45 @@
-import React, { Component } from "react"
-import LoginPage from "./LoginPage"
-import LandingPage from "./LandingPage"
-import NavBar from "./Nav"
-import CandidateContainer from "./CandidateContainer"
-import JobContainer from "./JobContainer"
-import Applications from "./Applications"
-import SignUpForm from "./SignUpForm"
-import LandingNav from "./LandingNav"
-import { Switch, Route, Redirect, withRouter } from "react-router-dom"
-import EmployerHome from "./EmployerHome"
-import CandidateHome from "./CandidateHome"
-import AdminHome from "./AdminHome"
-import Profile from "./Profile"
-import EmployerJobs from "./EmployerJobs"
+import React, { Component } from "react";
+import LoginPage from "./LoginPage";
+import LandingPage from "./LandingPage";
+import NavBar from "./Nav";
+import CandidateContainer from "./CandidateContainer";
+import JobContainer from "./JobContainer";
+import Applications from "./Applications";
+import SignUpForm from "./SignUpForm";
+import { Switch, Route, Redirect, withRouter } from "react-router-dom";
+import EmployerHome from "./EmployerHome";
+import CandidateHome from "./CandidateHome";
+import AdminHome from "./AdminHome";
+import Profile from "./Profile";
 
 class App extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
       currUser: null
-    }
+    };
   }
 
   //On load of Application, check if JWT exists, if it does, set state of currUser
 
   componentDidMount() {
-    let token = localStorage.getItem("jwt")
+    let token = localStorage.getItem("jwt");
     if (token) {
       fetch("http://localhost:3000/api/v1/profile", {
         headers: { Authentication: `Bearer ${token}` }
       })
         .then(res => res.json())
         .then(userObj => {
-          this.setState({ currUser: userObj })
-        })
+          this.setState({ currUser: userObj });
+        });
     }
   }
 
   //--------------------BEGIN LOGIN CREDENTIALS---------------//
 
   updateCurrentUser = currUser => {
-    this.setState({ currUser: currUser })
-  }
+    this.setState({ currUser: currUser });
+  };
 
   //-----------------END LOGIN CREDENTIALS---------------------------//
 
@@ -57,15 +55,15 @@ class App extends Component {
       })
     })
       .then(res => res.json())
-      .then(data => console.log(data))
-  }
+      .then(data => console.log(data));
+  };
 
   //--------------------END NEW USER SIGN UP INPUTs, SUBMIT SIGNUP DETAILS----------------//
 
   //Conditionally render portal based on curr user type
 
   renderPortal = () => {
-    let userType = this.state.currUser.user_type
+    let userType = this.state.currUser.user_type;
     switch (userType) {
       case "employer":
         return (
@@ -76,7 +74,7 @@ class App extends Component {
             />
             <EmployerHome currUser={this.state.currUser} />
           </div>
-        )
+        );
 
       case "candidate":
         return (
@@ -87,7 +85,7 @@ class App extends Component {
             />
             <CandidateHome currUser={this.state.currUser} />
           </div>
-        )
+        );
 
       case "admin":
         return (
@@ -98,12 +96,12 @@ class App extends Component {
             />
             <AdminHome currUser={this.state.currUser} />
           </div>
-        )
+        );
 
       default:
-        return false
+        return false;
     }
-  }
+  };
   //If there's a current user, go to renderPortal method with the user_type
   //Else, go to to LoginPage
 
@@ -132,19 +130,18 @@ class App extends Component {
             path="/login"
             render={props => (
               <Route
-              exact
-              path="/"
-              render={props => (
-                <LoginPage
-                  {...props}
-                  updateCurrentUser={this.updateCurrentUser}
-                  currUser={this.state.currUser}
-                  handleLoginSubmit={this.handleLoginSubmit}
-                  handleSignupSubmit={this.handleSignUpSubmit}
-                />
-              )}
-            />
-  
+                exact
+                path="/"
+                render={props => (
+                  <LoginPage
+                    {...props}
+                    updateCurrentUser={this.updateCurrentUser}
+                    currUser={this.state.currUser}
+                    handleLoginSubmit={this.handleLoginSubmit}
+                    handleSignupSubmit={this.handleSignUpSubmit}
+                  />
+                )}
+              />
             )}
           />
           <Route
@@ -243,11 +240,11 @@ class App extends Component {
           />
         </Switch>
       </div>
-    )
+    );
   }
 }
 
-export default withRouter(App)
+export default withRouter(App);
 
 //Highest impact changes to make:
 
