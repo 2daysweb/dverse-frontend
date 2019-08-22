@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { LinkContainer } from "react-router-bootstrap";
-import { withRouter } from "react-router-dom";
-import LandingNav from "./LandingNav";
-import { Nav, Col, Row, Container, Jumbotron, Button } from "react-bootstrap";
+import React, { Component } from "react"
+import { LinkContainer } from "react-router-bootstrap"
+import { withRouter } from "react-router-dom"
+import LandingNav from "./LandingNav"
+import { Nav, Col, Row, Container, Jumbotron, Button } from "react-bootstrap"
 
 class LandingPage extends Component {
   render() {
@@ -14,7 +14,8 @@ class LandingPage extends Component {
             <Jumbotron>
               <h1>I'm Looking for the Perfect Employee!</h1>
               <p>
-                We have the best talent in the DMV. Let's connect you to our talent today.
+                We have the best talent in the DMV. Let's connect you to our
+                talent today.
               </p>
               <p>
                 <Button variant="light">
@@ -47,7 +48,8 @@ class LandingPage extends Component {
               {" "}
               <h1>I'm Looking for the Perfect Job!</h1>
               <p>
-               We have the best employers in the DMV, we help people like you find their dream jobs everyday.
+                We have the best employers in the DMV, we help people like you
+                find their dream jobs everyday.
               </p>
               <p>
                 <Button variant="light">
@@ -83,14 +85,16 @@ class LandingPage extends Component {
         </Row>
         <Row>
           <Jumbotron>
-         <p> Dverse is dedicated to providing employers and job seekers with the best possible matches, ever, ever, ever...! 
-
-Please select the option that best describes your needs today!</p> 
+            <p>
+              {" "}
+              Dverse is dedicated to providing employers and job seekers with
+              the best possible matches, ever, ever, ever...! Please select the
+              option that best describes your needs today!
+            </p>
           </Jumbotron>
         </Row>
       </div>
-    );
+    )
   }
 }
-
-export default withRouter(LandingPage);
+export default withRouter(LandingPage)

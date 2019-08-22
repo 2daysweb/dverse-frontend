@@ -1,20 +1,18 @@
-import React, { Component } from "react";
-import LoginPage from "./LoginPage";
-import LandingPage from "./LandingPage";
-import NavBar from "./Nav";
-import CandidatePortalContainer from "./CandidatePortalContainer";
-import AdminPortalContainer from "./AdminPortalContainer";
-import MainContainer from "./MainContainer";
-import EmployerPortalContainer from "./EmployerPortalContainer";
-import Applications from "./Applications";
-import SignUpForm from "./SignUpForm";
-import LandingNav from "./LandingNav";
-import { Switch, Route, Redirect, withRouter } from "react-router-dom";
-import EmployerHome from "./EmployerHome";
-import CandidateHome from "./CandidateHome";
-import AdminHome from "./AdminHome";
-import Profile from "./Profile";
-import EmployerJobs from "./EmployerJobs";
+import React, { Component } from "react"
+import LoginPage from "./LoginPage"
+import LandingPage from "./LandingPage"
+import NavBar from "./Nav"
+import CandidateContainer from "./CandidateContainer"
+import JobContainer from "./JobContainer"
+import Applications from "./Applications"
+import SignUpForm from "./SignUpForm"
+import LandingNav from "./LandingNav"
+import { Switch, Route, Redirect, withRouter } from "react-router-dom"
+import EmployerHome from "./EmployerHome"
+import CandidateHome from "./CandidateHome"
+import AdminHome from "./AdminHome"
+import Profile from "./Profile"
+import EmployerJobs from "./EmployerJobs"
 
 class App extends Component {
   constructor() {
@@ -27,25 +25,25 @@ class App extends Component {
   //On load of Application, check if JWT exists, if it does, set state of currUser
 
   componentDidMount() {
-    let token = localStorage.getItem("jwt");
+    let token = localStorage.getItem("jwt")
     if (token) {
       fetch("http://localhost:3000/api/v1/profile", {
         headers: { Authentication: `Bearer ${token}` }
       })
         .then(res => res.json())
         .then(userObj => {
-          this.setState({ currUser: userObj });
+          this.setState({ currUser: userObj })
         })
     }
   }
 
-  //--------------------BEGIN LOGIN UN/PW INPUT, SUBMIT LOGIN CREDENTIALS---------------//
+  //--------------------BEGIN LOGIN CREDENTIALS---------------//
 
   updateCurrentUser = currUser => {
-    this.setState({ currUser: currUser });
+    this.setState({ currUser: currUser })
   }
 
-  //-----------------END LOGIN INPUTs, SUBMIT LOGIN CREDENTIALS---------------------------//
+  //-----------------END LOGIN CREDENTIALS---------------------------//
 
   //--------------------BEGIN NEW USER SIGN UP INPUTs, SUBMIT SIGNUP DETAILS----------------//
 
@@ -59,7 +57,7 @@ class App extends Component {
       })
     })
       .then(res => res.json())
-      .then(data => console.log(data));
+      .then(data => console.log(data))
   }
 
   //--------------------END NEW USER SIGN UP INPUTs, SUBMIT SIGNUP DETAILS----------------//
@@ -67,7 +65,7 @@ class App extends Component {
   //Conditionally render portal based on curr user type
 
   renderPortal = () => {
-    let userType = this.state.currUser.user_type;
+    let userType = this.state.currUser.user_type
     switch (userType) {
       case "employer":
         return (
@@ -78,7 +76,7 @@ class App extends Component {
             />
             <EmployerHome currUser={this.state.currUser} />
           </div>
-        );
+        )
 
       case "candidate":
         return (
@@ -100,12 +98,12 @@ class App extends Component {
             />
             <AdminHome currUser={this.state.currUser} />
           </div>
-        );
+        )
 
       default:
-        return false;
+        return false
     }
-  };
+  }
   //If there's a current user, go to renderPortal method with the user_type
   //Else, go to to LoginPage
 
@@ -129,7 +127,26 @@ class App extends Component {
               )
             }
           />
-
+          <Route
+            exact
+            path="/login"
+            render={props => (
+              <Route
+              exact
+              path="/"
+              render={props => (
+                <LoginPage
+                  {...props}
+                  updateCurrentUser={this.updateCurrentUser}
+                  currUser={this.state.currUser}
+                  handleLoginSubmit={this.handleLoginSubmit}
+                  handleSignupSubmit={this.handleSignUpSubmit}
+                />
+              )}
+            />
+  
+            )}
+          />
           <Route
             exact
             path="/"
@@ -141,6 +158,7 @@ class App extends Component {
               />
             )}
           />
+
           <Route
             exact
             path="/employhome"
@@ -176,7 +194,7 @@ class App extends Component {
                   updateCurrentUser={this.updateCurrentUser}
                   currUser={this.state.currUser}
                 />
-                <MainContainer currUser={this.state.currUser} />
+                <CandidateContainer currUser={this.state.currUser} />
               </div>
             )}
           />
@@ -189,7 +207,7 @@ class App extends Component {
                   updateCurrentUser={this.updateCurrentUser}
                   currUser={this.state.currUser}
                 />
-                <EmployerJobs currUser={this.state.currUser} />
+                <JobContainer currUser={this.state.currUser} />
               </div>
             )}
           />
@@ -204,17 +222,6 @@ class App extends Component {
                 />
                 <Applications currUser={this.state.currUser} />
               </div>
-            )}
-          />
-             <Route
-            exact
-            path="/"
-            render={props => (
-              <LoginPage
-                {...props}
-                handleLoginSubmit={this.handleLoginSubmit}
-                handleSignupSubmit={this.handleSignUpSubmit}
-              />
             )}
           />
 
@@ -236,11 +243,11 @@ class App extends Component {
           />
         </Switch>
       </div>
-    );
+    )
   }
 }
 
-export default withRouter(App);
+export default withRouter(App)
 
 //Highest impact changes to make:
 

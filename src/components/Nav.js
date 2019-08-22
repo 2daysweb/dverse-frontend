@@ -53,7 +53,7 @@ const NavBar = props => {
                 <Nav.Link>Applications</Nav.Link>
               </LinkContainer>
               <LinkContainer to="/employerjobs">
-                <Nav.Link>Jobs</Nav.Link>
+                <Nav.Link>My Jobs</Nav.Link>
               </LinkContainer>
               <LinkContainer to="/profile">
                 <Nav.Link>Profile</Nav.Link>
