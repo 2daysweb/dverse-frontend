@@ -8,12 +8,12 @@ import {withRouter} from 'react-router-dom'
     <div>
       <Jumbotron fluid>
         <Container>
-          <h1>Welcome to Your Employer Home Page!</h1>
+          <h1>Welcome to Your Job Seeker Home Page!</h1>
         </Container>
         <ul>
-          <li>Learn how to add a job posting</li>
-          <li>Learn how to delete a job posting</li>
-          <li>Learn how to filter through our candidates database</li>
+          <li>Learn how to Apply for Job with one click!</li>
+          <li>Learn how to Upload your Resume</li>
+          <li>Learn how to Create a Profile for Employers to see your skills, and bio!</li>
         </ul>
       </Jumbotron>
     </div>

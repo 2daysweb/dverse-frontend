@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react"
 import NavBar from "./Nav"
 import Search from "./Search"
-import Sidebar from "./Sidebar"
+// import JobSidebar from "./JobSidebar"
 import CandidateContent from "./CandidateContent"
 import CandidateSidebar from "./CandidateSidebar"
 import {withRouter} from 'react-router-dom'
@@ -12,11 +12,7 @@ class CandidateContainer extends Component {
   constructor() {
     super()
     this.state = {
-      allCandidates: [],
-      filteredCandidates: [],
       currCandidate: {},
-      currBody: "",
-      currTitle: "",
       allCandidates: [],
       filteredCandidates: [],
       currCandidate: {},
@@ -47,7 +43,7 @@ class CandidateContainer extends Component {
   //Filter all candidates based on searchText
   getFilteredCandidates = () => {
     let allCandidates = [...this.state.allCandidates]
-    debugger 
+    
     let newFilteredCandidates = allCandidates.filter(candidate => {
       return candidate.first_name
     })
@@ -64,8 +60,8 @@ class CandidateContainer extends Component {
 
   handleClickShowCandidate = currCandidate => {
     this.setState({ currCandidate: currCandidate })
-    this.setState({ currBody: currCandidate.body })
-    this.setState({ currTitle: currCandidate.first_name })
+    this.setState({ currFirstName: currCandidate.first_name })
+    this.setState({ currLastName: currCandidate.last_name })
     this.setState({ latestClick: "ShowCandidate" })
   }
 
@@ -110,7 +106,7 @@ class CandidateContainer extends Component {
   }
 
   handleClickSaveBtn = currCandidate => {
-    debugger 
+
     //get current id of current candidate
     let id = currCandidate.id
     //get new current first_name from editCandidate view
@@ -119,7 +115,7 @@ class CandidateContainer extends Component {
     let newBody = this.state.currBody
     //create new candidate object with newTitle and newBody
     let newCandidate = { first_name: newTitle, body: newBody, id: id }
-    let URL = BASE_URL + "api/v1/candidates/" + id
+    let URL = BASE_URL + "api/v1/users/" + id
     console.log(URL)
 
     return fetch(URL, {
@@ -144,7 +140,7 @@ class CandidateContainer extends Component {
   handleClickDeleteBtn = () => {
     let id = this.state.currCandidate.id
     //create new candidate object with newTitle and newBody
-    let URL = BASE_URL + "api/v1/candidates/" + id
+    let URL = BASE_URL + "api/v1/users/" + id
     let candidate = { id: id }
 
     //Remove deleted candidate from

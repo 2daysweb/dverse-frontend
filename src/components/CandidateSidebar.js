@@ -16,7 +16,6 @@ class CandidateSidebar extends Component {
           deleteCandidate={this.props.deleteCandidate}
           currUser={this.props.currUser}
         />
-        <button onClick={this.props.newCandidate}>New</button>
       </div>
     )
   }

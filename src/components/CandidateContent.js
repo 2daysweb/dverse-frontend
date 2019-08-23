@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import CandidateViewer from "./CandidateViewer";
+import CandidateJobViewer from "./CandidateJobViewer";
 import CandidateInstructions from "./CandidateInstructions";
 
 class CandidateContent extends Component {
   renderContent = () => {
     if (this.props.latestClick === "ShowCandidate") {
       return (
-        <CandidateViewer
+        <CandidateJobViewer
           currUser={this.props.currUser}
           currCandidate={this.props.currCandidate}
           showCandidate={this.props.showCandidate}

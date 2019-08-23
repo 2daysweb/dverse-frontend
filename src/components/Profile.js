@@ -20,12 +20,12 @@ class Profile extends Component {
     }
   }
   handleSuccess = e => {
-    debugger;
+  
     console.log("In Handle Success!");
   };
 
   handleSubmit = e => {
-    debugger;
+  
     console.log("In Handle Submit!");
   };
   render() {

@@ -3,6 +3,7 @@ import LoginPage from "./LoginPage";
 import LandingPage from "./LandingPage";
 import NavBar from "./Nav";
 import CandidateContainer from "./CandidateContainer";
+import CandidateJobContainer from './CandidateJobContainer'
 import JobContainer from "./JobContainer";
 import Applications from "./Applications";
 import SignUpForm from "./SignUpForm";
@@ -14,16 +15,16 @@ import Profile from "./Profile";
 
 class App extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
       currUser: null
-    };
+    }
   }
 
   //On load of Application, check if JWT exists, if it does, set state of currUser
 
   componentDidMount() {
-    let token = localStorage.getItem("jwt");
+    let token = localStorage.getItem("jwt")
     if (token) {
       fetch("http://localhost:3000/api/v1/profile", {
         headers: { Authentication: `Bearer ${token}` }
@@ -38,7 +39,7 @@ class App extends Component {
   //--------------------BEGIN LOGIN CREDENTIALS---------------//
 
   updateCurrentUser = currUser => {
-    this.setState({ currUser: currUser });
+    this.setState({ currUser: currUser })
   };
 
   //-----------------END LOGIN CREDENTIALS---------------------------//
@@ -85,7 +86,7 @@ class App extends Component {
             />
             <CandidateHome currUser={this.state.currUser} />
           </div>
-        );
+        )
 
       case "admin":
         return (
@@ -169,9 +170,48 @@ class App extends Component {
               </div>
             )}
           />
+            <Route
+            exact
+            path="/candidatehome"
+            render={props => (
+              <div>
+                <NavBar
+                  updateCurrentUser={this.updateCurrentUser}
+                  currUser={this.state.currUser}
+                />
+                <CandidateHome currUser={this.state.currUser} />
+              </div>
+            )}
+          />
           <Route
             exact
-            path="/profile"
+            path="/employprofile"
+            render={props => (
+              <div>
+                <NavBar
+                  updateCurrentUser={this.updateCurrentUser}
+                  currUser={this.state.currUser}
+                />
+                <Profile currUser={this.state.currUser} />
+              </div>
+            )}
+          />
+          <Route
+            exact
+            path="/myprofile"
+            render={props => (
+              <div>
+                <NavBar
+                  updateCurrentUser={this.updateCurrentUser}
+                  currUser={this.state.currUser}
+                />
+                <Profile currUser={this.state.currUser} />
+              </div>
+            )}
+          />
+              <Route
+            exact
+            path="/employprofile"
             render={props => (
               <div>
                 <NavBar
@@ -197,7 +237,7 @@ class App extends Component {
           />
           <Route
             exact
-            path="/employerjobs"
+            path="/employjobs"
             render={props => (
               <div>
                 <NavBar
@@ -207,7 +247,21 @@ class App extends Component {
                 <JobContainer currUser={this.state.currUser} />
               </div>
             )}
-          />
+         />
+             <Route
+            exact
+            path="/candidatejobs"
+            render={props => (
+              <div>
+                <NavBar
+                  updateCurrentUser={this.updateCurrentUser}
+                  currUser={this.state.currUser}
+                />
+                <CandidateJobContainer currUser={this.state.currUser} />
+              </div>
+            )}
+         />
+
           <Route
             exact
             path="/applications"
@@ -221,6 +275,20 @@ class App extends Component {
               </div>
             )}
           />
+               <Route
+            exact
+            path="/apptracker"
+            render={() => (
+              <div>
+                <NavBar
+                  updateCurrentUser={this.updateCurrentUser}
+                  currUser={this.state.currUser}
+                />
+                <Applications currUser={this.state.currUser} />
+              </div>
+            )}
+          />
+
 
           <Route
             exact

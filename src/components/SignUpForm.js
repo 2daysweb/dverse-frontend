@@ -42,16 +42,18 @@ class SignUpForm extends Component {
 
   handleChangeFirstName = e => {
     let fn = e.target.value
+    debugger 
     this.setState({ firstName: fn })
   }
 
   handleChangeLastName = e => {
     let ln = e.target.value
+    debugger
     this.setState({ lastName: ln })
   }
 
-  handleCandidateSignupSubmit = e => {
-    e.preventDefault()
+  handleCandidateSignupSubmit = () => {
+    // e.preventDefault()
 
     fetch("http://localhost:3000/api/v1/users", {
       method: "POST",
@@ -65,13 +67,13 @@ class SignUpForm extends Component {
       })
     })
       .then(res => res.json())
-      .then(data => {
-        this.setState({ currUser: data })
-      })
+      .then(data => console.log(data)
+        // this.setState({ currUser: data })
+      )
   }
 
-  handleEmployerSignupSubmit = e => {
-    e.preventDefault()
+  handleEmployerSignupSubmit = () => {
+    // e.preventDefault()
 
     fetch("http://localhost:3000/api/v1/users", {
       method: "POST",
@@ -85,9 +87,10 @@ class SignUpForm extends Component {
       })
     })
       .then(res => res.json())
-      .then(data => {
+      .then(data => {console.log(data)
         this.setState({ currUser: data })
       })
+      
   }
 
   //Conditionally render Employer or Candidate form based on state var isEmployer
@@ -95,7 +98,7 @@ class SignUpForm extends Component {
     return !this.state.isEmployer ? (
       <div>
         <h1>Candidate Sign Up</h1>
-        <form onSubmit={e => this.handleCandidateSignupSubmit(e)}>
+        <form onSubmit={this.handleCandidateSignupSubmit}>
           <Form>
             <Form.Row>
               <Form.Group as={Col} controlId="formGridEmail">
@@ -118,11 +121,11 @@ class SignUpForm extends Component {
             <Form.Row>
               <Form.Group controlId="firstName">
                 <Form.Label>First Name</Form.Label>
-                <Form.Control placeholder="First Name" />
+                <Form.Control onChange={this.handleChangeFirstName}placeholder="First Name" />
               </Form.Group>
               <Form.Group controlId="lastName">
                 <Form.Label>Last Name</Form.Label>
-                <Form.Control placeholder="Last Name" />
+                <Form.Control onChange={this.handleChangeFirstName} placeholder="Last Name" />
               </Form.Group>
             </Form.Row>
 
@@ -131,16 +134,28 @@ class SignUpForm extends Component {
               <Form.Control placeholder="3 Taleex Street, Mogadishu, Somalia" />
             </Form.Group>
 
-            <Button variant="primary" type="submit">
-              Submit
-            </Button>
+            
+            <LinkContainer
+              to={{
+                pathname: "/login",
+                state: { currUser: this.state.currUser }
+              }}
+            >
+              <Button
+                variant="primary"
+                type="submit"
+                onClick={this.handleCandidateSignupSubmit}
+              >
+                Submit
+              </Button>
+            </LinkContainer>
           </Form>
         </form>
       </div>
     ) : (
       <div>
         <h1>Employer Sign Up</h1>
-        <form onSubmit={e => this.handleEmployerSignupSubmit(e)}>
+        <form onSubmit={this.handleEmployerSignupSubmit}>
           <Form>
             <Form.Row>
               <Form.Group as={Col} controlId="formGridEmail">
@@ -187,7 +202,7 @@ class SignUpForm extends Component {
               <Button
                 variant="primary"
                 type="submit"
-                onClick={this.handleSignupSibmit}
+                onClick={this.handleEmployerSignupSubmit}
               >
                 Submit
               </Button>

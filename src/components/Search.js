@@ -5,14 +5,14 @@ const Search = (props) => {
 
 //Conditionally render Jobs or Candidates placeholder 
 let renderSearchPlaceholder = () => {
-  debugger 
+
  let  placeholder="Search Jobs"
 }
 
   return (
     <div className="filter">
       <input onChange={(e)=> props.handleChangeSearchText(e)}
-        // id="search-bar"
+        id="search-bar"
         type="text"
       />
     </div>

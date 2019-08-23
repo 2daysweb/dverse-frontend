@@ -1,23 +1,26 @@
 import React, { Component, Fragment } from "react";
 import NavBar from "./Nav";
 import Search from "./Search";
-import JobSidebar from "./JobSidebar";
-import Content from "./JobContent";
-import CandidateSidebar from "./CandidateSidebar";
-import AdminSidebar from "./AdminSidebar";
+import CandidateJobContent from "./CandidateJobContent";
+import CandidateJobSidebar from "./CandidateJobSidebar";
 import { withRouter } from "react-router-dom";
 
 const BASE_URL = "http://localhost:3000/";
 
-class JobContainer extends Component {
+class CandidateJobContainer extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
       allJobs: [],
       filteredJobs: [],
       currJob: null,
       currBody: "",
       currTitle: "",
+      allCandidates: [],
+      filteredCandidates: [],
+      currCandidate: null,
+      currFirstName: "",
+      currLastName: "",
       latestClick: "",
       searchText: "",
       userType: ""
@@ -37,14 +40,12 @@ class JobContainer extends Component {
 
   //Filter all jobs based on searchText
   getFilteredJobs = () => {
+    let allJobs = [...this.state.allJobs];
 
-    
-    let allJobs = [...this.state.allJobs]
-    // let myFilteredJobs = allJobs.filtere
     let newFilteredJobs = allJobs.filter(job => {
       return job.title
         .toLowerCase()
-        .includes(this.state.searchText.toLowerCase())
+        .includes(this.state.searchText.toLowerCase());
     });
     return newFilteredJobs;
   };
@@ -104,7 +105,6 @@ class JobContainer extends Component {
   };
 
   handleClickSaveBtn = currJob => {
-   
     //get current id of current job
     let id = currJob.id;
     //get new current title from editJob view
@@ -176,7 +176,7 @@ class JobContainer extends Component {
           currUser={this.props.currUser}
         />
         <div className="container">
-          <JobSidebar
+          <CandidateJobSidebar
             //State variables
             latestClick={this.state.latestClick}
             allJobs={this.state.allJobs}
@@ -187,7 +187,7 @@ class JobContainer extends Component {
             newJob={this.handleClickNewBtn}
             currUser={this.props.currUser}
           />
-          <Content
+          <CandidateJobContent
             //State variables
             latestClick={this.state.latestClick}
             currTitle={this.state.currTitle}
@@ -205,9 +205,8 @@ class JobContainer extends Component {
           />
         </div>
       </Fragment>
-    );
+    )
   }
 }
 
-export default withRouter(JobContainer);
-
+export default withRouter(CandidateJobContainer)
