@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import { NGROK, URL } from "./Constants";
 import ActiveStorageProvider from "react-activestorage-provider";
 import { withRouter } from "react-router-dom";
+import Resume from "./Resume";
 
 class Profile extends Component {
   constructor() {
@@ -20,17 +21,16 @@ class Profile extends Component {
     }
   }
   handleSuccess = e => {
-  
     console.log("In Handle Success!");
   };
 
   handleSubmit = e => {
-  
     console.log("In Handle Submit!");
   };
   render() {
     return (
       <div>
+        <Resume />
         <ActiveStorageProvider
           endpoint={{
             path: `http://localhost:3000/api/v1/users/${

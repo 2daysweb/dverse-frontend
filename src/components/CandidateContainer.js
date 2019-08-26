@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react"
 import NavBar from "./Nav"
 import Search from "./Search"
-// import JobSidebar from "./JobSidebar"
+import EnhancedSearch from './EnhancedSearch'
 import CandidateContent from "./CandidateContent"
 import CandidateSidebar from "./CandidateSidebar"
 import {withRouter} from 'react-router-dom'
@@ -45,7 +45,7 @@ class CandidateContainer extends Component {
     let allCandidates = [...this.state.allCandidates]
     
     let newFilteredCandidates = allCandidates.filter(candidate => {
-      return candidate.first_name
+      return candidate.first_name.toLowerCase().includes(this.state.searchText.toLowerCase())
     })
     return newFilteredCandidates
   }
@@ -170,7 +170,7 @@ class CandidateContainer extends Component {
   render() {
     return(
     <Fragment>
-            <Search
+            <EnhancedSearch
               latestClick={this.state.latestClick}
               handleChangeSearchText={this.handleChangeSearchText}
               currUser={this.props.currUser}

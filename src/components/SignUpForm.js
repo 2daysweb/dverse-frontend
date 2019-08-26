@@ -42,13 +42,13 @@ class SignUpForm extends Component {
 
   handleChangeFirstName = e => {
     let fn = e.target.value
-    debugger 
+    //debugger 
     this.setState({ firstName: fn })
   }
 
   handleChangeLastName = e => {
     let ln = e.target.value
-    debugger
+    //debugger
     this.setState({ lastName: ln })
   }
 

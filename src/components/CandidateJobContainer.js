@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from "react";
-import NavBar from "./Nav";
 import Search from "./Search";
 import CandidateJobContent from "./CandidateJobContent";
 import CandidateJobSidebar from "./CandidateJobSidebar";

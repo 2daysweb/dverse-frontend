@@ -1,10 +1,8 @@
 import React, { Component, Fragment } from "react";
-import NavBar from "./Nav";
 import Search from "./Search";
 import JobSidebar from "./JobSidebar";
 import Content from "./JobContent";
 import CandidateSidebar from "./CandidateSidebar";
-import AdminSidebar from "./AdminSidebar";
 import { withRouter } from "react-router-dom";
 
 const BASE_URL = "http://localhost:3000/";
@@ -45,9 +43,9 @@ class JobContainer extends Component {
       return job.title
         .toLowerCase()
         .includes(this.state.searchText.toLowerCase())
-    });
+    })
     return newFilteredJobs;
-  };
+  }
 
   //----------BEGIN EVENT HANDLERS, CLICKS, SUBMITS,
 
