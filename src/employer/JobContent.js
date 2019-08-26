@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import JobEditor from "./JobEditor";
 import JobViewer from "./JobViewer";
-import Applications from "./Applications";
 import JobInstructions from "./JobInstructions";
 
 class JobContent extends Component {

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { NGROK, URL } from "./Constants";
 import ActiveStorageProvider from "react-activestorage-provider";
 import { withRouter } from "react-router-dom";
-import Resume from "./Resume";
+import Resume from "../candidate/Resume";
 
 class Profile extends Component {
   constructor() {

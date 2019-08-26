@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import Search from "./Search";
+import Search from "../common/Search";
 import CandidateJobContent from "./CandidateJobContent";
 import CandidateJobSidebar from "./CandidateJobSidebar";
 import { withRouter } from "react-router-dom";

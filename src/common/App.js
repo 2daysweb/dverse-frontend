@@ -2,15 +2,15 @@ import React, { Component } from "react";
 import LoginPage from "./LoginPage";
 import LandingPage from "./LandingPage";
 import NavBar from "./Nav";
-import CandidateContainer from "./CandidateContainer";
-import CandidateJobContainer from './CandidateJobContainer'
-import JobContainer from "./JobContainer";
+import CandidateContainer from "../candidate/CandidateContainer";
+import CandidateJobContainer from '../candidate/CandidateJobContainer'
+import JobContainer from "../employer/JobContainer";
 import Applications from "./Applications";
 import SignUpForm from "./SignUpForm";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
-import EmployerHome from "./EmployerHome";
-import CandidateHome from "./CandidateHome";
-import AdminHome from "./AdminHome";
+import EmployerHome from "../employer/EmployerHome";
+import CandidateHome from "../candidate/CandidateHome";
+import AdminHome from "../admin/AdminHome";
 import Profile from "./Profile";
 
 class App extends Component {

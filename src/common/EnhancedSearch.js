@@ -14,8 +14,8 @@ const Search = props => {
         type="text"
       />
     </div>
-  );
-};
+  )
+}
 
 const withPlaceholderText = Search => {
     let placeholderText = 'Search candidates'

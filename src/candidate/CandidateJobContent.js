@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import CandidateJobViewer from "./CandidateJobViewer";
-import JobInstructions from "./JobInstructions";
+import JobInstructions from "../employer/JobInstructions";
 
 class CandidateJobContent extends Component {
   renderContent = () => {

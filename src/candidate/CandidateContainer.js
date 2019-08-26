@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react"
-import NavBar from "./Nav"
-import Search from "./Search"
-import EnhancedSearch from './EnhancedSearch'
+import NavBar from "../common/Nav"
+import Search from "../common/Search"
+// import EnhancedSearch from '../common/EnhancedSearch'
 import CandidateContent from "./CandidateContent"
 import CandidateSidebar from "./CandidateSidebar"
 import {withRouter} from 'react-router-dom'
@@ -170,7 +170,7 @@ class CandidateContainer extends Component {
   render() {
     return(
     <Fragment>
-            <EnhancedSearch
+            <Search
               latestClick={this.state.latestClick}
               handleChangeSearchText={this.handleChangeSearchText}
               currUser={this.props.currUser}

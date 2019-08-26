@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react"
-import NavBar from "./Nav"
-import Search from "./Search"
+import NavBar from "../common/Nav"
+import Search from "../common/Search"
 import AdminContent from "./AdminContent"
 import AdminSidebar from "./AdminSidebar"
 import {withRouter} from 'react-router-dom'

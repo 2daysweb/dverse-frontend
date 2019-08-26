@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from "react";
-import Search from "./Search";
+import Search from "../common/Search";
 import JobSidebar from "./JobSidebar";
 import Content from "./JobContent";
-import CandidateSidebar from "./CandidateSidebar";
 import { withRouter } from "react-router-dom";
 
 const BASE_URL = "http://localhost:3000/";
