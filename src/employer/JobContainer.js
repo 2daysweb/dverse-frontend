@@ -21,6 +21,11 @@ class JobContainer extends Component {
     };
   }
 
+
+  //Goal: Find all the job associated with a particular user 
+  //Step 1: Filter user-jobs for current users id 
+  //Step 0: Test out what created job obj looks like 
+
   //Set all jobs and filtered jobs on load of Main Container
   componentDidMount() {
     fetch(BASE_URL + "api/v1/jobs")

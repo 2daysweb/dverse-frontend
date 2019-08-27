@@ -44,17 +44,20 @@ class SignUpForm extends Component {
     let fn = e.target.value
     //debugger 
     this.setState({ firstName: fn })
+    console.log(this.state.firstName)
+
   }
 
   handleChangeLastName = e => {
     let ln = e.target.value
     //debugger
     this.setState({ lastName: ln })
+    console.log(this.state.lastName)
   }
 
   handleCandidateSignupSubmit = () => {
     // e.preventDefault()
-
+    debugger 
     fetch("http://localhost:3000/api/v1/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -67,9 +70,9 @@ class SignUpForm extends Component {
       })
     })
       .then(res => res.json())
-      .then(data => console.log(data)
-        // this.setState({ currUser: data })
-      )
+      .then(data =>{ console.log(data)
+         this.setState({ currUser: data })
+  })
   }
 
   handleEmployerSignupSubmit = () => {
@@ -125,7 +128,7 @@ class SignUpForm extends Component {
               </Form.Group>
               <Form.Group controlId="lastName">
                 <Form.Label>Last Name</Form.Label>
-                <Form.Control onChange={this.handleChangeFirstName} placeholder="Last Name" />
+                <Form.Control onChange={this.handleChangeLastName} placeholder="Last Name" />
               </Form.Group>
             </Form.Row>
 
