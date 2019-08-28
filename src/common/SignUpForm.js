@@ -29,13 +29,13 @@ class SignUpForm extends Component {
   }
 
   handleChangeEmail = e => {
-    console.log(e.target.value)
+
     let un = e.target.value
     this.setState({ email: un })
   }
 
   handleChangePassword = e => {
-    console.log(e.target.value)
+   
     let pw = e.target.value
     this.setState({ password: pw })
   }
@@ -44,7 +44,7 @@ class SignUpForm extends Component {
     let fn = e.target.value
     //debugger 
     this.setState({ firstName: fn })
-    console.log(this.state.firstName)
+   
 
   }
 
@@ -52,7 +52,7 @@ class SignUpForm extends Component {
     let ln = e.target.value
     //debugger
     this.setState({ lastName: ln })
-    console.log(this.state.lastName)
+  
   }
 
   handleCandidateSignupSubmit = () => {

@@ -9,12 +9,10 @@ class LoginPage extends Component {
     this.state = {
       email: "",
       password: ""
-    };
+    }
   }
 
   handleChangeEmail = e => {
-    console.log(e);
-    console.log(e.target.value);
     let un = e.target.value;
     this.setState({ email: un });
   };
@@ -25,10 +23,11 @@ class LoginPage extends Component {
   };
 
   handleLoginSubmit = e => {
-    e.preventDefault();
+    e.preventDefault()
     fetch("http://localhost:3000/api/v1/login", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "HTTP_AUTHORIZATION"  : "Bearer <super encoded JWT>"
+    },
       body: JSON.stringify({
         email: this.state.email,
         password: this.state.password
@@ -38,17 +37,18 @@ class LoginPage extends Component {
       .then(data => {
         //---AUTHENTICATION-----If User Authenticates, Update current user, issue JWT Token
         if (data.authenticated) {
-          localStorage.setItem("user", data.user);
 
           //store the token in localStorage
           localStorage.setItem("jwt", data.token);
+          //set current user in localStorage
+          debugger 
           localStorage.setItem("currUser", data.user);
           this.props.updateCurrentUser(data.user);
         } else {
           alert("incorrect username or password");
         }
-      });
-  };
+      })
+  }
 
   render() {
     return (

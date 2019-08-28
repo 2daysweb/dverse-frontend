@@ -23,18 +23,18 @@ class App extends Component {
 
   //On load of Application, check if JWT exists, if it does, set state of currUser
 
-  componentDidMount() {
-    let token = localStorage.getItem("jwt")
-    if (token) {
-      fetch("http://localhost:3000/api/v1/profile", {
-        headers: { Authentication: `Bearer ${token}` }
-      })
-        .then(res => res.json())
-        .then(userObj => {
-          this.setState({ currUser: userObj });
-        });
-    }
-  }
+  // componentDidMount() {
+  //   let token = localStorage.getItem("jwt")
+  //   if (token) {
+  //     fetch("http://localhost:3000/api/v1/profile", {
+  //       headers: { Authentication: `Bearer ${token}` }
+  //     })
+  //       .then(res => res.json())
+  //       .then(userObj => {
+  //         this.setState({ currUser: userObj });
+  //       });
+  //   }
+  // }
 
   //--------------------BEGIN LOGIN CREDENTIALS---------------//
 

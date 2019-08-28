@@ -40,7 +40,6 @@ class JobContainer extends Component {
   //Filter all jobs based on searchText
   getFilteredJobs = () => {
 
-    
     let allJobs = [...this.state.allJobs]
     // let myFilteredJobs = allJobs.filtere
     let newFilteredJobs = allJobs.filter(job => {
@@ -68,9 +67,12 @@ class JobContainer extends Component {
 
   handleClickNewBtn = () => {
     this.setState({ latestClick: "" });
-
+    console.log(this.props.currUser)
+    // debugger
     //Create new empty job object --- hard-coded UserID = 2
-    let newJob = { title: "Deafult Title", body: "Deafult Body", user_id: 1 };
+    let userId = this.props.currUser.id
+    
+    let newJob = { title: "Deafult Title", body: "Deafult Body", user_id: userId };
     let URL = BASE_URL + "api/v1/jobs";
     console.log("Is URL Printing", URL);
 
