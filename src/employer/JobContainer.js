@@ -8,10 +8,11 @@ const BASE_URL = "http://localhost:3000/";
 
 class JobContainer extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
       allJobs: [],
       filteredJobs: [],
+      myJobs: [],
       currJob: null,
       currBody: "",
       currTitle: "",
@@ -21,36 +22,69 @@ class JobContainer extends Component {
     };
   }
 
-
-  //Goal: Find all the job associated with a particular user 
-  //Step 1: Filter user-jobs for current users id 
-  //Step 0: Test out what created job obj looks like 
-
-  //Set all jobs and filtered jobs on load of Main Container
+  //Set all jobs and filtered jobs on load of Container 
   componentDidMount() {
+    // debugger;
     fetch(BASE_URL + "api/v1/jobs")
       .then(resp => resp.json())
       .then(jobsArray => {
-        this.setState({ allJobs: jobsArray });
-        this.setState({ filteredJobs: jobsArray });
+        this.setState({ 'allJobs': jobsArray });
+        this.setState({ 'filteredJobs': jobsArray });
+        localStorage.setItem('allJobs', jobsArray);
+        localStorage.setItem('filteredJobs', jobsArray);
         console.log(jobsArray);
       });
   }
+//   onUnload() {
+//     this.context.router.push('/login');
+// }
+  //   componentDidUpdate(prevProps) {
+  //     debugger 
+  //     console.log(prevProps)
+  //     if (this.props.currUser.id !== prevProps.currUser.id) {
+  //       fetch(BASE_URL + "api/v1/jobs")
+  //     .then(resp => resp.json())
+  //     .then(jobsArray => {
+  //       this.setState({ allJobs: jobsArray });
+  //       this.setState({ filteredJobs: jobsArray });
 
-  //Filter all jobs based on searchText
+  //       console.log(jobsArray);
+  //     });
+  //     }
+  // }
+
+  //Get all jobs of current user/employer based on userId
+  getMyJobs = () => {
+    let allJobs = [...this.state.allJobs];
+    //Filter all jobs, return jobs belonging to current user 
+    let myJobs = allJobs.filter(
+      
+      job => {
+        if(job){
+       return  job.users[0].id === this.props.currUser.id
+        }
+      
+      });
+
+return myJobs 
+ };
+
+  //Filter all of job based on searchText
   getFilteredJobs = () => {
+    //Jobs belonging to current user/employer  
 
-    let allJobs = [...this.state.allJobs]
-    // let myFilteredJobs = allJobs.filtere
-    let newFilteredJobs = allJobs.filter(job => {
+    let myJobs = this.getMyJobs()
+    // debugger 
+
+    let newFilteredJobs = myJobs.filter(job => {
       return job.title
         .toLowerCase()
-        .includes(this.state.searchText.toLowerCase())
-    })
+        .includes(this.state.searchText.toLowerCase());
+    });
     return newFilteredJobs;
-  }
+  };
 
-  //----------BEGIN EVENT HANDLERS, CLICKS, SUBMITS,
+  //----------BEGIN EVENT HANDLERS, CLICKS, SUBMITS
 
   handleChangeSearchText = e => {
     this.setState({ searchText: e.target.value }, this.getFilteredJobs);
@@ -67,12 +101,16 @@ class JobContainer extends Component {
 
   handleClickNewBtn = () => {
     this.setState({ latestClick: "" });
-    console.log(this.props.currUser)
+    console.log(this.props.currUser);
     // debugger
     //Create new empty job object --- hard-coded UserID = 2
-    let userId = this.props.currUser.id
-    
-    let newJob = { title: "Deafult Title", body: "Deafult Body", user_id: userId };
+    let userId = this.props.currUser.id;
+
+    let newJob = {
+      title: "Deafult Title",
+      body: "Deafult Body",
+      user_id: userId
+    };
     let URL = BASE_URL + "api/v1/jobs";
     console.log("Is URL Printing", URL);
 
@@ -82,12 +120,12 @@ class JobContainer extends Component {
         "Content-Type": "application/json",
         Accept: "application/json"
       },
-      body: JSON.stringify(newJob) // body data type must match "Content-Type" header
+      body: JSON.stringify(newJob) 
     })
       .then(response => response.json())
       .then(jobObj => {
         console.log(jobObj);
-        this.setState({ allJobs: [...this.state.allJobs, jobObj] }); // parses JSON response into native JavaScript objects
+        this.setState({ allJobs: [...this.state.allJobs, jobObj] }); 
       });
   };
 
@@ -108,7 +146,6 @@ class JobContainer extends Component {
   };
 
   handleClickSaveBtn = currJob => {
-   
     //get current id of current job
     let id = currJob.id;
     //get new current title from editJob view
@@ -134,6 +171,9 @@ class JobContainer extends Component {
 
   //--------------------END-----Event Handlers for Editing, Saving  Job-------------------------------//
 
+  //--------------------BEGIN-----Event Handlers for Cancel, Delete Buttons-------------------------------//
+
+
   //Discard any changes made and render "Show" of Current Job
   handleClickCancelBtn = () => {
     this.setState({ latestClick: "ShowJob" });
@@ -145,15 +185,15 @@ class JobContainer extends Component {
     let URL = BASE_URL + "api/v1/jobs/" + id;
     let job = { id: id };
 
-    //Remove deleted job from
+    //Remove deleted job from backend 
     return fetch(URL, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(job) // body data type must match "Content-Type" header
+      body: JSON.stringify(job) 
     })
-      .then(response => response.json()) // parses JSON response into native JavaScript objects
+      .then(response => response.json()) 
       .then(data => console.log(data))
       .then(this.deleteJob(id));
   };
@@ -169,7 +209,7 @@ class JobContainer extends Component {
     console.log(this.state.allJobs);
   };
 
-  //Consider compoletely removing the "CandidateMainContainer etc etcs if this works out"
+    //--------------------END-----Event Handlers for Cancel, Delete Buttons-------------------------------//
 
   render() {
     return (
@@ -183,7 +223,6 @@ class JobContainer extends Component {
           <JobSidebar
             //State variables
             latestClick={this.state.latestClick}
-            allJobs={this.state.allJobs}
             filteredJobs={this.getFilteredJobs()}
             currJob={this.state.currJob}
             //CRUD event handlers
@@ -214,4 +253,3 @@ class JobContainer extends Component {
 }
 
 export default withRouter(JobContainer);
-
