@@ -44,7 +44,7 @@ class JobContainer extends Component {
     let allJobs = [...this.state.allJobs]
     
     let currUser = JSON.parse(localStorage.getItem('currUser'))
-    debugger 
+    // debugger 
     let myJobs = allJobs.filter( job => 
       job.users[0].id === currUser.id )
 
