@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Form, Button } from "react-bootstrap";
-class JobEditor extends Component {
+class AdminJobEditor extends Component {
   handleChangeTitle = e => {
     e.persist();
     let newTitle = e.target.value;
@@ -13,11 +13,6 @@ class JobEditor extends Component {
     this.props.handleChangeTextArea(newBody);
   };
 
-  // handleChangeIsApproved = e => {
-  //   e.persist();
-  //   let newBody = e.target.value;
-  //   this.props.handleChangeTextArea(newBody);
-  // };
 
   render() {
     return (
@@ -49,6 +44,9 @@ class JobEditor extends Component {
           <button  onClick={this.props.cancelJob} type="button">
             Cancel
           </button>
+          <button  onClick={()=> this.props.disapproveJob(this.props.currJob)} type="button">
+            Disapprove
+          </button>
         </div>
     
       </div>
@@ -58,4 +56,4 @@ class JobEditor extends Component {
   }
 }
 
-export default JobEditor;
+export default AdminJobEditor;

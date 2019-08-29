@@ -47,6 +47,9 @@ const NavBar = props => {
               <LinkContainer to="/employjobs">
                 <Nav.Link>My Jobs</Nav.Link>
               </LinkContainer>
+              <LinkContainer to="/mypendingjobs">
+                <Nav.Link>Pending Jobs</Nav.Link>
+              </LinkContainer>
               <LinkContainer to="/employprofile">
                 <Nav.Link>Profile</Nav.Link>
               </LinkContainer>
@@ -98,9 +101,21 @@ const NavBar = props => {
         return (
           <Navbar>
             <Nav className="mr-auto">
-              <Link to="/login">Home</Link>
-              <Nav.Link href="/jobs">Job Post Requests</Nav.Link>
-              <Nav.Link href="/candidates">New Candidate Applications</Nav.Link>
+            <LinkContainer to="/adminhome">
+                <Nav.Link>Home</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/approvedjobs">
+                <Nav.Link>Approved Jobs</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/pendingjobs">
+                <Nav.Link>Pending Jobs</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/activecandidates">
+                <Nav.Link>Active Candidates</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/pendingcandidates">
+                <Nav.Link>Pending Candidates</Nav.Link>
+              </LinkContainer>
             </Nav>
             <Navbar.Toggle />
             <Navbar.Collapse className="justify-content-end">

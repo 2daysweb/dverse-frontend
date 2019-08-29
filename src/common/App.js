@@ -4,6 +4,8 @@ import LandingPage from "./LandingPage";
 import NavBar from "./Nav";
 import CandidateContainer from "../candidate/CandidateContainer";
 import CandidateJobContainer from '../candidate/CandidateJobContainer'
+import AdminJobContainer from '../admin/AdminJobContainer'
+
 import JobContainer from "../employer/JobContainer";
 import Applications from "./Applications";
 import SignUpForm from "./SignUpForm";
@@ -103,10 +105,9 @@ class App extends Component {
         return false;
     }
   };
-  //If there's a current user, go to renderPortal method with the user_type
-  //Else, go to to LoginPage
 
-  //Conditionally render Employer, Admin, or Candidate Portal If Authenticated --- Else, render LandingPage
+
+  //Conditionally render Employer, Admin, or Candidate Portal If Authenticated --- Else, render Login Page
 
   render() {
     return (
@@ -170,6 +171,19 @@ class App extends Component {
               </div>
             )}
           />
+                  <Route
+            exact
+            path="/adminhome"
+            render={props => (
+              <div>
+                <NavBar
+                  updateCurrentUser={this.updateCurrentUser}
+                  currUser={this.state.currUser}
+                />
+                <AdminHome currUser={this.state.currUser} />
+              </div>
+            )}
+          />
             <Route
             exact
             path="/candidatehome"
@@ -209,19 +223,7 @@ class App extends Component {
               </div>
             )}
           />
-              <Route
-            exact
-            path="/employprofile"
-            render={props => (
-              <div>
-                <NavBar
-                  updateCurrentUser={this.updateCurrentUser}
-                  currUser={this.state.currUser}
-                />
-                <Profile currUser={this.state.currUser} />
-              </div>
-            )}
-          />
+    
           <Route
             exact
             path="/candidates"
@@ -237,7 +239,7 @@ class App extends Component {
           />
           <Route
             exact
-            path="/employjobs"
+            path="/mypendingjobs"
             render={props => (
               <div>
                 <NavBar
@@ -245,6 +247,45 @@ class App extends Component {
                   currUser={this.state.currUser}
                 />
                 <JobContainer currUser={this.state.currUser} />
+              </div>
+            )}
+         />
+                <Route
+            exact
+            path="/pendingjobs"
+            render={props => (
+              <div>
+                <NavBar
+                  updateCurrentUser={this.updateCurrentUser}
+                  currUser={this.state.currUser}
+                />
+                <AdminJobContainer currUser={this.state.currUser} getApprovedJobs={false} />
+              </div>
+            )}
+         />
+                    <Route
+            exact
+            path="/approvedjobs"
+            render={props => (
+              <div>
+                <NavBar
+                  updateCurrentUser={this.updateCurrentUser}
+                  currUser={this.state.currUser}
+                />
+                <AdminJobContainer currUser={this.state.currUser} getApprovedJobs={true} />
+              </div>
+            )}
+         />
+                 <Route
+            exact
+            path="/employjobs"
+            render={props => (
+              <div>
+                <NavBar
+                  updateCurrentUser={this.updateCurrentUser}
+                  currUser={this.state.currUser}
+                />
+                <JobContainer currUser={this.state.currUser} getApprovedOnly />
               </div>
             )}
          />

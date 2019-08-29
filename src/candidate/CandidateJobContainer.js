@@ -40,7 +40,6 @@ class CandidateJobContainer extends Component {
   //Filter all jobs based on searchText
   getFilteredJobs = () => {
     let allJobs = [...this.state.allJobs];
-
     let newFilteredJobs = allJobs.filter(job => {
       return job.title
         .toLowerCase()

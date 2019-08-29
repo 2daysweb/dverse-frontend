@@ -1,14 +1,14 @@
 import React, { Component, Fragment } from "react";
 import Search from "../common/Search";
-import JobSidebar from "./JobSidebar";
-import Content from "./JobContent";
+import AdminJobSidebar from "./AdminJobSidebar";
+import AdminJobContent from "./AdminJobContent";
 import { withRouter } from "react-router-dom";
 
 const BASE_URL = "http://localhost:3000/";
 
-class JobContainer extends Component {
+class AdminJobContainer extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
       allJobs: [],
       filteredJobs: [],
@@ -19,7 +19,7 @@ class JobContainer extends Component {
       latestClick: "",
       searchText: "",
       userType: ""
-    };
+    }
   }
 
   //Set all jobs and filtered jobs on load of Container 
@@ -28,12 +28,12 @@ class JobContainer extends Component {
     fetch(BASE_URL + "api/v1/jobs")
       .then(resp => resp.json())
       .then(jobsArray => {
-        this.setState({ 'allJobs': jobsArray });
-        this.setState({ 'filteredJobs': jobsArray });
-        localStorage.setItem('allJobs', JSON.stringify(jobsArray));
-        localStorage.setItem('filteredJobs', JSON.stringify(jobsArray));
+        this.setState({ 'allJobs': jobsArray })
+        this.setState({ 'filteredJobs': jobsArray })
+        localStorage.setItem('allJobs', JSON.stringify(jobsArray))
+        localStorage.setItem('filteredJobs', JSON.stringify(jobsArray))
         
-        console.log(jobsArray);
+        console.log(jobsArray)
       })
   }
 
@@ -41,18 +41,21 @@ class JobContainer extends Component {
 
   getApprovedJobs = () => {
     let allJobs = [...this.state.allJobs]
-    
-    //Job can be :active, :inactive, :approved, :not approved 
-    //Job can only be made :active or :inactive after it's been :approved 
-    //Step one - Get the jobs coming back from the backend as false 
   
+    let approvedJobs = allJobs.filter( job => 
+      job.is_approved === true)
+        // debugger 
+return approvedJobs
 
-    let currUser = JSON.parse(localStorage.getItem('currUser'))
+  }
+
+  getPendingJobs = () => {
+    let allJobs = [...this.state.allJobs]
     // debugger 
-    let myJobs = allJobs.filter( job => 
-      job.users[0].id === currUser.id )
+    let pendingJobs = allJobs.filter( job => 
+      job.is_approved === false)
 
-return myJobs 
+return pendingJobs
 
   }
 
@@ -61,11 +64,6 @@ return myJobs
     //Filter all jobs, return jobs belonging to current user 
     let allJobs = [...this.state.allJobs]
     
-    //Job can be :active, :inactive, :approved, :not approved 
-    //Job can only be made :active or :inactive after it's been :approved 
-    //Step one - Get the jobs coming back from the backend as false 
-  
-
     let currUser = JSON.parse(localStorage.getItem('currUser'))
     // debugger 
     let myJobs = allJobs.filter( job => 
@@ -77,17 +75,31 @@ return myJobs
   //Filter all of job based on searchText
   getFilteredJobs = () => {
 
+    if(this.props.getApprovedJobs){
     //Jobs belonging to current user/employer  
-    let myJobs = this.getMyJobs()
-    // debugger 
+    let approvedJobs = this.getApprovedJobs()
+ 
+    let newFilteredJobs = approvedJobs.filter(job => { 
+      return job.title.toLowerCase().includes(this.state.searchText.toLowerCase())
+    })
+    return newFilteredJobs
+  }
+  else {
+    
 
-    let newFilteredJobs = myJobs.filter(job => {
-      return job.title
-        .toLowerCase()
-        .includes(this.state.searchText.toLowerCase());
-    });
-    return newFilteredJobs;
-  };
+      //Jobs belonging to current user/employer  
+      let pendingJobs = this.getPendingJobs()
+
+  
+      let newFilteredJobs = pendingJobs.filter(job => {
+        return job.title
+          .toLowerCase()
+          .includes(this.state.searchText.toLowerCase())
+      })
+      return newFilteredJobs
+  
+}
+  }
 
   //----------BEGIN EVENT HANDLERS, CLICKS, SUBMITS
 
@@ -129,10 +141,12 @@ return myJobs
     })
       .then(response => response.json())
       .then(jobObj => {
-        console.log(jobObj);
+        console.log(jobObj)
         this.setState({ allJobs: [...this.state.allJobs, jobObj] }); 
-      });
+      })
   };
+
+
 
   //---------------BEGIN-----Event Handlers for Editing, Saving  Job-------------------------------//
 
@@ -174,6 +188,30 @@ return myJobs
       .then(data => console.log(data)); // parses JSON response into native JavaScript objects
   };
 
+  handleClickDisapproveBtn = currJob => {
+ //get current id of current job
+ debugger 
+ let id = currJob.id;
+let title = currJob.title;
+let body = currJob.body;
+//  create new job object with newTitle and newBody
+
+ let URL = BASE_URL + "api/v1/jobs/" + id;
+ 
+ return fetch(URL, {
+   method: "PATCH",
+   headers: {
+     "Content-Type": "application/json",
+     Accept: "application/json"
+   },
+   body: JSON.stringify({body: body, title: title, is_approved:false}) // body data type must match "Content-Type" header
+ })
+   .then(response => response.json())
+   .then(data => console.log(data)) // parses JSON response into native JavaScript objects
+
+
+  };
+
   //--------------------END-----Event Handlers for Editing, Saving  Job-------------------------------//
 
   //--------------------BEGIN-----Event Handlers for Cancel, Delete Buttons-------------------------------//
@@ -181,14 +219,15 @@ return myJobs
 
   //Discard any changes made and render "Show" of Current Job
   handleClickCancelBtn = () => {
-    this.setState({ latestClick: "ShowJob" });
+    this.setState({ latestClick: "ShowJob" })
   };
+
 
   handleClickDeleteBtn = () => {
     let id = this.state.currJob.id;
     //create new job object with newTitle and newBody
-    let URL = BASE_URL + "api/v1/jobs/" + id;
-    let job = { id: id };
+    let URL = BASE_URL + "api/v1/jobs/" + id
+    let job = { id: id }
 
     //Remove deleted job from backend 
     return fetch(URL, {
@@ -200,18 +239,18 @@ return myJobs
     })
       .then(response => response.json()) 
       .then(data => console.log(data))
-      .then(this.deleteJob(id));
+      .then(this.deleteJob(id))
   };
 
   //Delete a job from allJobs on click of Delete Button
   deleteJob = id => {
     //Make copy of existing currJobs array
-    let currAllJobs = [...this.state.allJobs];
-    let newAllJobs = currAllJobs.filter(job => job.id !== id);
+    let currAllJobs = [...this.state.allJobs]
+    let newAllJobs = currAllJobs.filter(job => job.id !== id)
     //update state of allJobs, without deleted job
-    this.setState({ allJobs: [...newAllJobs] });
+    this.setState({ allJobs: [...newAllJobs] })
     // this.setState({currUser:this.state})
-    console.log(this.state.allJobs);
+    console.log(this.state.allJobs)
   };
 
 
@@ -226,7 +265,7 @@ return myJobs
           currUser={this.props.currUser}
         />
         <div className="container">
-          <JobSidebar
+          <AdminJobSidebar
             //State variables
             latestClick={this.state.latestClick}
             filteredJobs={this.getFilteredJobs()}
@@ -235,8 +274,9 @@ return myJobs
             showJob={this.handleClickShowJob}
             newJob={this.handleClickNewBtn}
             currUser={this.props.currUser}
+            
           />
-          <Content
+          <AdminJobContent
             //State variables
             latestClick={this.state.latestClick}
             currTitle={this.state.currTitle}
@@ -249,13 +289,14 @@ return myJobs
             showJob={this.handleClickShowJob}
             saveJob={this.handleClickSaveBtn}
             cancelJob={this.handleClickCancelBtn}
+            disapproveJob={this.handleClickDisapproveBtn}
             deleteJob={this.handleClickDeleteBtn}
             newJob={this.handleClickNewBtn}
           />
         </div>
       </Fragment>
-    );
+    )
   }
 }
 
-export default withRouter(JobContainer);
+export default withRouter(AdminJobContainer);
