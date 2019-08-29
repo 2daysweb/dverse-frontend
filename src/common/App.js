@@ -3,9 +3,9 @@ import LoginPage from "./LoginPage";
 import LandingPage from "./LandingPage";
 import NavBar from "./Nav";
 import CandidateContainer from "../candidate/CandidateContainer";
-import CandidateJobContainer from '../candidate/CandidateJobContainer'
-import AdminJobContainer from '../admin/AdminJobContainer'
-
+import CandidateJobContainer from "../candidate/CandidateJobContainer";
+import AdminJobContainer from "../admin/AdminJobContainer";
+import JobsContainer from '../employer/JobsContainer'
 import JobContainer from "../employer/JobContainer";
 import Applications from "./Applications";
 import SignUpForm from "./SignUpForm";
@@ -17,16 +17,16 @@ import Profile from "./Profile";
 
 class App extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
       currUser: null
-    }
+    };
   }
 
   //On load of Application, check if JWT exists, if it does, set state of currUser
 
   componentDidMount() {
-    let token = localStorage.getItem("jwt")
+    let token = localStorage.getItem("jwt");
     if (token) {
       fetch("http://localhost:3000/api/v1/profile", {
         headers: { Authentication: `Bearer ${token}` }
@@ -41,7 +41,7 @@ class App extends Component {
   //--------------------BEGIN LOGIN CREDENTIALS---------------//
 
   updateCurrentUser = currUser => {
-    this.setState({ currUser: currUser })
+    this.setState({ currUser: currUser });
   };
 
   //-----------------END LOGIN CREDENTIALS---------------------------//
@@ -88,7 +88,7 @@ class App extends Component {
             />
             <CandidateHome currUser={this.state.currUser} />
           </div>
-        )
+        );
 
       case "admin":
         return (
@@ -105,7 +105,6 @@ class App extends Component {
         return false;
     }
   };
-
 
   //Conditionally render Employer, Admin, or Candidate Portal If Authenticated --- Else, render Login Page
 
@@ -160,19 +159,6 @@ class App extends Component {
 
           <Route
             exact
-            path="/employhome"
-            render={props => (
-              <div>
-                <NavBar
-                  updateCurrentUser={this.updateCurrentUser}
-                  currUser={this.state.currUser}
-                />
-                <EmployerHome currUser={this.state.currUser} />
-              </div>
-            )}
-          />
-                  <Route
-            exact
             path="/adminhome"
             render={props => (
               <div>
@@ -184,7 +170,7 @@ class App extends Component {
               </div>
             )}
           />
-            <Route
+          <Route
             exact
             path="/candidatehome"
             render={props => (
@@ -194,6 +180,95 @@ class App extends Component {
                   currUser={this.state.currUser}
                 />
                 <CandidateHome currUser={this.state.currUser} />
+              </div>
+            )}
+          />
+
+          <Route
+            exact
+            path="/myprofile"
+            render={props => (
+              <div>
+                <NavBar
+                  updateCurrentUser={this.updateCurrentUser}
+                  currUser={this.state.currUser}
+                />
+                <Profile currUser={this.state.currUser} />
+              </div>
+            )}
+          />
+
+          <Route
+            exact
+            path="/employhome"
+            render={props => (
+              <div>
+                <NavBar
+                  updateCurrentUser={this.updateCurrentUser}
+                  currUser={this.state.currUser}
+                />
+                <EmployerHome currUser={this.state.currUser} />
+              </div>
+            )}
+          />
+          <Route
+            exact
+            path="/candidates"
+            render={props => (
+              <div>
+                <NavBar
+                  updateCurrentUser={this.updateCurrentUser}
+                  currUser={this.state.currUser}
+                />
+                <CandidateContainer currUser={this.state.currUser} />
+              </div>
+            )}
+          />
+          <Route
+            exact
+            path="/employjobs"
+            render={props => (
+              <div>
+                <NavBar
+                  updateCurrentUser={this.updateCurrentUser}
+                  currUser={this.state.currUser}
+                />
+                <JobsContainer
+                  currUser={this.state.currUser}
+                  getMyApprovedJobs={true}
+                />
+              </div>
+            )}
+          />
+          <Route
+            exact
+            path="/mypendingjobs"
+            render={props => (
+              <div>
+                <NavBar
+                  updateCurrentUser={this.updateCurrentUser}
+                  currUser={this.state.currUser}
+                />
+                <JobsContainer
+                  currUser={this.state.currUser}
+                  getMySubmittedJobs={true}
+                />
+              </div>
+            )}
+          />
+          <Route
+            exact
+            path="/mydraftjobs"
+            render={props => (
+              <div>
+                <NavBar
+                  updateCurrentUser={this.updateCurrentUser}
+                  currUser={this.state.currUser}
+                />
+                <JobsContainer
+                  currUser={this.state.currUser}
+                  getMyDraftedJobs={true}
+                />
               </div>
             )}
           />
@@ -212,59 +287,6 @@ class App extends Component {
           />
           <Route
             exact
-            path="/myprofile"
-            render={props => (
-              <div>
-                <NavBar
-                  updateCurrentUser={this.updateCurrentUser}
-                  currUser={this.state.currUser}
-                />
-                <Profile currUser={this.state.currUser} />
-              </div>
-            )}
-          />
-    
-          <Route
-            exact
-            path="/candidates"
-            render={props => (
-              <div>
-                <NavBar
-                  updateCurrentUser={this.updateCurrentUser}
-                  currUser={this.state.currUser}
-                />
-                <CandidateContainer currUser={this.state.currUser} />
-              </div>
-            )}
-          />
-          <Route
-            exact
-            path="/mypendingjobs"
-            render={props => (
-              <div>
-                <NavBar
-                  updateCurrentUser={this.updateCurrentUser}
-                  currUser={this.state.currUser}
-                />
-                <JobContainer currUser={this.state.currUser} getApprovedJobs={false} />
-              </div>
-            )}
-         />
-              <Route
-            exact
-            path="/mydraftjobs"
-            render={props => (
-              <div>
-                <NavBar
-                  updateCurrentUser={this.updateCurrentUser}
-                  currUser={this.state.currUser}
-                />
-                <JobContainer currUser={this.state.currUser} getApprovedJobs={false} getSubmittedJobs={false} getDraftedJobs={true}/>
-              </div>
-            )}
-         />
-                <Route
-            exact
             path="/pendingjobs"
             render={props => (
               <div>
@@ -272,11 +294,14 @@ class App extends Component {
                   updateCurrentUser={this.updateCurrentUser}
                   currUser={this.state.currUser}
                 />
-                <AdminJobContainer currUser={this.state.currUser} getApprovedJobs={false} />
+                <AdminJobContainer
+                  currUser={this.state.currUser}
+                  getAllSubmittedJobs={true}
+                />
               </div>
             )}
-         />
-                    <Route
+          />
+          <Route
             exact
             path="/approvedjobs"
             render={props => (
@@ -285,24 +310,14 @@ class App extends Component {
                   updateCurrentUser={this.updateCurrentUser}
                   currUser={this.state.currUser}
                 />
-                <AdminJobContainer currUser={this.state.currUser} getApprovedJobs={true} />
-              </div>
-            )}
-         />
-                 <Route
-            exact
-            path="/employjobs"
-            render={props => (
-              <div>
-                <NavBar
-                  updateCurrentUser={this.updateCurrentUser}
+                <AdminJobContainer
                   currUser={this.state.currUser}
+                  getAllApprovedJobs={true}
                 />
-                <JobContainer currUser={this.state.currUser} getApprovedJobs={true} />
               </div>
             )}
-         />
-             <Route
+          />
+          <Route
             exact
             path="/candidatejobs"
             render={props => (
@@ -314,7 +329,7 @@ class App extends Component {
                 <CandidateJobContainer currUser={this.state.currUser} />
               </div>
             )}
-         />
+          />
 
           <Route
             exact
@@ -329,7 +344,7 @@ class App extends Component {
               </div>
             )}
           />
-               <Route
+          <Route
             exact
             path="/apptracker"
             render={() => (
@@ -342,7 +357,6 @@ class App extends Component {
               </div>
             )}
           />
-
 
           <Route
             exact

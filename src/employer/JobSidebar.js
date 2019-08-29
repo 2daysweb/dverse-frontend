@@ -6,7 +6,7 @@ class JobSidebar extends Component {
   renderNewBtn() {
     //only render new btn if in Pending Jobs nav link
 
-    if (this.props.location.pathname === "/mypendingjobs") {
+    if (this.props.location.pathname === "/mydraftjobs") {
       return <button onClick={this.props.newJob}>New</button>;
     }
   }
