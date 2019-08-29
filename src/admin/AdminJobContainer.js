@@ -59,19 +59,6 @@ return pendingJobs
 
   }
 
-  getMyJobs = () => {
-   
-    //Filter all jobs, return jobs belonging to current user 
-    let allJobs = [...this.state.allJobs]
-    
-    let currUser = JSON.parse(localStorage.getItem('currUser'))
-    // debugger 
-    let myJobs = allJobs.filter( job => 
-      job.users[0].id === currUser.id )
-
-return myJobs 
- }
-
   //Filter all of job based on searchText
   getFilteredJobs = () => {
 

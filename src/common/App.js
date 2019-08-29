@@ -246,7 +246,7 @@ class App extends Component {
                   updateCurrentUser={this.updateCurrentUser}
                   currUser={this.state.currUser}
                 />
-                <JobContainer currUser={this.state.currUser} />
+                <JobContainer currUser={this.state.currUser} getApprovedJobs={false} />
               </div>
             )}
          />
@@ -285,7 +285,7 @@ class App extends Component {
                   updateCurrentUser={this.updateCurrentUser}
                   currUser={this.state.currUser}
                 />
-                <JobContainer currUser={this.state.currUser} getApprovedOnly />
+                <JobContainer currUser={this.state.currUser} getApprovedJobs={true} />
               </div>
             )}
          />

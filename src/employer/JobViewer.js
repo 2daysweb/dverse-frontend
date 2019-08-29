@@ -1,9 +1,9 @@
-import React, { Fragment } from 'react';
+import React, { Fragment } from 'react'
+import {withRouter} from 'react-router-dom'
 
 const JobViewer = (props) => {
-
+console.log("The Current Location Is:", props.location.pathname)
 //Conditionally Render editButtons --- if employer or admin --- yes, delete ---- if candidate can't do it 
-
 
   return (
     <Fragment>
@@ -16,4 +16,4 @@ const JobViewer = (props) => {
   )
 }
 
-export default JobViewer;
+export default withRouter(JobViewer);

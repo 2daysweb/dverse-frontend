@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import JobEditor from "./JobEditor";
 import JobViewer from "./JobViewer";
 import JobInstructions from "./JobInstructions";
+import {withRouter} from 'react-router-dom'
 
 class JobContent extends Component {
   renderContent = () => {
@@ -65,4 +66,4 @@ class JobContent extends Component {
   }
 }
 
-export default JobContent
+export default withRouter(JobContent)

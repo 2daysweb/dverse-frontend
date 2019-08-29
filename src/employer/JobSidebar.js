@@ -1,7 +1,15 @@
 import React, { Component } from "react";
 import JobList from "./JobList";
+import {withRouter} from 'react-router-dom'
 
 class JobSidebar extends Component {
+  renderNewBtn() {
+    //only render new btn if in Pending Jobs nav link
+
+    if (this.props.location.pathname === "/mypendingjobs") {
+      return <button onClick={this.props.newJob}>New</button>;
+    }
+  }
 
   render() {
     return (
@@ -15,10 +23,10 @@ class JobSidebar extends Component {
           deleteJob={this.props.deleteJob}
           currUser={this.props.currUser}
         />
-       <button onClick={this.props.newJob}>New</button>
+        {this.renderNewBtn()}
       </div>
-    )
+    );
   }
 }
 
-export default JobSidebar;
+export default withRouter(JobSidebar);

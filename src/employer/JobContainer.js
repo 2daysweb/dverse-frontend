@@ -37,35 +37,13 @@ class JobContainer extends Component {
       })
   }
 
-  //Get all jobs of current user/employer based on userId
-
-  getApprovedJobs = () => {
-    let allJobs = [...this.state.allJobs]
-    
-    //Job can be :active, :inactive, :approved, :not approved 
-    //Job can only be made :active or :inactive after it's been :approved 
-    //Step one - Get the jobs coming back from the backend as false 
-  
-
-    let currUser = JSON.parse(localStorage.getItem('currUser'))
-    // debugger 
-    let myJobs = allJobs.filter( job => 
-      job.users[0].id === currUser.id )
-
-return myJobs 
-
-  }
-
   getMyJobs = () => {
    
     //Filter all jobs, return jobs belonging to current user 
     let allJobs = [...this.state.allJobs]
     
     //Job can be :active, :inactive, :approved, :not approved 
-    //Job can only be made :active or :inactive after it's been :approved 
-    //Step one - Get the jobs coming back from the backend as false 
   
-
     let currUser = JSON.parse(localStorage.getItem('currUser'))
     // debugger 
     let myJobs = allJobs.filter( job => 
@@ -74,20 +52,54 @@ return myJobs
 return myJobs 
  }
 
+  //Get all jobs of current user/employer based on userId
+  getApprovedJobs = () => {
+    let myJobs = this.getMyJobs()
+  
+    let approvedJobs = myJobs.filter( job => 
+      job.is_approved === true)
+return approvedJobs
+
+  }
+
+  getPendingJobs = () => {
+    let myJobs = this.getMyJobs()
+    // debugger 
+    let pendingJobs = myJobs.filter( job => 
+      job.is_approved === false)
+
+return pendingJobs
+
+  }
+
   //Filter all of job based on searchText
   getFilteredJobs = () => {
 
+    if(this.props.getApprovedJobs){
     //Jobs belonging to current user/employer  
-    let myJobs = this.getMyJobs()
-    // debugger 
+    let approvedJobs = this.getApprovedJobs()
+ 
+    let newFilteredJobs = approvedJobs.filter(job => { 
+      return job.title.toLowerCase().includes(this.state.searchText.toLowerCase())
+    })
+    return newFilteredJobs
+  }
+  else {
+    
 
-    let newFilteredJobs = myJobs.filter(job => {
-      return job.title
-        .toLowerCase()
-        .includes(this.state.searchText.toLowerCase());
-    });
-    return newFilteredJobs;
-  };
+      //Jobs belonging to current user/employer  
+      let pendingJobs = this.getPendingJobs()
+
+  
+      let newFilteredJobs = pendingJobs.filter(job => {
+        return job.title
+          .toLowerCase()
+          .includes(this.state.searchText.toLowerCase())
+      })
+      return newFilteredJobs
+  
+}
+  }
 
   //----------BEGIN EVENT HANDLERS, CLICKS, SUBMITS
 
@@ -158,7 +170,7 @@ return myJobs
     //get new current body from editJob view
     let newBody = this.state.currBody;
     //create new job object with newTitle and newBody
-    let newJob = { title: newTitle, body: newBody, id: id };
+    let newJob = { title: newTitle, body: newBody, id: id, is_approved:false, is_active:false };
     let URL = BASE_URL + "api/v1/jobs/" + id;
     console.log(URL);
 
