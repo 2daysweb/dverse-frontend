@@ -50,6 +50,9 @@ const NavBar = props => {
               <LinkContainer to="/mypendingjobs">
                 <Nav.Link>Pending Jobs</Nav.Link>
               </LinkContainer>
+              <LinkContainer to="/mydraftjobs">
+                <Nav.Link>Create Job Post</Nav.Link>
+              </LinkContainer>
               <LinkContainer to="/employprofile">
                 <Nav.Link>Profile</Nav.Link>
               </LinkContainer>

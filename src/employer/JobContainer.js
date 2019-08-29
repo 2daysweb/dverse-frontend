@@ -116,10 +116,33 @@ return pendingJobs
     this.setState({ latestClick: "ShowJob" });
   };
 
+  handleClickActivateBtn = currJob => {
+    //get current id of current job
+   //  debugger 
+   let id = currJob.id
+   let title = currJob.title
+   let body = currJob.body
+   let isActive = !currJob.is_active
+   debugger 
+   //  create new job object with newTitle and newBody
+   
+    let URL = BASE_URL + "api/v1/jobs/" + id
+    
+    return fetch(URL, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify({body: body, title: title, is_active:isActive}) 
+    })
+      .then(response => response.json())
+      .then(data => console.log(data)) 
+     }
+
   handleClickNewBtn = () => {
     this.setState({ latestClick: "" });
     console.log(this.props.currUser);
-    // debugger
     //Create new empty job object --- hard-coded UserID = 2
     let userId = this.props.currUser.id;
 
@@ -257,6 +280,7 @@ return pendingJobs
             handleChangeInput={this.handleChangeInput}
             handleChangeTextArea={this.handleChangeTextArea}
             //CRUD event handlers
+            activateJob = {this.handleClickActivateBtn}
             editJob={this.handleClickEditBtn}
             showJob={this.handleClickShowJob}
             saveJob={this.handleClickSaveBtn}

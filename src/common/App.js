@@ -250,6 +250,19 @@ class App extends Component {
               </div>
             )}
          />
+              <Route
+            exact
+            path="/mydraftjobs"
+            render={props => (
+              <div>
+                <NavBar
+                  updateCurrentUser={this.updateCurrentUser}
+                  currUser={this.state.currUser}
+                />
+                <JobContainer currUser={this.state.currUser} getApprovedJobs={false} getSubmittedJobs={false} getDraftedJobs={true}/>
+              </div>
+            )}
+         />
                 <Route
             exact
             path="/pendingjobs"

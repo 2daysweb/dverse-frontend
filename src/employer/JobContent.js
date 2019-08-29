@@ -29,6 +29,7 @@ class JobContent extends Component {
           editJob={this.props.editJob}
           showJob={this.props.showJob}
           deleteJob={this.props.deleteJob}
+          activateJob = {this.props.activateJob}
           latestClick={this.props.latestClick}
         />
       );
