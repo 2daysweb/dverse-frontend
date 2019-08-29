@@ -2,16 +2,14 @@ import React, { Fragment } from 'react';
 
 const AdminJobViewer = (props) => {
 
-//Conditionally Render editButtons --- if employer or admin --- yes, delete ---- if candidate can't do it 
-
+  //Consider conditional render approve/disapprove
 
   return (
     <Fragment>
       <h2>{props.currJob.title}</h2>
       <p>{props.currJob.body}</p>
-      <button onClick={props.editJob}>Edit</button>
-      <button onClick={props.cancelJob}>Cancel</button>
-      <button onClick={props.deleteJob}>Delete</button>
+     
+     <span><p>Approval Status: {props.currJob.is_approved.toString().toUpperCase()}</p> <button onClick={()=>props.disapproveJob(props.currJob)}>Approve/Disapprove</button></span> 
     </Fragment>
   )
 }

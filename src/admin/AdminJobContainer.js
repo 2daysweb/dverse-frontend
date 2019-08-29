@@ -119,15 +119,15 @@ return myJobs
   handleClickNewBtn = () => {
     this.setState({ latestClick: "" });
     console.log(this.props.currUser);
-    // debugger
-    //Create new empty job object --- hard-coded UserID = 2
+   
+    //Create new empty job object, associated with current user's ID
     let userId = this.props.currUser.id;
 
     let newJob = {
       title: "Deafult Title",
       body: "Deafult Body",
       user_id: userId
-    };
+    }
     let URL = BASE_URL + "api/v1/jobs";
     console.log("Is URL Printing", URL);
 
@@ -182,21 +182,23 @@ return myJobs
         "Content-Type": "application/json",
         Accept: "application/json"
       },
-      body: JSON.stringify(newJob) // body data type must match "Content-Type" header
+      body: JSON.stringify(newJob) 
     })
       .then(response => response.json())
-      .then(data => console.log(data)); // parses JSON response into native JavaScript objects
+      .then(data => console.log(data)); 
   };
 
   handleClickDisapproveBtn = currJob => {
  //get current id of current job
- debugger 
- let id = currJob.id;
-let title = currJob.title;
-let body = currJob.body;
+//  debugger 
+ let id = currJob.id
+let title = currJob.title
+let body = currJob.body
+let isApproved = !currJob.is_approved
+debugger 
 //  create new job object with newTitle and newBody
 
- let URL = BASE_URL + "api/v1/jobs/" + id;
+ let URL = BASE_URL + "api/v1/jobs/" + id
  
  return fetch(URL, {
    method: "PATCH",
@@ -204,13 +206,11 @@ let body = currJob.body;
      "Content-Type": "application/json",
      Accept: "application/json"
    },
-   body: JSON.stringify({body: body, title: title, is_approved:false}) // body data type must match "Content-Type" header
+   body: JSON.stringify({body: body, title: title, is_approved:isApproved}) 
  })
    .then(response => response.json())
-   .then(data => console.log(data)) // parses JSON response into native JavaScript objects
-
-
-  };
+   .then(data => console.log(data)) 
+  }
 
   //--------------------END-----Event Handlers for Editing, Saving  Job-------------------------------//
 
@@ -218,6 +218,7 @@ let body = currJob.body;
 
 
   //Discard any changes made and render "Show" of Current Job
+
   handleClickCancelBtn = () => {
     this.setState({ latestClick: "ShowJob" })
   };

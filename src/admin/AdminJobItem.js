@@ -30,4 +30,4 @@ const AdminJobItem = props => {
   );
 };
 
-export default AdminJobItem;
+export default AdminJobItem
