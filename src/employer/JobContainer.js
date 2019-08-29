@@ -30,49 +30,31 @@ class JobContainer extends Component {
       .then(jobsArray => {
         this.setState({ 'allJobs': jobsArray });
         this.setState({ 'filteredJobs': jobsArray });
-        localStorage.setItem('allJobs', jobsArray);
-        localStorage.setItem('filteredJobs', jobsArray);
+        localStorage.setItem('allJobs', JSON.stringify(jobsArray));
+        localStorage.setItem('filteredJobs', JSON.stringify(jobsArray));
+        
         console.log(jobsArray);
       });
   }
-//   onUnload() {
-//     this.context.router.push('/login');
-// }
-  //   componentDidUpdate(prevProps) {
-  //     debugger 
-  //     console.log(prevProps)
-  //     if (this.props.currUser.id !== prevProps.currUser.id) {
-  //       fetch(BASE_URL + "api/v1/jobs")
-  //     .then(resp => resp.json())
-  //     .then(jobsArray => {
-  //       this.setState({ allJobs: jobsArray });
-  //       this.setState({ filteredJobs: jobsArray });
-
-  //       console.log(jobsArray);
-  //     });
-  //     }
-  // }
 
   //Get all jobs of current user/employer based on userId
   getMyJobs = () => {
-    let allJobs = [...this.state.allJobs];
+   
     //Filter all jobs, return jobs belonging to current user 
-    let myJobs = allJobs.filter(
-      
-      job => {
-        if(job){
-       return  job.users[0].id === this.props.currUser.id
-        }
-      
-      });
+    let allJobs = [...this.state.allJobs]
+    
+    let currUser = JSON.parse(localStorage.getItem('currUser'))
+    debugger 
+    let myJobs = allJobs.filter( job => 
+      job.users[0].id === currUser.id )
 
 return myJobs 
- };
+ }
 
   //Filter all of job based on searchText
   getFilteredJobs = () => {
-    //Jobs belonging to current user/employer  
 
+    //Jobs belonging to current user/employer  
     let myJobs = this.getMyJobs()
     // debugger 
 

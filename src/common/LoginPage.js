@@ -42,7 +42,7 @@ class LoginPage extends Component {
           localStorage.setItem("jwt", data.token);
           //set current user in localStorage
           // debugger 
-          localStorage.setItem("currUser", data.user);
+          localStorage.setItem("currUser", JSON.stringify(data.user));
           this.props.updateCurrentUser(data.user);
         } else {
           alert("incorrect username or password");
