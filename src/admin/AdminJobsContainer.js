@@ -1,12 +1,12 @@
 import React, { Component, Fragment } from "react";
 import Search from "../common/Search";
-import JobSidebar from "./JobSidebar";
-import Content from "./JobContent";
+import AdminJobSidebar from "./AdminJobSidebar";
+import AdminJobContent from "./AdminJobContent";
 import { withRouter } from "react-router-dom";
 
 const BASE_URL = "http://localhost:3000/";
 
-class JobsContainer extends Component {
+class AdminJobsContainer extends Component {
   constructor() {
     super()
     this.state = {
@@ -149,6 +149,9 @@ return mySubmittedJobs
    let title = currJob.title
    let body = currJob.body
    let isApproved = !currJob.is_approved
+   let isDraft = false 
+   let isSubmitted = false 
+  
    debugger 
    //  create new job object with newTitle and newBody
    
@@ -160,7 +163,7 @@ return mySubmittedJobs
         "Content-Type": "application/json",
         Accept: "application/json"
       },
-      body: JSON.stringify({body: body, title: title, is_approved:isApproved}) 
+      body: JSON.stringify({body: body, title: title, is_approved:isApproved, is_submitted:isSubmitted, is_draft:isDraft}) 
     })
       .then(response => response.json())
       .then(data => console.log(data)) 
@@ -176,7 +179,6 @@ return mySubmittedJobs
        let isDraft = !currJob.is_draft
        let isSubmitted = !currJob.is_submitted
        let isApproved = currJob.isApproved
-       
      
        //  create new job object with newTitle and newBody
        
@@ -275,7 +277,7 @@ return mySubmittedJobs
     //create new job object with newTitle and newBody
 
     
-    let newJob = { title: newTitle, body: newBody, id:id, is_submitted:false, is_draft:true, is_approved:false, is_active:false };
+    let newJob = { title: newTitle, body: newBody, id:id, is_approved:false, is_active:false };
     let URL = BASE_URL + "api/v1/jobs/" + id;
     console.log(URL);
 
@@ -343,7 +345,7 @@ return mySubmittedJobs
           currUser={this.props.currUser}
         />
         <div className="container">
-          <JobSidebar
+          <AdminJobSidebar
             //State variables
             latestClick={this.state.latestClick}
             filteredJobs={this.getFilteredJobs()}
@@ -353,7 +355,7 @@ return mySubmittedJobs
             newJob={this.handleClickNewBtn}
             currUser={this.props.currUser}
           />
-          <Content
+          <AdminJobContent
             //State variables
             latestClick={this.state.latestClick}
             currTitle={this.state.currTitle}
@@ -364,6 +366,7 @@ return mySubmittedJobs
             submitJob = {this.handleClickSubmitBtn}
             //CRUD event handlers
             activateJob = {this.handleClickActivateBtn}
+            disapproveJob = {this.handleClickDisapproveBtn}
             editJob={this.handleClickEditBtn}
             showJob={this.handleClickShowJob}
             saveJob={this.handleClickSaveBtn}
@@ -377,12 +380,4 @@ return mySubmittedJobs
   }
 }
 
-export default withRouter(JobsContainer);
-
-
-//      Logic for handling search filter 
-//     let newFilteredJobs = approvedJobs.filter(job => { 
-//       return job.title.toLowerCase().includes(this.state.searchText.toLowerCase())
-//     })
-//     return newFilteredJobs
-//   }
+export default withRouter(AdminJobsContainer);

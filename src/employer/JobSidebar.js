@@ -20,6 +20,7 @@ class JobSidebar extends Component {
           showJob={this.props.showJob}
           editJob={this.props.editJob}
           currJob={this.props.currJob}
+          submitJob={this.props.submitJob}
           deleteJob={this.props.deleteJob}
           currUser={this.props.currUser}
         />

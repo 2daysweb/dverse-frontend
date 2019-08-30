@@ -24,6 +24,7 @@ class JobContent extends Component {
     } else if (this.props.latestClick === "ShowJob") {
       return (
         <JobViewer
+          submitJob = {this.props.submitJob}
           currUser={this.props.currUser}
           currJob={this.props.currJob}
           editJob={this.props.editJob}

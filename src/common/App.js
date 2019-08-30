@@ -4,7 +4,7 @@ import LandingPage from "./LandingPage";
 import NavBar from "./Nav";
 import CandidateContainer from "../candidate/CandidateContainer";
 import CandidateJobContainer from "../candidate/CandidateJobContainer";
-import AdminJobContainer from "../admin/AdminJobContainer";
+import AdminJobsContainer from "../admin/AdminJobsContainer";
 import JobsContainer from '../employer/JobsContainer'
 import JobContainer from "../employer/JobContainer";
 import Applications from "./Applications";
@@ -294,7 +294,7 @@ class App extends Component {
                   updateCurrentUser={this.updateCurrentUser}
                   currUser={this.state.currUser}
                 />
-                <AdminJobContainer
+                <AdminJobsContainer
                   currUser={this.state.currUser}
                   getAllSubmittedJobs={true}
                 />
@@ -310,7 +310,7 @@ class App extends Component {
                   updateCurrentUser={this.updateCurrentUser}
                   currUser={this.state.currUser}
                 />
-                <AdminJobContainer
+                <AdminJobsContainer
                   currUser={this.state.currUser}
                   getAllApprovedJobs={true}
                 />
