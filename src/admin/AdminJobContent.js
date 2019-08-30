@@ -14,7 +14,10 @@ class AdminJobContent extends Component {
           showJob={this.props.showJob}
           deleteJob={this.props.deleteJob}
           latestClick={this.props.latestClick}
+          status={this.props.status}
+          approveJob={this.props.approveJob}
           disapproveJob={this.props.disapproveJob}
+          
         />
       );
       //Cancel job does not mean delete job, simply click cancel btn when in job editor 

@@ -12,18 +12,18 @@ let renderButtons = () => {
       if (currUserType === "employer") {
         return <button>Take Job Post Down</button>
       } else {
-        return <button>Revoke Job Post Approval</button>
+        return <button onClick={()=> props.disapproveJob(props.currJob)}>Revoke Job Post Approval</button>
       }
 
     case "submitted":
       if (currUserType === "employer") {
         return <button>Withdraw Submission to Drafts</button>
       } else {
-        return <button>Approve Job</button>
+        return <button onClick={()=> props.approveJob(props.currJob)}>Approve Job</button>
       }
 
     case "draft":
-      return <div><button onClick={props.editJob}>Edit Job</button><button>Submit For Approval</button></div>
+      return <div><button onClick={props.editJob}>Edit Job</button><button onClick={()=> props.submitJob(props.currJob)}>Submit For Approval</button></div>
     default:
       return false;
   }

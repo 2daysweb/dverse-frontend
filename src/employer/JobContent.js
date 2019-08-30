@@ -31,6 +31,7 @@ class JobContent extends Component {
           showJob={this.props.showJob}
           deleteJob={this.props.deleteJob}
           latestClick={this.props.latestClick}
+          submitJob={this.props.submitJob}
           status={this.props.status}
         />
       );

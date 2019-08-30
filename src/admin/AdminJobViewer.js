@@ -12,14 +12,14 @@ const AdminJobViewer = (props) => {
         if (currUserType === "employer") {
           return <button>Take Job Post Down</button>
         } else {
-          return <button>Revoke Job Post Approval</button>
+          return <button onClick={()=> props.disapproveJob(props.currJob)}>Revoke Job Post Approval</button>
         }
   
       case "submitted":
         if (currUserType === "employer") {
           return <button>Withdraw Submission to Drafts</button>
         } else {
-          return <button>Approve Job</button>
+          return <button onClick={()=> props.approveJob(props.currJob)}>Approve Job</button>
         }
   
       case "draft":

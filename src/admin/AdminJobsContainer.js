@@ -187,6 +187,83 @@ class AdminJobsContainer extends Component {
           .then(data => console.log(data)) 
          }
 
+  handleClickDisapproveBtn = currJob => {
+    //get current id of current job
+   //  debugger 
+    let id = currJob.id
+   let title = currJob.title
+   let body = currJob.body
+   let status = 'draft'
+  
+   debugger 
+   //  create new job object with newTitle and newBody
+   
+    let URL = BASE_URL + "api/v1/jobs/" + id
+    
+    return fetch(URL, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify({body: body, title: title, status: status}) 
+    })
+      .then(response => response.json())
+      .then(data => console.log(data)) 
+     }
+
+     handleClickApproveBtn = currJob => {
+      //get current id of current job
+     //  debugger 
+      let id = currJob.id
+      let title = currJob.title
+      let body = currJob.body
+      let status = 'approved'
+    
+     debugger 
+     //  create new job object with newTitle and newBody
+     
+      let URL = BASE_URL + "api/v1/jobs/" + id
+      
+      return fetch(URL, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify({body: body, title: title, status: status}) 
+      })
+        .then(response => response.json())
+        .then(data => console.log(data)) 
+       }
+
+     //Employer clicks submit job, switch from is_draft to is_submitted
+    handleClickSubmitBtn = currJob => {
+        //get current id of current job
+       //  debugger 
+       let id = currJob.id
+       let title = currJob.title
+       let body = currJob.body
+       let isDraft = !currJob.is_draft
+       let isSubmitted = !currJob.is_submitted
+       let isApproved = currJob.isApproved
+     
+       //  create new job object with newTitle and newBody
+       
+        let URL = BASE_URL + "api/v1/jobs/" + id
+        
+        return fetch(URL, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+          },
+          body: JSON.stringify({body: body, title: title, is_approved:isApproved, is_submitted:isSubmitted, is_draft:isDraft}) 
+        })
+          .then(response => response.json())
+          .then(data => console.log(data)) 
+         }
+
   handleClickActivateBtn = currJob => {
     //get current id of current job
    //  debugger 
@@ -358,6 +435,7 @@ class AdminJobsContainer extends Component {
             //CRUD event handlers
             status={this.props.status}
             activateJob = {this.handleClickActivateBtn}
+            approveJob = {this.handleClickApproveBtn}
             disapproveJob = {this.handleClickDisapproveBtn}
             editJob={this.handleClickEditBtn}
             showJob={this.handleClickShowJob}

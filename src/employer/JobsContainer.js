@@ -158,6 +158,7 @@ class JobsContainer extends Component {
 
   //Employer clicks submit job, switch from is_draft to is_submitted
   handleClickSubmitBtn = currJob => {
+    debugger 
     //get current id of current job
     //  //debugger
     let id = currJob.id;
@@ -261,7 +262,7 @@ class JobsContainer extends Component {
 
     let status = 'draft'
 
-  debugger 
+//  debugger  
     let newJob = { title: newTitle, body: newBody, id: id, status:status };
     let URL = BASE_URL + "api/v1/jobs/" + id;
     console.log(URL);
