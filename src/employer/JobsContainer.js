@@ -17,8 +17,7 @@ class JobsContainer extends Component {
       currBody: "",
       currTitle: "",
       latestClick: "",
-      searchText: "",
-      userType: ""
+      searchText: ""
     };
   }
 
@@ -350,6 +349,7 @@ class JobsContainer extends Component {
             submitJob={this.handleClickSubmitBtn}
             //CRUD event handlers
             status={this.props.status}
+            disapproveJob = {this.handleClickDisapproveBtn}
             activateJob={this.handleClickActivateBtn}
             editJob={this.handleClickEditBtn}
             showJob={this.handleClickShowJob}

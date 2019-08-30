@@ -17,8 +17,7 @@ class AdminJobsContainer extends Component {
       currBody: "",
       currTitle: "",
       latestClick: "",
-      searchText: "",
-      userType: ""
+      searchText: ""
     }
   }
 
@@ -37,95 +36,87 @@ class AdminJobsContainer extends Component {
       })
   }
 
-  //Get all approved jobs for all employers 
+  //Get all approved jobs for all employers
   getAllApprovedJobs = () => {
-    let allJobs = [...this.state.allJobs]
-  
-    let allApprovedJobs = allJobs.filter( job => 
-      job.is_approved === true)
-return allApprovedJobs
+    let allJobs = [...this.state.allJobs];
 
-  }
+    let allApprovedJobs = allJobs.filter(job => job.status === "approved");
+    return allApprovedJobs;
+  };
 
-  //Get all jobs submitted for approval from all employers 
+  //Get all jobs submitted for approval from all employers
   getAllSubmittedJobs = () => {
-    let allJobs = [...this.state.allJobs]
-  
-    let allSubmittedJobs = allJobs.filter( job => 
-      job.is_submitted === true)
-return allSubmittedJobs
+    let allJobs = [...this.state.allJobs];
 
-  }
+    let allSubmittedJobs = allJobs.filter(job => job.status === "submitted");
+    return allSubmittedJobs;
+  };
 
-  //Get array of all jobs of current user/employer  
+  //Get array of all jobs of current user/employer
   getAllMyJobs = () => {
-   
-    //Filter all jobs, return jobs belonging to current user 
-    let allJobs = [...this.state.allJobs]
+    //Filter all jobs, return jobs belonging to current user
+    let allJobs = [...this.state.allJobs];
 
-    let currUser = JSON.parse(localStorage.getItem('currUser'))
+    let currUser = JSON.parse(localStorage.getItem("currUser"));
 
-    //Filter through all jobs for jobs where user id matches curr user id 
-    let myJobs = allJobs.filter( job => 
-      job.users[0].id === currUser.id )
+    //Filter through all jobs for jobs where user id matches curr user id
+    let myJobs = allJobs.filter(job => job.users[0].id === currUser.id);
 
-return myJobs 
- }
+    return myJobs;
+  };
 
   //Get all jobs of current user/employer based on userId
   getMyApprovedJobs = () => {
-    let myJobs = this.getAllMyJobs()
-  
-    let myApprovedJobs = myJobs.filter( job => 
-      job.is_approved === true)
-return myApprovedJobs
+    let myJobs = this.getAllMyJobs();
 
-  }
+    let myApprovedJobs = myJobs.filter(job => job.status === "approved");
+    return myApprovedJobs;
+  };
 
   getMyDraftedJobs = () => {
-    let myJobs = this.getAllMyJobs()
-    //  debugger 
-    let draftedJobs = myJobs.filter( job => 
-      job.is_draft === true)
-
-return draftedJobs
-
-  }
+    let myJobs = this.getAllMyJobs();
+    //  //debugger
+    let draftedJobs = myJobs.filter(job => job.status === "draft");
+    // //debugger;
+    return draftedJobs;
+  };
   getMySubmittedJobs = () => {
-    let myJobs = this.getAllMyJobs()
-    // debugger 
-    let mySubmittedJobs = myJobs.filter( job => 
-      job.is_submitted === true)
+    let myJobs = this.getAllMyJobs();
+    // //debugger
+    let mySubmittedJobs = myJobs.filter(job => job.status === "submitted");
 
-return mySubmittedJobs
+    return mySubmittedJobs;
+  };
 
-  }
-
-
-  //Create a JSON switch config 
+  //Create a JSON switch config
   //Make a root components and either extend them, or B. Use JSON config file to
   //Filter all of job based on searchText
   getFilteredJobs = () => {
+    let currUserType = JSON.parse(localStorage.getItem("currUser")).user_type;
+    let status = this.props.status;
+    //debugger;
+    switch (status) {
+      case "approved":
+        if (currUserType === "employer") {
+          return this.getMyApprovedJobs();
+        } else {
+          return this.getAllApprovedJobs();
+        }
 
-    switch(true){
-        case this.props.getAllApprovedJobs:
-            return this.getAllApprovedJobs()
-           
-        case this.props.getAllSubmittedJobs:
-            return this.getAllSubmittedJobs()
-                  
-        case this.props.getMyApprovedJobs:
-            return this.getMyApprovedJobs()
-            
-        case this.props.getMySubmittedJobs:
-            return this.getMySubmittedJobs()
-                
-        case this.props.getMyDraftedJobs:
-            return this.getMyDraftedJobs()
-        default:
-            return false
+      case "submitted":
+        if (currUserType === "employer") {
+          return this.getMySubmittedJobs();
+        } else {
+          return this.getAllSubmittedJobs();
+        }
+
+      case "draft":
+        return this.getMyDraftedJobs();
+      default:
+        return false;
     }
-}
+  };
+
 
   //----------BEGIN EVENT HANDLERS, CLICKS, SUBMITS--------------------//
 
@@ -365,6 +356,7 @@ return mySubmittedJobs
             handleChangeTextArea={this.handleChangeTextArea}
             submitJob = {this.handleClickSubmitBtn}
             //CRUD event handlers
+            status={this.props.status}
             activateJob = {this.handleClickActivateBtn}
             disapproveJob = {this.handleClickDisapproveBtn}
             editJob={this.handleClickEditBtn}

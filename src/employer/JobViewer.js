@@ -2,10 +2,8 @@ import React, { Fragment } from 'react'
 import {withRouter} from 'react-router-dom'
 
 const JobViewer = (props) => {
-console.log("The Current Location Is:", props.location.pathname)
-//Conditionally Render editButtons --- if employer or admin --- yes, delete ---- if candidate can't do it 
 
-let renderActivateOrSubmitBtn = () => {
+let renderButtons = () => {
   let currUserType = JSON.parse(localStorage.getItem("currUser")).user_type;
   let status = props.status;
   //debugger;
@@ -36,7 +34,7 @@ let renderActivateOrSubmitBtn = () => {
     <Fragment>
       <h2>{props.currJob.title}</h2>
       <p>{props.currJob.body}</p>
-      {renderActivateOrSubmitBtn()}
+      {renderButtons()}
     
     </Fragment>
   )
