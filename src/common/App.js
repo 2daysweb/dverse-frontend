@@ -6,7 +6,6 @@ import CandidateContainer from "../candidate/CandidateContainer";
 import CandidateJobContainer from "../candidate/CandidateJobContainer";
 import AdminJobsContainer from "../admin/AdminJobsContainer";
 import JobsContainer from '../employer/JobsContainer'
-import JobContainer from "../employer/JobContainer";
 import Applications from "./Applications";
 import SignUpForm from "./SignUpForm";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
