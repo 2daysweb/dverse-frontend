@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-import AdminJobList from "./AdminJobList";
+import JobList from "./AdminJobList";
 
 class AdminJobSidebar extends Component {
-
   render() {
     return (
       <div className="master-detail-element sidebar">
-        <AdminJobList
+        <JobList
           allJobs={this.props.allJobs}
           filteredJobs={this.props.filteredJobs}
           showJob={this.props.showJob}
@@ -16,9 +15,8 @@ class AdminJobSidebar extends Component {
           deleteJob={this.props.deleteJob}
           currUser={this.props.currUser}
         />
-    
       </div>
-    )
+    );
   }
 }
 
