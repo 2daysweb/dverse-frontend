@@ -30,8 +30,8 @@ class JobContent extends Component {
           editJob={this.props.editJob}
           showJob={this.props.showJob}
           deleteJob={this.props.deleteJob}
-          activateJob = {this.props.activateJob}
           latestClick={this.props.latestClick}
+          status={this.props.status}
         />
       );
       //Cancel job does not mean delete job, simply click cancel btn when in job editor 

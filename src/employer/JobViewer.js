@@ -6,25 +6,36 @@ console.log("The Current Location Is:", props.location.pathname)
 //Conditionally Render editButtons --- if employer or admin --- yes, delete ---- if candidate can't do it 
 
 let renderActivateOrSubmitBtn = () => {
-  if(props.currJob.is_draft){
-   return (<span><p>Draft Status: {props.currJob.is_draft.toString().toUpperCase()}</p> <button onClick={()=>props.submitJob(props.currJob)}>Submit Job</button><button onClick={props.editJob}>Edit</button>
-   <button onClick={props.deleteJob}>Delete</button></span>) 
-  }
+  let currUserType = JSON.parse(localStorage.getItem("currUser")).user_type;
+  let status = props.status;
+  //debugger;
+  switch (status) {
+    case "approved":
+      if (currUserType === "employer") {
+        return <button>Take Job Post Down</button>
+      } else {
+        return <button>Revoke Job Post Approval</button>
+      }
 
-  else if (props.currJob.is_approved) {
-    return <span><p>Active Status: {props.currJob.is_approved.toString().toUpperCase()}</p> <button onClick={()=>props.activateJob(props.currJob)}>Activate Job</button></span> 
-  }
+    case "submitted":
+      if (currUserType === "employer") {
+        return <button>Withdraw Submission to Drafts</button>
+      } else {
+        return <button>Approve Job</button>
+      }
 
-  else {
-   return <p>Pending approval........Check back in a few days</p>
+    case "draft":
+      return <div><button onClick={props.editJob}>Edit Job</button><button>Submit For Approval</button></div>
+    default:
+      return false;
   }
-}
+};
+
 
   return (
     <Fragment>
       <h2>{props.currJob.title}</h2>
       <p>{props.currJob.body}</p>
-      
       {renderActivateOrSubmitBtn()}
     
     </Fragment>

@@ -235,7 +235,7 @@ class App extends Component {
                 />
                 <JobsContainer
                   currUser={this.state.currUser}
-                  getMyApprovedJobs={true}
+                  status={'approved'}
                 />
               </div>
             )}
@@ -251,7 +251,7 @@ class App extends Component {
                 />
                 <JobsContainer
                   currUser={this.state.currUser}
-                  getMySubmittedJobs={true}
+                  status={'submitted'}
                 />
               </div>
             )}
@@ -267,7 +267,7 @@ class App extends Component {
                 />
                 <JobsContainer
                   currUser={this.state.currUser}
-                  getMyDraftedJobs={true}
+                  status={'draft'}
                 />
               </div>
             )}
@@ -296,7 +296,7 @@ class App extends Component {
                 />
                 <AdminJobsContainer
                   currUser={this.state.currUser}
-                  getAllSubmittedJobs={true}
+                  status={'submitted'}
                 />
               </div>
             )}
@@ -312,7 +312,7 @@ class App extends Component {
                 />
                 <AdminJobsContainer
                   currUser={this.state.currUser}
-                  getAllApprovedJobs={true}
+                  status={'approved'}
                 />
               </div>
             )}

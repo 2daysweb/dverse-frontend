@@ -57,7 +57,7 @@ return myJobs
     let myJobs = this.getMyJobs()
   
     let approvedJobs = myJobs.filter( job => 
-      job.is_approved === true)
+      job.status === 'approved')
 return approvedJobs
 
   }
@@ -66,7 +66,7 @@ return approvedJobs
     let myJobs = this.getMyJobs()
     // debugger 
     let pendingJobs = myJobs.filter( job => 
-      job.is_approved === false)
+      job.status === 'submitted')
 
 return pendingJobs
 
@@ -122,7 +122,7 @@ return pendingJobs
    let id = currJob.id
    let title = currJob.title
    let body = currJob.body
-   let isActive = !currJob.is_active
+   let status = 'active'
    debugger 
    //  create new job object with newTitle and newBody
    
@@ -134,7 +134,7 @@ return pendingJobs
         "Content-Type": "application/json",
         Accept: "application/json"
       },
-      body: JSON.stringify({body: body, title: title, is_active:isActive}) 
+      body: JSON.stringify({body: body, title: title, status:status}) 
     })
       .then(response => response.json())
       .then(data => console.log(data)) 
