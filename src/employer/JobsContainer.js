@@ -182,6 +182,31 @@ class JobsContainer extends Component {
       .then(data => console.log(data));
   };
 
+  handleClickWithdrawSubmitBtn = currJob => {
+    debugger 
+    //get current id of current job
+    //  //debugger
+    let id = currJob.id;
+    let title = currJob.title;
+    let body = currJob.body;
+    let status = "draft";
+
+    //  create new job object with newTitle and newBody
+
+    let URL = BASE_URL + "api/v1/jobs/" + id;
+
+    return fetch(URL, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify({ body: body, title: title, status: status })
+    })
+      .then(response => response.json())
+      .then(data => console.log(data));
+  };
+
   handleClickActivateBtn = currJob => {
     //get current id of current job
     //  //debugger
@@ -348,6 +373,7 @@ class JobsContainer extends Component {
             handleChangeInput={this.handleChangeInput}
             handleChangeTextArea={this.handleChangeTextArea}
             submitJob={this.handleClickSubmitBtn}
+            withdrawSubmitJob={this.handleClickWithdrawSubmitBtn}
             //CRUD event handlers
             status={this.props.status}
             disapproveJob = {this.handleClickDisapproveBtn}

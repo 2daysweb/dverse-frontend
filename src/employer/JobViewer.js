@@ -17,7 +17,7 @@ let renderButtons = () => {
 
     case "submitted":
       if (currUserType === "employer") {
-        return <button>Withdraw Submission to Drafts</button>
+        return <button onClick={()=> props.withdrawSubmitJob(props.currJob)}>Withdraw Submission to Drafts</button>
       } else {
         return <button onClick={()=> props.approveJob(props.currJob)}>Approve Job</button>
       }

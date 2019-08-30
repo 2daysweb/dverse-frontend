@@ -25,6 +25,7 @@ class JobContent extends Component {
       return (
         <JobViewer
           submitJob = {this.props.submitJob}
+          withdrawSubmitJob={this.props.withdrawSubmitJob}
           currUser={this.props.currUser}
           currJob={this.props.currJob}
           editJob={this.props.editJob}
