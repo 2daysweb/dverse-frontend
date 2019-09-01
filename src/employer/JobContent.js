@@ -5,6 +5,7 @@ import JobInstructions from "./JobInstructions";
 import {withRouter} from 'react-router-dom'
 
 class JobContent extends Component {
+
   renderContent = () => {
     if (this.props.latestClick === "EditJob") {
       return (
@@ -70,4 +71,10 @@ class JobContent extends Component {
   }
 }
 
-export default withRouter(JobContent)
+function mapStateToProps(state) {
+  return {
+    default: state.default
+  };
+}
+
+export default JobContent

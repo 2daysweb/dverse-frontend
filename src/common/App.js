@@ -13,6 +13,11 @@ import EmployerHome from "../employer/EmployerHome";
 import CandidateHome from "../candidate/CandidateHome";
 import AdminHome from "../admin/AdminHome";
 import Profile from "./Profile";
+import { connect } from 'react-redux';
+import { simpleAction } from '../redux/actions/simpleAction';
+
+
+
 
 class App extends Component {
   constructor() {
@@ -33,13 +38,15 @@ class App extends Component {
         .then(res => res.json())
         .then(userObj => {
           this.setState({ currUser: userObj });
-        });
+        })
+      
     }
   }
 
   //--------------------BEGIN LOGIN CREDENTIALS---------------//
 
   updateCurrentUser = currUser => {
+    simpleAction()
     this.setState({ currUser: currUser });
   };
 
@@ -379,4 +386,14 @@ class App extends Component {
   }
 }
 
-export default withRouter(App);
+const mapStateToProps = state => ({
+  ...state
+ })
+
+ const mapDispatchToProps = dispatch => ({
+  simpleAction: () => dispatch(simpleAction())
+ })
+
+ export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+
