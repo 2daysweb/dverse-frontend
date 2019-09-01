@@ -36,6 +36,14 @@ class AdminJobsContainer extends Component {
       })
   }
 
+  handleClickShowJob = currJob => {
+    this.setState({ currJob: currJob });
+    this.setState({ currBody: currJob.body });
+    this.setState({ currTitle: currJob.title });
+    this.setState({ latestClick: "ShowJob" });
+  };
+
+
   //Get all approved jobs for all employers
   getAllApprovedJobs = () => {
     let allJobs = [...this.state.allJobs];
@@ -50,42 +58,6 @@ class AdminJobsContainer extends Component {
 
     let allSubmittedJobs = allJobs.filter(job => job.status === "submitted");
     return allSubmittedJobs;
-  };
-
-  //Get array of all jobs of current user/employer
-  getAllMyJobs = () => {
-    //Filter all jobs, return jobs belonging to current user
-    let allJobs = [...this.state.allJobs];
-
-    let currUser = JSON.parse(localStorage.getItem("currUser"));
-
-    //Filter through all jobs for jobs where user id matches curr user id
-    let myJobs = allJobs.filter(job => job.users[0].id === currUser.id);
-
-    return myJobs;
-  };
-
-  //Get all jobs of current user/employer based on userId
-  getMyApprovedJobs = () => {
-    let myJobs = this.getAllMyJobs();
-
-    let myApprovedJobs = myJobs.filter(job => job.status === "approved");
-    return myApprovedJobs;
-  };
-
-  getMyDraftedJobs = () => {
-    let myJobs = this.getAllMyJobs();
-    //  //debugger
-    let draftedJobs = myJobs.filter(job => job.status === "draft");
-    // //debugger;
-    return draftedJobs;
-  };
-  getMySubmittedJobs = () => {
-    let myJobs = this.getAllMyJobs();
-    // //debugger
-    let mySubmittedJobs = myJobs.filter(job => job.status === "submitted");
-
-    return mySubmittedJobs;
   };
 
   //Create a JSON switch config
@@ -109,14 +81,11 @@ class AdminJobsContainer extends Component {
         } else {
           return this.getAllSubmittedJobs();
         }
-
-      case "draft":
-        return this.getMyDraftedJobs();
+        
       default:
         return false;
     }
   };
-
 
   //----------BEGIN EVENT HANDLERS, CLICKS, SUBMITS--------------------//
 
@@ -124,80 +93,13 @@ class AdminJobsContainer extends Component {
     this.setState({ searchText: e.target.value }, this.getFilteredJobs);
   };
 
-  //Refactor the SetState to be only one single object --- with KV pairs
-
-  handleClickShowJob = currJob => {
-    this.setState({ currJob: currJob });
-    this.setState({ currBody: currJob.body });
-    this.setState({ currTitle: currJob.title });
-    this.setState({ latestClick: "ShowJob" });
-  };
-
   handleClickDisapproveBtn = currJob => {
-    //get current id of current job
-   //  debugger 
-    let id = currJob.id
-   let title = currJob.title
-   let body = currJob.body
-   let isApproved = !currJob.is_approved
-   let isDraft = false 
-   let isSubmitted = false 
-  
-   debugger 
-   //  create new job object with newTitle and newBody
    
-    let URL = BASE_URL + "api/v1/jobs/" + id
-    
-    return fetch(URL, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: JSON.stringify({body: body, title: title, is_approved:isApproved, is_submitted:isSubmitted, is_draft:isDraft}) 
-    })
-      .then(response => response.json())
-      .then(data => console.log(data)) 
-     }
-
-     //Employer clicks submit job, switch from is_draft to is_submitted
-    handleClickSubmitBtn = currJob => {
-        //get current id of current job
-       //  debugger 
-       let id = currJob.id
-       let title = currJob.title
-       let body = currJob.body
-       let isDraft = !currJob.is_draft
-       let isSubmitted = !currJob.is_submitted
-       let isApproved = currJob.isApproved
-     
-       //  create new job object with newTitle and newBody
-       
-        let URL = BASE_URL + "api/v1/jobs/" + id
-        
-        return fetch(URL, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json"
-          },
-          body: JSON.stringify({body: body, title: title, is_approved:isApproved, is_submitted:isSubmitted, is_draft:isDraft}) 
-        })
-          .then(response => response.json())
-          .then(data => console.log(data)) 
-         }
-
-  handleClickDisapproveBtn = currJob => {
-    //get current id of current job
-   //  debugger 
-    let id = currJob.id
+   let id = currJob.id
    let title = currJob.title
    let body = currJob.body
    let status = 'draft'
   
-   debugger 
-   //  create new job object with newTitle and newBody
-   
     let URL = BASE_URL + "api/v1/jobs/" + id
     
     return fetch(URL, {
@@ -220,9 +122,6 @@ class AdminJobsContainer extends Component {
       let body = currJob.body
       let status = 'approved'
     
-     debugger 
-     //  create new job object with newTitle and newBody
-     
       let URL = BASE_URL + "api/v1/jobs/" + id
       
       return fetch(URL, {
@@ -240,7 +139,7 @@ class AdminJobsContainer extends Component {
      //Employer clicks submit job, switch from is_draft to is_submitted
     handleClickSubmitBtn = currJob => {
         //get current id of current job
-       //  debugger 
+      
        let id = currJob.id
        let title = currJob.title
        let body = currJob.body
@@ -248,7 +147,7 @@ class AdminJobsContainer extends Component {
        let isSubmitted = !currJob.is_submitted
        let isApproved = currJob.isApproved
      
-       //  create new job object with newTitle and newBody
+       //Create new job object with newTitle and newBody
        
         let URL = BASE_URL + "api/v1/jobs/" + id
         
@@ -263,144 +162,6 @@ class AdminJobsContainer extends Component {
           .then(response => response.json())
           .then(data => console.log(data)) 
          }
-
-  handleClickActivateBtn = currJob => {
-    //get current id of current job
-   //  debugger 
-   let id = currJob.id
-   let title = currJob.title
-   let body = currJob.body
-   let isSubmitted = !currJob.is_submitted
-   let isActive = !currJob.is_active
-  //  debugger 
-
-   //  create new job object with newTitle and newBody
-   
-    let URL = BASE_URL + "api/v1/jobs/" + id
-    
-    return fetch(URL, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: JSON.stringify({body: body, title: title, is_active:isActive, is_submitted:isSubmitted}) 
-    })
-      .then(response => response.json())
-      .then(data => console.log(data)) 
-     }
-
-  handleClickNewBtn = () => {
-    this.setState({ latestClick: "" });
-    console.log(this.props.currUser);
-    //Create new empty job object --- hard-coded UserID = 2
-    let userId = this.props.currUser.id;
-
-    let newJob = {
-      title: "Deafult Title",
-      body: "Deafult Body",
-      user_id: userId
-    };
-    let URL = BASE_URL + "api/v1/jobs";
-    console.log("Is URL Printing", URL);
-
-    return fetch(URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: JSON.stringify(newJob) 
-    })
-      .then(response => response.json())
-      .then(jobObj => {
-        console.log(jobObj);
-        this.setState({ allJobs: [...this.state.allJobs, jobObj] }); 
-      });
-  };
-
-  //---------------BEGIN-----Event Handlers for Editing, Saving  Job-------------------------------//
-
-  handleClickEditBtn = e => {
-    //update latestClick to "edit"
-    this.setState({ latestClick: "EditJob" });
-  };
-
-  handleChangeTextArea = editedBody => {
-    let newBody = editedBody;
-    this.setState({ currBody: newBody });
-  };
-
-  handleChangeInput = editedTitle => {
-    this.setState({ currTitle: editedTitle });
-  };
-
-  handleClickSaveBtn = currJob => {
-    //get current id of current job
-    let id = currJob.id;
-    //get new current title from editJob view
-    let newTitle = this.state.currTitle;
-    //get new current body from editJob view
-    let newBody = this.state.currBody;
-    //create new job object with newTitle and newBody
-
-    
-    let newJob = { title: newTitle, body: newBody, id:id, is_approved:false, is_active:false };
-    let URL = BASE_URL + "api/v1/jobs/" + id;
-    console.log(URL);
-
-    return fetch(URL, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: JSON.stringify(newJob) // body data type must match "Content-Type" header
-    })
-      .then(response => response.json())
-      .then(data => console.log(data)); // parses JSON response into native JavaScript objects
-  };
-
-  //--------------------END-----Event Handlers for Editing, Saving  Job-------------------------------//
-
-  //--------------------BEGIN-----Event Handlers for Cancel, Delete Buttons-------------------------------//
-
-
-  //Discard any changes made and render "Show" of Current Job
-  handleClickCancelBtn = () => {
-    this.setState({ latestClick: "ShowJob" });
-  };
-
-  handleClickDeleteBtn = () => {
-    let id = this.state.currJob.id;
-    //create new job object with newTitle and newBody
-    let URL = BASE_URL + "api/v1/jobs/" + id;
-    let job = { id: id };
-
-    //Remove deleted job from backend 
-    return fetch(URL, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(job) 
-    })
-      .then(response => response.json()) 
-      .then(data => console.log(data))
-      .then(this.deleteJob(id));
-  };
-
-  //Delete a job from allJobs on click of Delete Button
-  deleteJob = id => {
-    //Make copy of existing currJobs array
-    let currAllJobs = [...this.state.allJobs];
-    let newAllJobs = currAllJobs.filter(job => job.id !== id);
-    //update state of allJobs, without deleted job
-    this.setState({ allJobs: [...newAllJobs] });
-    // this.setState({currUser:this.state})
-    console.log(this.state.allJobs);
-  };
-
 
     //--------------------END-----Event Handlers for Cancel, Delete Buttons-------------------------------//
 

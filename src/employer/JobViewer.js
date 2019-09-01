@@ -6,7 +6,7 @@ const JobViewer = (props) => {
 let renderButtons = () => {
   let currUserType = JSON.parse(localStorage.getItem("currUser")).user_type;
   let status = props.status;
-  //debugger;
+
   switch (status) {
     case "approved":
       if (currUserType === "employer") {
@@ -28,7 +28,6 @@ let renderButtons = () => {
       return false;
   }
 };
-
 
   return (
     <Fragment>

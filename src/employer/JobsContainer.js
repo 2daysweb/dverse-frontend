@@ -39,7 +39,6 @@ class JobsContainer extends Component {
   //Get all approved jobs for all employers
   getAllApprovedJobs = () => {
     let allJobs = [...this.state.allJobs];
-
     let allApprovedJobs = allJobs.filter(job => job.status === "approved");
     return allApprovedJobs;
   };
@@ -47,7 +46,6 @@ class JobsContainer extends Component {
   //Get all jobs submitted for approval from all employers
   getAllSubmittedJobs = () => {
     let allJobs = [...this.state.allJobs];
-
     let allSubmittedJobs = allJobs.filter(job => job.status === "submitted");
     return allSubmittedJobs;
   };
@@ -56,7 +54,6 @@ class JobsContainer extends Component {
   getAllMyJobs = () => {
     //Filter all jobs, return jobs belonging to current user
     let allJobs = [...this.state.allJobs];
-
     let currUser = JSON.parse(localStorage.getItem("currUser"));
 
     //Filter through all jobs for jobs where user id matches curr user id
@@ -89,11 +86,13 @@ class JobsContainer extends Component {
   };
 
   //Create a JSON switch config
-  //Make a root components and either extend them, or B. Use JSON config file to
+  // TODO: Make a HOC and extend them, or B use JSON config file to
+
   //Filter all of job based on searchText
   getFilteredJobs = () => {
     let currUserType = JSON.parse(localStorage.getItem("currUser")).user_type;
     let status = this.props.status;
+
     //debugger;
     switch (status) {
       case "approved":
@@ -139,7 +138,7 @@ class JobsContainer extends Component {
     let title = currJob.title;
     let body = currJob.body;
     let status = "draft";
-    
+
     //  create new job object with newTitle and newBody
 
     let URL = BASE_URL + "api/v1/jobs/" + id;
@@ -157,8 +156,9 @@ class JobsContainer extends Component {
   };
 
   //Employer clicks submit job, switch from is_draft to is_submitted
+
   handleClickSubmitBtn = currJob => {
-    debugger 
+    debugger;
     //get current id of current job
     //  //debugger
     let id = currJob.id;
@@ -166,7 +166,7 @@ class JobsContainer extends Component {
     let body = currJob.body;
     let status = "submitted";
 
-    //  create new job object with newTitle and newBody
+    //Create new job object with newTitle and newBody
 
     let URL = BASE_URL + "api/v1/jobs/" + id;
 
@@ -183,15 +183,14 @@ class JobsContainer extends Component {
   };
 
   handleClickWithdrawSubmitBtn = currJob => {
-    debugger 
     //get current id of current job
-    //  //debugger
+    //debugger
     let id = currJob.id;
     let title = currJob.title;
     let body = currJob.body;
     let status = "draft";
 
-    //  create new job object with newTitle and newBody
+    //create new job object with newTitle and newBody
 
     let URL = BASE_URL + "api/v1/jobs/" + id;
 
@@ -209,14 +208,14 @@ class JobsContainer extends Component {
 
   handleClickActivateBtn = currJob => {
     //get current id of current job
-    //  //debugger
+    //debugger
     let id = currJob.id;
     let title = currJob.title;
     let body = currJob.body;
     let status = "active";
-    //  //debugger
+    //debugger
 
-    //  create new job object with newTitle and newBody
+    //Create new job object with newTitle and newBody
 
     let URL = BASE_URL + "api/v1/jobs/" + id;
 
@@ -280,15 +279,15 @@ class JobsContainer extends Component {
   handleClickSaveBtn = currJob => {
     //get current id of current job
     let id = currJob.id;
-    //get new current title from editJob view
+    //get new current title from JobEditor
     let newTitle = this.state.currTitle;
-    //get new current body from editJob view
+    //get new current body from JobEditor
     let newBody = this.state.currBody;
 
-    let status = 'draft'
+    let status = "draft";
 
-//  debugger  
-    let newJob = { title: newTitle, body: newBody, id: id, status:status };
+    //  debugger
+    let newJob = { title: newTitle, body: newBody, id: id, status: status };
     let URL = BASE_URL + "api/v1/jobs/" + id;
     console.log(URL);
 
@@ -298,10 +297,10 @@ class JobsContainer extends Component {
         "Content-Type": "application/json",
         Accept: "application/json"
       },
-      body: JSON.stringify(newJob) // body data type must match "Content-Type" header
+      body: JSON.stringify(newJob) 
     })
       .then(response => response.json())
-      .then(data => console.log(data)); // parses JSON response into native JavaScript objects
+      .then(data => console.log(data)); 
   };
 
   //--------------------END-----Event Handlers for Editing, Saving  Job-------------------------------//
@@ -333,6 +332,7 @@ class JobsContainer extends Component {
   };
 
   //Delete a job from allJobs on click of Delete Button
+  
   deleteJob = id => {
     //Make copy of existing currJobs array
     let currAllJobs = [...this.state.allJobs];
@@ -376,7 +376,7 @@ class JobsContainer extends Component {
             withdrawSubmitJob={this.handleClickWithdrawSubmitBtn}
             //CRUD event handlers
             status={this.props.status}
-            disapproveJob = {this.handleClickDisapproveBtn}
+            disapproveJob={this.handleClickDisapproveBtn}
             activateJob={this.handleClickActivateBtn}
             editJob={this.handleClickEditBtn}
             showJob={this.handleClickShowJob}
@@ -392,10 +392,3 @@ class JobsContainer extends Component {
 }
 
 export default withRouter(JobsContainer);
-
-//      Logic for handling search filter
-//     let newFilteredJobs = approvedJobs.filter(job => {
-//       return job.title.toLowerCase().includes(this.state.searchText.toLowerCase())
-//     })
-//     return newFilteredJobs
-//   }

@@ -4,7 +4,8 @@ import {withRouter} from 'react-router-dom'
 
 class JobSidebar extends Component {
   renderNewBtn() {
-    //only render new btn if in Pending Jobs nav link
+
+    //Only render new btn if in Pending Jobs nav link
 
     if (this.props.location.pathname === "/mydraftjobs") {
       return <button onClick={this.props.newJob}>New</button>;
