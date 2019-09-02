@@ -1,11 +1,7 @@
-import React from 'react';
-
-
-//Conditionally render Instructions -- based on current current blah
+import React from "react";
 
 const JobInstructions = () => {
-  
   return <p className="instructions">Select Job Post to Show</p>;
-}
+};
 
 export default JobInstructions;

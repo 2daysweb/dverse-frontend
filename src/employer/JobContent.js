@@ -2,10 +2,8 @@ import React, { Component } from "react";
 import JobEditor from "./JobEditor";
 import JobViewer from "./JobViewer";
 import JobInstructions from "./JobInstructions";
-import {withRouter} from 'react-router-dom'
 
 class JobContent extends Component {
-
   renderContent = () => {
     if (this.props.latestClick === "EditJob") {
       return (
@@ -21,11 +19,11 @@ class JobContent extends Component {
           cancelJob={this.props.cancelJob}
           latestClick={this.props.latestClick}
         />
-      )
+      );
     } else if (this.props.latestClick === "ShowJob") {
       return (
         <JobViewer
-          submitJob = {this.props.submitJob}
+          submitJob={this.props.submitJob}
           withdrawSubmitJob={this.props.withdrawSubmitJob}
           currUser={this.props.currUser}
           currJob={this.props.currJob}
@@ -37,7 +35,7 @@ class JobContent extends Component {
           status={this.props.status}
         />
       );
-      //Cancel job does not mean delete job, simply click cancel btn when in job editor 
+      //Cancel job does not mean delete job, simply click cancel btn when in job editor
     } else if (this.props.latestClick === "CancelJob") {
       return (
         <JobViewer
@@ -48,7 +46,7 @@ class JobContent extends Component {
           showJob={this.props.showJob}
           latestClick={this.props.latestClick}
         />
-      )
+      );
     } else if (this.props.latestClick === "NewJob") {
       return (
         <JobViewer
@@ -58,18 +56,20 @@ class JobContent extends Component {
           showJob={this.props.showJob}
           latestClick={this.props.latestClick}
         />
-      )
+      );
     } else {
-      return <JobInstructions />
+      return <JobInstructions />;
     }
-  }
+  };
 
   render() {
     return (
       <div className="master-detail-element detail">{this.renderContent()}</div>
-    )
+    );
   }
 }
+
+//TODO: Finish implementing redux
 
 function mapStateToProps(state) {
   return {
@@ -77,4 +77,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default JobContent
+export default JobContent;

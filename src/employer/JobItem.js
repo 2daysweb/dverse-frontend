@@ -17,19 +17,17 @@ const truncateJob = JobTitle => {
   return caption;
 };
 
-//Component populates sidebar with job posting or candidate informatiion 
+//Component populates sidebar with job posting or candidate informatiion
 
 const JobItem = props => {
-
-
-  return (    <div>
-    <li onClick={() => props.showJob(props.currJob)}>
-      <h2>{props.currJob.title}</h2>
-      <p>{truncateJob(props.currJob.body)}</p>
-    </li>
-  </div>)
+  return (
+    <div>
+      <li onClick={() => props.showJob(props.currJob)}>
+        <h2>{props.currJob.title}</h2>
+        <p>{truncateJob(props.currJob.body)}</p>
+      </li>
+    </div>
+  );
 };
 
 export default JobItem;
-
- 

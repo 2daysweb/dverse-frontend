@@ -5,32 +5,27 @@ import Instructions from "./AdminJobInstructions";
 
 class AdminJobContent extends Component {
   renderContent = () => {
-     if (this.props.latestClick === "ShowJob") {
+    if (this.props.latestClick === "ShowJob") {
       return (
         <JobViewer
-          currUser={this.props.currUser}
-          currJob={this.props.currJob}
-          editJob={this.props.editJob}
-          showJob={this.props.showJob}
-          deleteJob={this.props.deleteJob}
           latestClick={this.props.latestClick}
           status={this.props.status}
+          currJob={this.props.currJob}
+          showJob={this.props.showJob}
           approveJob={this.props.approveJob}
           disapproveJob={this.props.disapproveJob}
-          
         />
       );
-      //Cancel job does not mean delete job, simply click cancel btn when in job editor 
-    }  else {
-      return <Instructions />
+    } else {
+      return <Instructions />;
     }
-  }
+  };
 
   render() {
     return (
       <div className="master-detail-element detail">{this.renderContent()}</div>
-    )
+    );
   }
 }
 
-export default AdminJobContent
+export default AdminJobContent;

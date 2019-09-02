@@ -21,34 +21,20 @@ class JobsContainer extends Component {
     };
   }
 
-  //Set all jobs and filtered jobs on load of Container
+  //Set all jobs, filtered jobs state and filtered jobs on load of Container
+
   componentDidMount() {
-    // //debugger;
     fetch(BASE_URL + "api/v1/jobs")
       .then(resp => resp.json())
       .then(jobsArray => {
         this.setState({ allJobs: jobsArray });
         this.setState({ filteredJobs: jobsArray });
-        localStorage.setItem("allJobs", JSON.stringify(jobsArray));
-        localStorage.setItem("filteredJobs", JSON.stringify(jobsArray));
+        // localStorage.setItem("allJobs", JSON.stringify(jobsArray));
+        // localStorage.setItem("filteredJobs", JSON.stringify(jobsArray));
 
         console.log(jobsArray);
       });
   }
-
-  //Get all approved jobs for all employers
-  getAllApprovedJobs = () => {
-    let allJobs = [...this.state.allJobs];
-    let allApprovedJobs = allJobs.filter(job => job.status === "approved");
-    return allApprovedJobs;
-  };
-
-  //Get all jobs submitted for approval from all employers
-  getAllSubmittedJobs = () => {
-    let allJobs = [...this.state.allJobs];
-    let allSubmittedJobs = allJobs.filter(job => job.status === "submitted");
-    return allSubmittedJobs;
-  };
 
   //Get array of all jobs of current user/employer
   getAllMyJobs = () => {
@@ -72,14 +58,14 @@ class JobsContainer extends Component {
 
   getMyDraftedJobs = () => {
     let myJobs = this.getAllMyJobs();
-    //  //debugger
+    
     let draftedJobs = myJobs.filter(job => job.status === "draft");
-    // //debugger;
+    
     return draftedJobs;
   };
   getMySubmittedJobs = () => {
     let myJobs = this.getAllMyJobs();
-    // //debugger
+   
     let mySubmittedJobs = myJobs.filter(job => job.status === "submitted");
 
     return mySubmittedJobs;
@@ -131,34 +117,9 @@ class JobsContainer extends Component {
     this.setState({ latestClick: "ShowJob" });
   };
 
-  handleClickDisapproveBtn = currJob => {
-    //get current id of current job
-    //  //debugger
-    let id = currJob.id;
-    let title = currJob.title;
-    let body = currJob.body;
-    let status = "draft";
-
-    //  create new job object with newTitle and newBody
-
-    let URL = BASE_URL + "api/v1/jobs/" + id;
-
-    return fetch(URL, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: JSON.stringify({ body: body, title: title, status: status })
-    })
-      .then(response => response.json())
-      .then(data => console.log(data));
-  };
-
   //Employer clicks submit job, switch from is_draft to is_submitted
 
   handleClickSubmitBtn = currJob => {
-    debugger;
     //get current id of current job
     //  //debugger
     let id = currJob.id;
@@ -376,7 +337,6 @@ class JobsContainer extends Component {
             withdrawSubmitJob={this.handleClickWithdrawSubmitBtn}
             //CRUD event handlers
             status={this.props.status}
-            disapproveJob={this.handleClickDisapproveBtn}
             activateJob={this.handleClickActivateBtn}
             editJob={this.handleClickEditBtn}
             showJob={this.handleClickShowJob}

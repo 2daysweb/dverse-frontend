@@ -5,7 +5,7 @@ import NavBar from "./Nav";
 import CandidateContainer from "../candidate/CandidateContainer";
 import CandidateJobContainer from "../candidate/CandidateJobContainer";
 import AdminJobsContainer from "../admin/AdminJobsContainer";
-import JobsContainer from '../employer/JobsContainer'
+import JobsContainer from "../employer/JobsContainer";
 import Applications from "./Applications";
 import SignUpForm from "./SignUpForm";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
@@ -13,11 +13,8 @@ import EmployerHome from "../employer/EmployerHome";
 import CandidateHome from "../candidate/CandidateHome";
 import AdminHome from "../admin/AdminHome";
 import Profile from "./Profile";
-import { connect } from 'react-redux';
-import { simpleAction } from '../redux/actions/simpleAction';
-
-
-
+import { connect } from "react-redux";
+import { simpleAction } from "../actions/simpleAction";
 
 class App extends Component {
   constructor() {
@@ -38,15 +35,19 @@ class App extends Component {
         .then(res => res.json())
         .then(userObj => {
           this.setState({ currUser: userObj });
-        })
-      
+        });
     }
   }
 
   //--------------------BEGIN LOGIN CREDENTIALS---------------//
 
+  //redux test --- //
+  simpleAction = event => {
+    this.props.simpleAction();
+  };
+
   updateCurrentUser = currUser => {
-    simpleAction()
+    simpleAction();
     this.setState({ currUser: currUser });
   };
 
@@ -81,7 +82,8 @@ class App extends Component {
               updateCurrentUser={this.updateCurrentUser}
               currUser={this.state.currUser}
             />
-            <EmployerHome currUser={this.state.currUser} />
+            <EmployerHome />
+            <button onClick={this.simpleAction}>Test redux action</button>
           </div>
         );
 
@@ -92,7 +94,7 @@ class App extends Component {
               updateCurrentUser={this.updateCurrentUser}
               currUser={this.state.currUser}
             />
-            <CandidateHome currUser={this.state.currUser} />
+            <CandidateHome />
           </div>
         );
 
@@ -103,7 +105,7 @@ class App extends Component {
               updateCurrentUser={this.updateCurrentUser}
               currUser={this.state.currUser}
             />
-            <AdminHome currUser={this.state.currUser} />
+            <AdminHome />
           </div>
         );
 
@@ -172,7 +174,7 @@ class App extends Component {
                   updateCurrentUser={this.updateCurrentUser}
                   currUser={this.state.currUser}
                 />
-                <AdminHome currUser={this.state.currUser} />
+                <AdminHome />
               </div>
             )}
           />
@@ -185,7 +187,7 @@ class App extends Component {
                   updateCurrentUser={this.updateCurrentUser}
                   currUser={this.state.currUser}
                 />
-                <CandidateHome currUser={this.state.currUser} />
+                <CandidateHome />
               </div>
             )}
           />
@@ -199,7 +201,7 @@ class App extends Component {
                   updateCurrentUser={this.updateCurrentUser}
                   currUser={this.state.currUser}
                 />
-                <Profile currUser={this.state.currUser} />
+                <Profile />
               </div>
             )}
           />
@@ -213,7 +215,7 @@ class App extends Component {
                   updateCurrentUser={this.updateCurrentUser}
                   currUser={this.state.currUser}
                 />
-                <EmployerHome currUser={this.state.currUser} />
+                <EmployerHome />
               </div>
             )}
           />
@@ -226,7 +228,7 @@ class App extends Component {
                   updateCurrentUser={this.updateCurrentUser}
                   currUser={this.state.currUser}
                 />
-                <CandidateContainer currUser={this.state.currUser} />
+                <CandidateContainer />
               </div>
             )}
           />
@@ -239,10 +241,7 @@ class App extends Component {
                   updateCurrentUser={this.updateCurrentUser}
                   currUser={this.state.currUser}
                 />
-                <JobsContainer
-                  currUser={this.state.currUser}
-                  status={'approved'}
-                />
+                <JobsContainer status={"approved"} />
               </div>
             )}
           />
@@ -255,10 +254,7 @@ class App extends Component {
                   updateCurrentUser={this.updateCurrentUser}
                   currUser={this.state.currUser}
                 />
-                <JobsContainer
-                  currUser={this.state.currUser}
-                  status={'submitted'}
-                />
+                <JobsContainer status={"submitted"} />
               </div>
             )}
           />
@@ -271,10 +267,7 @@ class App extends Component {
                   updateCurrentUser={this.updateCurrentUser}
                   currUser={this.state.currUser}
                 />
-                <JobsContainer
-                  currUser={this.state.currUser}
-                  status={'draft'}
-                />
+                <JobsContainer status={"draft"} />
               </div>
             )}
           />
@@ -287,7 +280,7 @@ class App extends Component {
                   updateCurrentUser={this.updateCurrentUser}
                   currUser={this.state.currUser}
                 />
-                <Profile currUser={this.state.currUser} />
+                <Profile />
               </div>
             )}
           />
@@ -300,10 +293,7 @@ class App extends Component {
                   updateCurrentUser={this.updateCurrentUser}
                   currUser={this.state.currUser}
                 />
-                <AdminJobsContainer
-                  currUser={this.state.currUser}
-                  status={'submitted'}
-                />
+                <AdminJobsContainer status={"submitted"} />
               </div>
             )}
           />
@@ -316,10 +306,7 @@ class App extends Component {
                   updateCurrentUser={this.updateCurrentUser}
                   currUser={this.state.currUser}
                 />
-                <AdminJobsContainer
-                  currUser={this.state.currUser}
-                  status={'approved'}
-                />
+                <AdminJobsContainer status={"approved"} />
               </div>
             )}
           />
@@ -332,7 +319,7 @@ class App extends Component {
                   updateCurrentUser={this.updateCurrentUser}
                   currUser={this.state.currUser}
                 />
-                <CandidateJobContainer currUser={this.state.currUser} />
+                <CandidateJobContainer />
               </div>
             )}
           />
@@ -346,7 +333,7 @@ class App extends Component {
                   updateCurrentUser={this.updateCurrentUser}
                   currUser={this.state.currUser}
                 />
-                <Applications currUser={this.state.currUser} />
+                <Applications />
               </div>
             )}
           />
@@ -359,7 +346,7 @@ class App extends Component {
                   updateCurrentUser={this.updateCurrentUser}
                   currUser={this.state.currUser}
                 />
-                <Applications currUser={this.state.currUser} />
+                <Applications />
               </div>
             )}
           />
@@ -388,12 +375,13 @@ class App extends Component {
 
 const mapStateToProps = state => ({
   ...state
- })
+});
 
- const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = dispatch => ({
   simpleAction: () => dispatch(simpleAction())
- })
+});
 
- export default connect(mapStateToProps, mapDispatchToProps)(App);
-
-
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

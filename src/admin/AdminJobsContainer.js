@@ -87,7 +87,7 @@ class AdminJobsContainer extends Component {
     }
   };
 
-  //----------BEGIN EVENT HANDLERS, CLICKS, SUBMITS--------------------//
+  //----------BEGIN EVENT HANDLERS, CLICKS, SUBMITS--------BEGIN-------------//
 
   handleChangeSearchText = e => {
     this.setState({ searchText: e.target.value }, this.getFilteredJobs);
@@ -163,7 +163,7 @@ class AdminJobsContainer extends Component {
           .then(data => console.log(data)) 
          }
 
-    //--------------------END-----Event Handlers for Cancel, Delete Buttons-------------------------------//
+    //--------------------END-----Event Handlers for Clicks, Submits-----END-------------------------------//
 
   render() {
     return (
@@ -171,7 +171,6 @@ class AdminJobsContainer extends Component {
         <Search
           latestClick={this.state.latestClick}
           handleChangeSearchText={this.handleChangeSearchText}
-          currUser={this.props.currUser}
         />
         <div className="container">
           <AdminJobSidebar
@@ -182,7 +181,6 @@ class AdminJobsContainer extends Component {
             //CRUD event handlers
             showJob={this.handleClickShowJob}
             newJob={this.handleClickNewBtn}
-            currUser={this.props.currUser}
           />
           <AdminJobContent
             //State variables

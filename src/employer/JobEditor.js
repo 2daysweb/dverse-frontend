@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Form, Button } from "react-bootstrap";
+
 class JobEditor extends Component {
   handleChangeTitle = e => {
     e.persist();
@@ -13,19 +14,16 @@ class JobEditor extends Component {
     this.props.handleChangeTextArea(newBody);
   };
 
-  // handleChangeIsApproved = e => {
-  //   e.persist();
-  //   let newBody = e.target.value;
-  //   this.props.handleChangeTextArea(newBody);
-  // };
-
   render() {
     return (
       <div>
         <Form.Row>
           <Form.Group controlId="firstName">
-
-            <Form.Control onChange={this.handleChangeTitle} name="title" value={this.props.currTitle} />
+            <Form.Control
+              onChange={this.handleChangeTitle}
+              name="title"
+              value={this.props.currTitle}
+            />
           </Form.Group>
         </Form.Row>
         <Form.Group controlId="exampleForm.ControlTextarea1">
@@ -46,14 +44,11 @@ class JobEditor extends Component {
             type="submit"
             value="Save"
           />
-          <button  onClick={this.props.cancelJob} type="button">
+          <button onClick={this.props.cancelJob} type="button">
             Cancel
           </button>
         </div>
-    
       </div>
-
-  
     );
   }
 }

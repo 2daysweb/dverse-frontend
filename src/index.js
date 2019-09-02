@@ -7,12 +7,12 @@ import "react-bootstrap-table2-filter/dist/react-bootstrap-table2-filter.min.css
 import "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import { BrowserRouter as Router } from "react-router-dom";
+import configureStore from './store';
 import { Provider } from "react-redux";
-import store from './redux/store'
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
-  <Provider store={store}>
+  <Provider store={configureStore()}>
     <Router>
       <App />
     </Router>

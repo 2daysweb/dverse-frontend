@@ -1,7 +1,6 @@
 import React from "react"
 import { Jumbotron, Container } from "react-bootstrap"
 import {withRouter} from 'react-router-dom'
-//Conditionally render Home depending on user_type
 
  function EmployerHome() {
   return (

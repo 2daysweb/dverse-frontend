@@ -1,43 +1,45 @@
-import React, { Fragment } from 'react'
-import {withRouter} from 'react-router-dom'
+import React, { Fragment } from "react";
+import { withRouter } from "react-router-dom";
 
-const AdminJobViewer = (props) => {
- 
+const AdminJobViewer = props => {
   let renderButtons = () => {
     let currUserType = JSON.parse(localStorage.getItem("currUser")).user_type;
     let status = props.status;
-    //debugger;
+
     switch (status) {
       case "approved":
         if (currUserType === "employer") {
-          return <button>Take Job Post Down</button>
+          return <button>Take Job Post Down</button>;
         } else {
-          return <button onClick={()=> props.disapproveJob(props.currJob)}>Revoke Job Post Approval</button>
+          return (
+            <button onClick={() => props.disapproveJob(props.currJob)}>
+              Revoke Job Post Approval
+            </button>
+          );
         }
-  
+
       case "submitted":
         if (currUserType === "employer") {
-          return <button>Withdraw Submission to Drafts</button>
+          return <button>Withdraw Submission to Drafts</button>;
         } else {
-          return <button onClick={()=> props.approveJob(props.currJob)}>Approve Job</button>
+          return (
+            <button onClick={() => props.approveJob(props.currJob)}>
+              Approve Job Post
+            </button>
+          );
         }
-  
-      case "draft":
-        return <div><button onClick={props.editJob}>Edit Job</button><button>Submit For Approval</button></div>
       default:
         return false;
     }
   };
-  
-  
-    return (
-      <Fragment>
-        <h2>{props.currJob.title}</h2>
-        <p>{props.currJob.body}</p>
-        {renderButtons()}
-      
-      </Fragment>
-    )
-}
+
+  return (
+    <Fragment>
+      <h2>{props.currJob.title}</h2>
+      <p>{props.currJob.body}</p>
+      {renderButtons()}
+    </Fragment>
+  );
+};
 
 export default withRouter(AdminJobViewer);
