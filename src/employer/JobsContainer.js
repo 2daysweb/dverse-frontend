@@ -2,6 +2,10 @@ import React, { Component, Fragment } from "react";
 import Search from "../common/Search";
 import JobSidebar from "./JobSidebar";
 import Content from "./JobContent";
+import {store} from '../store'
+import { connect } from "react-redux";
+import { bindActionCreators } from 'redux'
+import {fetchJobs} from '../actions/index'
 import { withRouter } from "react-router-dom";
 
 const BASE_URL = "http://localhost:3000/";
@@ -27,18 +31,17 @@ class JobsContainer extends Component {
     fetch(BASE_URL + "api/v1/jobs")
       .then(resp => resp.json())
       .then(jobsArray => {
+        this.props.dispatch(fetchJobs());
         this.setState({ allJobs: jobsArray });
         this.setState({ filteredJobs: jobsArray });
-        // localStorage.setItem("allJobs", JSON.stringify(jobsArray));
-        // localStorage.setItem("filteredJobs", JSON.stringify(jobsArray));
-
-        console.log(jobsArray);
+      
       });
   }
 
   //Get array of all jobs of current user/employer
   getAllMyJobs = () => {
     //Filter all jobs, return jobs belonging to current user
+     
     let allJobs = [...this.state.allJobs];
     let currUser = JSON.parse(localStorage.getItem("currUser"));
 
@@ -79,7 +82,7 @@ class JobsContainer extends Component {
     let currUserType = JSON.parse(localStorage.getItem("currUser")).user_type;
     let status = this.props.status;
 
-    //debugger;
+    //;
     switch (status) {
       case "approved":
         if (currUserType === "employer") {
@@ -121,7 +124,7 @@ class JobsContainer extends Component {
 
   handleClickSubmitBtn = currJob => {
     //get current id of current job
-    //  //debugger
+    //  //
     let id = currJob.id;
     let title = currJob.title;
     let body = currJob.body;
@@ -145,7 +148,7 @@ class JobsContainer extends Component {
 
   handleClickWithdrawSubmitBtn = currJob => {
     //get current id of current job
-    //debugger
+    //
     let id = currJob.id;
     let title = currJob.title;
     let body = currJob.body;
@@ -169,15 +172,12 @@ class JobsContainer extends Component {
 
   handleClickActivateBtn = currJob => {
     //get current id of current job
-    //debugger
+    //
     let id = currJob.id;
     let title = currJob.title;
     let body = currJob.body;
     let status = "active";
-    //debugger
-
-    //Create new job object with newTitle and newBody
-
+  
     let URL = BASE_URL + "api/v1/jobs/" + id;
 
     return fetch(URL, {
@@ -193,11 +193,12 @@ class JobsContainer extends Component {
   };
 
   handleClickNewBtn = () => {
+    debugger 
     this.setState({ latestClick: "" });
-    console.log(this.props.currUser);
+    let currUser = JSON.parse(localStorage.getItem("currUser"));
     //Create new empty job object --- hard-coded UserID = 2
-    let userId = this.props.currUser.id;
-    // //debugger;
+    let userId = currUser.id
+    // //;
     let newJob = {
       title: "Deafult Title",
       body: "Deafult Body",
@@ -247,10 +248,9 @@ class JobsContainer extends Component {
 
     let status = "draft";
 
-    //  debugger
+    //  
     let newJob = { title: newTitle, body: newBody, id: id, status: status };
     let URL = BASE_URL + "api/v1/jobs/" + id;
-    console.log(URL);
 
     return fetch(URL, {
       method: "PATCH",
@@ -274,7 +274,9 @@ class JobsContainer extends Component {
   };
 
   handleClickDeleteBtn = () => {
-    let id = this.state.currJob.id;
+    let currUser = JSON.parse(localStorage.getItem("currUser"));
+    
+    let id = currUser.id;
     //create new job object with newTitle and newBody
     let URL = BASE_URL + "api/v1/jobs/" + id;
     let job = { id: id };
@@ -301,7 +303,6 @@ class JobsContainer extends Component {
     //update state of allJobs, without deleted job
     this.setState({ allJobs: [...newAllJobs] });
     // this.setState({currUser:this.state})
-    console.log(this.state.allJobs);
   };
 
   //--------------------END-----Event Handlers for Cancel, Delete Buttons-------------------------------//
@@ -351,4 +352,18 @@ class JobsContainer extends Component {
   }
 }
 
-export default withRouter(JobsContainer);
+const mapStateToProps = state => ({
+  jobs: state.jobs,
+  loading: state.jobs.loading,
+  error: state.jobs.error
+});
+
+// const mapDispatchToProps = dispatch => bindActionCreators({
+//   fetchJobs: fetchJobs
+// }, dispatch)
+
+export default connect(
+  mapStateToProps
+)(withRouter(JobsContainer))
+
+

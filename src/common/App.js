@@ -8,13 +8,14 @@ import AdminJobsContainer from "../admin/AdminJobsContainer";
 import JobsContainer from "../employer/JobsContainer";
 import Applications from "./Applications";
 import SignUpForm from "./SignUpForm";
-import { Switch, Route, Redirect, withRouter } from "react-router-dom";
+import { Switch, Route, Redirect} from "react-router-dom";
 import EmployerHome from "../employer/EmployerHome";
 import CandidateHome from "../candidate/CandidateHome";
 import AdminHome from "../admin/AdminHome";
 import Profile from "./Profile";
 import { connect } from "react-redux";
-import { simpleAction } from "../actions/simpleAction";
+import { bindActionCreators } from 'redux'
+import {fetchJobs} from '../actions/index'
 
 class App extends Component {
   constructor() {
@@ -37,17 +38,14 @@ class App extends Component {
           this.setState({ currUser: userObj });
         });
     }
+
   }
 
   //--------------------BEGIN LOGIN CREDENTIALS---------------//
 
-  //redux test --- //
-  simpleAction = event => {
-    this.props.simpleAction();
-  };
+
 
   updateCurrentUser = currUser => {
-    simpleAction();
     this.setState({ currUser: currUser });
   };
 
@@ -83,7 +81,7 @@ class App extends Component {
               currUser={this.state.currUser}
             />
             <EmployerHome />
-            <button onClick={this.simpleAction}>Test redux action</button>
+     
           </div>
         );
 
@@ -374,14 +372,15 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  ...state
+  jobs: state.jobs.jobs,
+  loading: state.jobs.loading,
+  error: state.jobs.error
 });
 
-const mapDispatchToProps = dispatch => ({
-  simpleAction: () => dispatch(simpleAction())
-});
+const mapDispatchToProps = dispatch => bindActionCreators({
+  fetchJobs: fetchJobs
+}, dispatch)
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(App);

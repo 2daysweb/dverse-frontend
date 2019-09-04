@@ -7,15 +7,14 @@ import "react-bootstrap-table2-filter/dist/react-bootstrap-table2-filter.min.css
 import "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import { BrowserRouter as Router } from "react-router-dom";
-import configureStore from './store';
+import {store} from "./store";
 import { Provider } from "react-redux";
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
-  <Provider store={configureStore()}>
-    <Router>
-      <App />
-    </Router>
+ <Provider store={store}> <Router>
+    <App store={store}/>
+  </Router>
   </Provider>,
   document.getElementById("root")
 );
