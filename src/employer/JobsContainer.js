@@ -2,10 +2,9 @@ import React, { Component, Fragment } from "react";
 import Search from "../common/Search";
 import JobSidebar from "./JobSidebar";
 import Content from "./JobContent";
-import {store} from '../store'
+import { store } from "../store";
 import { connect } from "react-redux";
-import { bindActionCreators } from 'redux'
-import {fetchJobs} from '../actions/index'
+import { fetchJobs } from "../actions/index";
 import { withRouter } from "react-router-dom";
 
 const BASE_URL = "http://localhost:3000/";
@@ -14,7 +13,6 @@ class JobsContainer extends Component {
   constructor() {
     super();
     this.state = {
-      allJobs: [],
       filteredJobs: [],
       myJobs: [],
       currJob: null,
@@ -25,52 +23,37 @@ class JobsContainer extends Component {
     };
   }
 
-  //Set all jobs, filtered jobs state and filtered jobs on load of Container
+//Set jobs from redux state on mount
 
   componentDidMount() {
-    fetch(BASE_URL + "api/v1/jobs")
-      .then(resp => resp.json())
-      .then(jobsArray => {
-        this.props.dispatch(fetchJobs());
-        this.setState({ allJobs: jobsArray });
-        this.setState({ filteredJobs: jobsArray });
-      
-      });
+    this.props.fetchJobs();
   }
 
   //Get array of all jobs of current user/employer
   getAllMyJobs = () => {
-    //Filter all jobs, return jobs belonging to current user
-     
-    let allJobs = [...this.state.allJobs];
+  //Filter all jobs, return jobs belonging to current user
+    let allJobs = this.props.jobs;
     let currUser = JSON.parse(localStorage.getItem("currUser"));
-
-    //Filter through all jobs for jobs where user id matches curr user id
+  //Filter through all jobs for jobs where user id matches curr user id
     let myJobs = allJobs.filter(job => job.users[0].id === currUser.id);
-
     return myJobs;
   };
 
   //Get all jobs of current user/employer based on userId
   getMyApprovedJobs = () => {
     let myJobs = this.getAllMyJobs();
-
     let myApprovedJobs = myJobs.filter(job => job.status === "approved");
     return myApprovedJobs;
   };
 
   getMyDraftedJobs = () => {
     let myJobs = this.getAllMyJobs();
-    
     let draftedJobs = myJobs.filter(job => job.status === "draft");
-    
     return draftedJobs;
   };
   getMySubmittedJobs = () => {
     let myJobs = this.getAllMyJobs();
-   
     let mySubmittedJobs = myJobs.filter(job => job.status === "submitted");
-
     return mySubmittedJobs;
   };
 
@@ -172,12 +155,12 @@ class JobsContainer extends Component {
 
   handleClickActivateBtn = currJob => {
     //get current id of current job
-    //
+    
     let id = currJob.id;
     let title = currJob.title;
     let body = currJob.body;
     let status = "active";
-  
+
     let URL = BASE_URL + "api/v1/jobs/" + id;
 
     return fetch(URL, {
@@ -193,11 +176,11 @@ class JobsContainer extends Component {
   };
 
   handleClickNewBtn = () => {
-    debugger 
+    debugger;
     this.setState({ latestClick: "" });
     let currUser = JSON.parse(localStorage.getItem("currUser"));
     //Create new empty job object --- hard-coded UserID = 2
-    let userId = currUser.id
+    let userId = currUser.id;
     // //;
     let newJob = {
       title: "Deafult Title",
@@ -214,12 +197,7 @@ class JobsContainer extends Component {
         Accept: "application/json"
       },
       body: JSON.stringify(newJob)
-    })
-      .then(response => response.json())
-      .then(jobObj => {
-        console.log(jobObj);
-        this.setState({ allJobs: [...this.state.allJobs, jobObj] });
-      });
+    }).then(response => response.json());
   };
 
   //---------------BEGIN-----Event Handlers for Editing, Saving  Job-------------------------------//
@@ -248,7 +226,6 @@ class JobsContainer extends Component {
 
     let status = "draft";
 
-    //  
     let newJob = { title: newTitle, body: newBody, id: id, status: status };
     let URL = BASE_URL + "api/v1/jobs/" + id;
 
@@ -258,10 +235,10 @@ class JobsContainer extends Component {
         "Content-Type": "application/json",
         Accept: "application/json"
       },
-      body: JSON.stringify(newJob) 
+      body: JSON.stringify(newJob)
     })
       .then(response => response.json())
-      .then(data => console.log(data)); 
+      .then(data => console.log(data));
   };
 
   //--------------------END-----Event Handlers for Editing, Saving  Job-------------------------------//
@@ -275,7 +252,7 @@ class JobsContainer extends Component {
 
   handleClickDeleteBtn = () => {
     let currUser = JSON.parse(localStorage.getItem("currUser"));
-    
+
     let id = currUser.id;
     //create new job object with newTitle and newBody
     let URL = BASE_URL + "api/v1/jobs/" + id;
@@ -295,14 +272,11 @@ class JobsContainer extends Component {
   };
 
   //Delete a job from allJobs on click of Delete Button
-  
+
   deleteJob = id => {
     //Make copy of existing currJobs array
-    let currAllJobs = [...this.state.allJobs];
+    let currAllJobs = this.props.jobs;
     let newAllJobs = currAllJobs.filter(job => job.id !== id);
-    //update state of allJobs, without deleted job
-    this.setState({ allJobs: [...newAllJobs] });
-    // this.setState({currUser:this.state})
   };
 
   //--------------------END-----Event Handlers for Cancel, Delete Buttons-------------------------------//
@@ -352,18 +326,22 @@ class JobsContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  jobs: state.jobs,
-  loading: state.jobs.loading,
-  error: state.jobs.error
-});
+const mapStateToProps = state => {
+  return {
+    jobs: state.jobs.jobs
+  };
+};
 
-// const mapDispatchToProps = dispatch => bindActionCreators({
-//   fetchJobs: fetchJobs
-// }, dispatch)
+const mapDispatchToProps = dispatch => {
+  console.log(fetchJobs());
+  return {
+    fetchJobs: () => {
+      dispatch(fetchJobs());
+    }
+  };
+};
 
 export default connect(
-  mapStateToProps
-)(withRouter(JobsContainer))
-
-
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(JobsContainer));

@@ -2,20 +2,11 @@
 
 const BASE_URL = "http://localhost:3000/";
 
-export const FETCH_JOBS_BEGIN   = 'FETCH_JOBS_BEGIN';
-export const FETCH_JOBS_SUCCESS = 'FETCH_JOBS_SUCCESS';
-export const FETCH_JOBS_FAILURE = 'FETCH_JOBS_FAILURE';
-
-export const fetchJobsSuccess = jobs => ({
-  type: FETCH_JOBS_SUCCESS,
-  payload: { jobs }
-});
-
-export const fetchJobsFailure = error => ({
-  type: FETCH_JOBS_FAILURE,
-  payload: { error }
-});
+export const FETCH_JOBS_BEGIN = "FETCH_JOBS_BEGIN";
+export const FETCH_JOBS_SUCCESS = "FETCH_JOBS_SUCCESS";
+export const FETCH_JOBS_FAILURE = "FETCH_JOBS_FAILURE";
 export const TOGGLE_JOB_STATUS = "TOGGLE_JOB_STATUS";
+
 export const VisibilityFilters = {
   SHOW_ALL: "SHOW_ALL",
   SHOW_DRAFTED: "SHOW_DRAFTED",
@@ -43,17 +34,25 @@ export function fetchJobs() {
 }
 
 function handleErrors(response) {
-    if (!response.ok) {
-      throw Error(response.statusText);
-    }
-    return response;
+  if (!response.ok) {
+    throw Error(response.statusText);
   }
+  return response;
+}
 
-export const fetchJobsBegin = () => {
-  return {
-    type: FETCH_JOBS_BEGIN
-  };
-};
+export const fetchJobsBegin = () => ({
+  type: FETCH_JOBS_BEGIN
+});
+
+export const fetchJobsSuccess = jobs => ({
+  type: FETCH_JOBS_SUCCESS,
+  payload: { jobs }
+});
+
+export const fetchJobsFailure = error => ({
+  type: FETCH_JOBS_FAILURE,
+  payload: { error }
+});
 
 export const setVisibilityFilter = filter => ({
   type: "SET_VISIBILITY_FILTER",

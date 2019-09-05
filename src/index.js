@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./assets/css/brooke.css";
-import App from "./common/App";
 import "bootstrap/dist/css/bootstrap.css";
 import "react-bootstrap-table2-filter/dist/react-bootstrap-table2-filter.min.css";
 import "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
+import App from "./common/App";
 import { BrowserRouter as Router } from "react-router-dom";
 import {store} from "./store";
 import { Provider } from "react-redux";

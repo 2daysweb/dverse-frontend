@@ -1,21 +1,19 @@
 import React, { Component } from "react";
-import LoginPage from "./LoginPage";
-import LandingPage from "./LandingPage";
 import NavBar from "./Nav";
+import LoginPage from "./LoginPage";
+import SignUpForm from "./SignUpForm";
+import LandingPage from "./LandingPage";
+import Applications from "./Applications";
+import Profile from "./Profile";
+import CandidateHome from "../candidate/CandidateHome";
 import CandidateContainer from "../candidate/CandidateContainer";
 import CandidateJobContainer from "../candidate/CandidateJobContainer";
-import AdminJobsContainer from "../admin/AdminJobsContainer";
-import JobsContainer from "../employer/JobsContainer";
-import Applications from "./Applications";
-import SignUpForm from "./SignUpForm";
-import { Switch, Route, Redirect} from "react-router-dom";
-import EmployerHome from "../employer/EmployerHome";
-import CandidateHome from "../candidate/CandidateHome";
 import AdminHome from "../admin/AdminHome";
-import Profile from "./Profile";
-import { connect } from "react-redux";
-import { bindActionCreators } from 'redux'
-import {fetchJobs} from '../actions/index'
+import AdminJobsContainer from "../admin/AdminJobsContainer";
+import EmployerHome from "../employer/EmployerHome";
+import JobsContainer from "../employer/JobsContainer";
+import { Switch, Route, Redirect} from "react-router-dom";
+
 
 class App extends Component {
   constructor() {
@@ -38,7 +36,7 @@ class App extends Component {
           this.setState({ currUser: userObj });
         });
     }
-
+ 
   }
 
   //--------------------BEGIN LOGIN CREDENTIALS---------------//
@@ -115,6 +113,8 @@ class App extends Component {
   //Conditionally render Employer, Admin, or Candidate Portal If Authenticated --- Else, render Login Page
 
   render() {
+    const { error, loading, jobs } = this.props;
+
     return (
       <div className="app">
         <Switch>
@@ -371,16 +371,4 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  jobs: state.jobs.jobs,
-  loading: state.jobs.loading,
-  error: state.jobs.error
-});
-
-const mapDispatchToProps = dispatch => bindActionCreators({
-  fetchJobs: fetchJobs
-}, dispatch)
-
-export default connect(
-  mapStateToProps
-)(App);
+export default App
