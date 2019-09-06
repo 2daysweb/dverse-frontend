@@ -2,7 +2,6 @@ import React, { Component, Fragment } from "react";
 import Search from "../common/Search";
 import JobSidebar from "./JobSidebar";
 import Content from "./JobContent";
-import { store } from "../store";
 import { connect } from "react-redux";
 import { fetchJobs } from "../actions/index";
 import { withRouter } from "react-router-dom";
@@ -180,7 +179,7 @@ class JobsContainer extends Component {
     this.setState({ latestClick: "" });
     let currUser = JSON.parse(localStorage.getItem("currUser"));
     let userId = currUser.id;
-    // //;
+  
     let newJob = {
       title: "Deafult Title",
       body: "Deafult Body",

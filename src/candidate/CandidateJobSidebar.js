@@ -8,12 +8,9 @@ class CandidateJobSidebar extends Component {
       <div className="master-detail-element sidebar">
         <CandidateJobList
           allJobs={this.props.allJobs}
-          filteredJobs={this.props.filteredJobs}
+          approvedJobs={this.props.approvedJobs}
           showJob={this.props.showJob}
-          editJob={this.props.editJob}
           currJob={this.props.currJob}
-          deleteJob={this.props.deleteJob}
-          currUser={this.props.currUser}
         />
       </div>
     )
