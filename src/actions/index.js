@@ -59,6 +59,7 @@ export const setVisibilityFilter = filter => ({
   filter
 });
 
+//TODO: Think about how to structure this ---- can we use just ID, or will we need more
 export const toggleJobStatus = id => ({
   type: "TOGGLE_JOB_STATUS",
   id

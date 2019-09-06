@@ -179,7 +179,6 @@ class JobsContainer extends Component {
     debugger;
     this.setState({ latestClick: "" });
     let currUser = JSON.parse(localStorage.getItem("currUser"));
-    //Create new empty job object --- hard-coded UserID = 2
     let userId = currUser.id;
     // //;
     let newJob = {
@@ -197,7 +196,9 @@ class JobsContainer extends Component {
         Accept: "application/json"
       },
       body: JSON.stringify(newJob)
-    }).then(response => response.json());
+    })
+    .then(response => response.json())
+    .then(newJob => console.log(newJob));
   };
 
   //---------------BEGIN-----Event Handlers for Editing, Saving  Job-------------------------------//
@@ -251,34 +252,32 @@ class JobsContainer extends Component {
   };
 
   handleClickDeleteBtn = () => {
-    let currUser = JSON.parse(localStorage.getItem("currUser"));
-
-    let id = currUser.id;
+    let id = this.state.currJob.id;
     //create new job object with newTitle and newBody
     let URL = BASE_URL + "api/v1/jobs/" + id;
     let job = { id: id };
 
-    //Remove deleted job from backend
+    //Remove deleted job from
     return fetch(URL, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(job)
+      body: JSON.stringify(job) // body data type must match "Content-Type" header
     })
-      .then(response => response.json())
+      .then(response => response.json()) // parses JSON response into native JavaScript objects
       .then(data => console.log(data))
       .then(this.deleteJob(id));
   };
 
   //Delete a job from allJobs on click of Delete Button
-
   deleteJob = id => {
     //Make copy of existing currJobs array
-    let currAllJobs = this.props.jobs;
-    let newAllJobs = currAllJobs.filter(job => job.id !== id);
+    //update state of allJobs, without deleted job
+   
+    // this.setState({currUser:this.state})
+    console.log(this.props.jobs);
   };
-
   //--------------------END-----Event Handlers for Cancel, Delete Buttons-------------------------------//
 
   render() {

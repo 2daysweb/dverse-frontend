@@ -23,7 +23,7 @@ let renderButtons = () => {
       }
 
     case "draft":
-      return <div><button onClick={props.editJob}>Edit Job</button><button onClick={()=> props.submitJob(props.currJob)}>Submit For Approval</button></div>
+      return <div><button onClick={props.editJob}>Edit Job</button><button onClick={()=> props.submitJob(props.currJob)}>Submit For Approval</button><button onClick={() => props.deleteJob(props.currJob)}>Delete Job</button></div>
     default:
       return false;
   }

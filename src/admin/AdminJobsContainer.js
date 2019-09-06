@@ -2,6 +2,8 @@ import React, { Component, Fragment } from "react";
 import Search from "../common/Search";
 import AdminJobSidebar from "./AdminJobSidebar";
 import AdminJobContent from "./AdminJobContent";
+import { connect } from "react-redux";
+import { fetchJobs } from "../actions/index";
 import { withRouter } from "react-router-dom";
 
 const BASE_URL = "http://localhost:3000/";
@@ -10,7 +12,6 @@ class AdminJobsContainer extends Component {
   constructor() {
     super()
     this.state = {
-      allJobs: [],
       filteredJobs: [],
       myJobs: [],
       currJob: null,
@@ -23,17 +24,7 @@ class AdminJobsContainer extends Component {
 
   //Set all jobs and filtered jobs on load of Container 
   componentDidMount() {
-    // debugger;
-    fetch(BASE_URL + "api/v1/jobs")
-      .then(resp => resp.json())
-      .then(jobsArray => {
-        this.setState({ 'allJobs': jobsArray });
-        this.setState({ 'filteredJobs': jobsArray });
-        localStorage.setItem('allJobs', JSON.stringify(jobsArray));
-        localStorage.setItem('filteredJobs', JSON.stringify(jobsArray));
-        
-        console.log(jobsArray);
-      })
+    this.props.fetchJobs();
   }
 
   handleClickShowJob = currJob => {
@@ -46,7 +37,7 @@ class AdminJobsContainer extends Component {
 
   //Get all approved jobs for all employers
   getAllApprovedJobs = () => {
-    let allJobs = [...this.state.allJobs];
+    let allJobs =  this.props.jobs
 
     let allApprovedJobs = allJobs.filter(job => job.status === "approved");
     return allApprovedJobs;
@@ -54,7 +45,7 @@ class AdminJobsContainer extends Component {
 
   //Get all jobs submitted for approval from all employers
   getAllSubmittedJobs = () => {
-    let allJobs = [...this.state.allJobs];
+    let allJobs = this.props.jobs;
 
     let allSubmittedJobs = allJobs.filter(job => job.status === "submitted");
     return allSubmittedJobs;
@@ -209,4 +200,22 @@ class AdminJobsContainer extends Component {
   }
 }
 
-export default withRouter(AdminJobsContainer);
+const mapStateToProps = state => {
+  return {
+    jobs: state.jobs.jobs
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  console.log(fetchJobs());
+  return {
+    fetchJobs: () => {
+      dispatch(fetchJobs());
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(AdminJobsContainer));
