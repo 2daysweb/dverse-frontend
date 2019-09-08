@@ -40,30 +40,36 @@ class CandidateJobContainer extends Component {
   getAllApprovedJobs = () => {
     let allJobs =  this.props.jobs
     let allApprovedJobs = allJobs.filter(job => job.status === "approved");
+    console.log(this.getAllMyJobs())
     return allApprovedJobs;
   };
 
 
+
   getAllMyJobs = () => {
     //Filter all jobs, return jobs belonging to current user
-      let allJobs = this.props.jobs;
       let currUser = JSON.parse(localStorage.getItem("currUser"));
-    //Filter through all jobs for jobs where user id matches curr user id
-      let myJobs = allJobs.filter(job => job.users[0].id === currUser.id);
-      return myJobs;
+      let allJobs = this.props.jobs;
+
+    //Filter through all jobs and find where userId is included in Job.users 
+      
+      let myJobs = allJobs.filter(job => 
+          job.users.filter(user => 
+              user.id === currUser.id)) 
+
+              return myJobs
+            
     };
 
-
     handleClickApplyBtn = currJob => {
-      //get current id of current job
-      let id = currJob.id;
-      //get clicked job body
+      // debugger 
+      let userId = JSON.parse(localStorage.getItem("currUser")).id;
+      let jobId = currJob.id;
       let body = currJob.body
       let title = currJob.title
-      let status = 'following'
-  
-      let appliedJob = { title: title, body: body, id: id, status:'status'};
-      let URL = BASE_URL + "api/v1/jobs/" + id;
+      let status = 'approved'
+      let appliedJob = {id: jobId, user_id:userId, title:title, body:body, status:status}
+      let URL = BASE_URL + "api/v1/jobs/" + jobId;
       
       return fetch(URL, {
         method: "PATCH",
@@ -77,16 +83,42 @@ class CandidateJobContainer extends Component {
         .then(data => console.log(data));
     };
 
+    handleClickFollowBtn = currJob => {
+      //get current id of current job
+      let jobId = currJob.id;
+      let userId = JSON.parse(localStorage.getItem("currUser")).id;
+
+      // debugger 
+      //get clicked job body
+      let body = currJob.body
+      let title = currJob.title
+      let status = 'following'
+    
+      let followedJob = { title: title, body: body, id: jobId, status:'applied', user_id:userId}
+      let URL = BASE_URL + "api/v1/jobs/" + jobId;
+      
+      return fetch(URL, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify(followedJob)
+      })
+        .then(response => response.json())
+        .then(data => console.log(data));
+    };
+
 
   handleClickFollowBtn = currJob => {
     //get current id of current job
     let id = currJob.id;
-
+    // debugger 
     //get clicked job body
     let body = currJob.body
     let title = currJob.title
     let status = 'following'
-
+  
     let followedJob = { title: title, body: body, id: id, status:'following'};
     let URL = BASE_URL + "api/v1/jobs/" + id;
     
@@ -101,33 +133,6 @@ class CandidateJobContainer extends Component {
       .then(response => response.json())
       .then(data => console.log(data));
   };
-
-
-  handleClickUnfollowBtn = currJob => {
-    //get current id of current job
-    let id = currJob.id;
-
-    //get clicked job body
-    let body = currJob.body
-    let title = currJob.title
-    let status = 'unfollowed'
-
-    let unfollowedJob = { title: title, body: body, id: id, status:status};
-    let URL = BASE_URL + "api/v1/jobs/" + id;
-    
-    return fetch(URL, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: JSON.stringify(unfollowedJob)
-    })
-      .then(response => response.json())
-      .then(data => console.log(data));
-  };
-
-  //----------BEGIN EVENT HANDLERS, CLICKS, SUBMITS,
 
   handleChangeSearchText = e => {
     this.setState({ searchText: e.target.value }, this.getFilteredJobs);
@@ -184,9 +189,10 @@ class CandidateJobContainer extends Component {
             allJobs={this.props.jobs}
             approvedJobs={this.getAllApprovedJobs()}
             currJob={this.state.currJob}
+            applyJob={this.handleClickApplyBtn}
             //CRUD event handlers
             showJob={this.handleClickShowJob}
-            applyJob={this.handleClickApplyBtn}
+            followJob={this.handleClickFollowBtn}
           />
           <CandidateJobContent
             //State variables
@@ -196,6 +202,7 @@ class CandidateJobContainer extends Component {
             currJob={this.state.currJob}
             handleChangeInput={this.handleChangeInput}
             handleChangeTextArea={this.handleChangeTextArea}
+            applyJob={this.handleClickApplyBtn}
             //CRUD event handlers
             editJob={this.handleClickEditBtn}
             showJob={this.handleClickShowJob}

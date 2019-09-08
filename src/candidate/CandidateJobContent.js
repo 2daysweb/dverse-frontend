@@ -10,6 +10,7 @@ class CandidateJobContent extends Component {
           currUser={this.props.currUser}
           currJob={this.props.currJob}
           showJob={this.props.showJob}
+          applyJob = {this.props.applyJob}
           latestClick={this.props.latestClick}
         />
       );

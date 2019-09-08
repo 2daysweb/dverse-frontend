@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import CandidateJobList from "./CandidateJobList";
 
 class CandidateJobSidebar extends Component {
-
+ 
   render() {
     return (
       <div className="master-detail-element sidebar">

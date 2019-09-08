@@ -22,9 +22,17 @@ class AdminJobsContainer extends Component {
     }
   }
 
-  //Set all jobs and filtered jobs on load of Container 
+  //get jobs from redux state 
   componentDidMount() {
     this.props.fetchJobs();
+  }
+
+
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (this.props.jobs !== prevProps.jobs) {
+      this.props.fetchJobs();
+    }
   }
 
   handleClickShowJob = currJob => {

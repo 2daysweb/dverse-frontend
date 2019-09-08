@@ -22,18 +22,24 @@ class JobsContainer extends Component {
     };
   }
 
-//Set jobs from redux state on mount
-
+  //Set jobs from redux state on mount
   componentDidMount() {
     this.props.fetchJobs();
   }
 
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (this.props.jobs !== prevProps.jobs) {
+      this.props.fetchJobs();
+    }
+  }
+
   //Get array of all jobs of current user/employer
   getAllMyJobs = () => {
-  //Filter all jobs, return jobs belonging to current user
+    //Filter all jobs, return jobs belonging to current user
     let allJobs = this.props.jobs;
     let currUser = JSON.parse(localStorage.getItem("currUser"));
-  //Filter through all jobs for jobs where user id matches curr user id
+    //Filter through all jobs for jobs where user id matches curr user id
     let myJobs = allJobs.filter(job => job.users[0].id === currUser.id);
     return myJobs;
   };
@@ -154,7 +160,7 @@ class JobsContainer extends Component {
 
   handleClickActivateBtn = currJob => {
     //get current id of current job
-    
+
     let id = currJob.id;
     let title = currJob.title;
     let body = currJob.body;
@@ -175,11 +181,10 @@ class JobsContainer extends Component {
   };
 
   handleClickNewBtn = () => {
-    debugger;
     this.setState({ latestClick: "" });
     let currUser = JSON.parse(localStorage.getItem("currUser"));
     let userId = currUser.id;
-  
+
     let newJob = {
       title: "Deafult Title",
       body: "Deafult Body",
@@ -196,8 +201,8 @@ class JobsContainer extends Component {
       },
       body: JSON.stringify(newJob)
     })
-    .then(response => response.json())
-    .then(newJob => console.log(newJob));
+      .then(response => response.json())
+      .then(newJob => console.log(newJob));
   };
 
   //---------------BEGIN-----Event Handlers for Editing, Saving  Job-------------------------------//
@@ -228,6 +233,7 @@ class JobsContainer extends Component {
 
     let newJob = { title: newTitle, body: newBody, id: id, status: status };
     let URL = BASE_URL + "api/v1/jobs/" + id;
+    debugger;
 
     return fetch(URL, {
       method: "PATCH",
@@ -273,7 +279,7 @@ class JobsContainer extends Component {
   deleteJob = id => {
     //Make copy of existing currJobs array
     //update state of allJobs, without deleted job
-   
+
     // this.setState({currUser:this.state})
     console.log(this.props.jobs);
   };

@@ -5,8 +5,8 @@ import { withRouter } from "react-router-dom";
 class JobSidebar extends Component {
   renderNewBtn() {
     //Only render new job btn if clicked Create Job, "/mydraftjobs" path
-    if (this.props.location.pathname === "/candidatejobs") {
-      return <button onClick={this.props.applyJob}>New</button>;
+    if (this.props.location.pathname === "/mydraftjobs") {
+      return <button onClick={this.props.newJob}>New</button>;
     }
   }
 
