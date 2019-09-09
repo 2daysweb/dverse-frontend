@@ -12,6 +12,7 @@ class JobsContainer extends Component {
   constructor() {
     super();
     this.state = {
+      jobs: [],
       filteredJobs: [],
       myJobs: [],
       currJob: null,
@@ -27,8 +28,8 @@ class JobsContainer extends Component {
     this.props.fetchJobs();
   }
 
-  componentDidUpdate(prevProps) {
-    // Typical usage (don't forget to compare props):
+  //TODO: Fix re-rendering problem --- prevProps.jobs sometimes undefined --- infinite loop of server calls
+  componentDidUpdate(prevProps, prevState) {
     if (this.props.jobs !== prevProps.jobs) {
       this.props.fetchJobs();
     }
@@ -89,7 +90,7 @@ class JobsContainer extends Component {
       case "draft":
         return this.getMyDraftedJobs();
       default:
-        return false;
+        return this.getAllMyJobs();
     }
   };
 
@@ -288,11 +289,11 @@ class JobsContainer extends Component {
   render() {
     return (
       <Fragment>
-        <Search
+        {/* <Search
           latestClick={this.state.latestClick}
           handleChangeSearchText={this.handleChangeSearchText}
           currUser={this.props.currUser}
-        />
+        /> */}
         <div className="container">
           <JobSidebar
             //State variables

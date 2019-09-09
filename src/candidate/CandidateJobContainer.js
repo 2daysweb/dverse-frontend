@@ -32,6 +32,14 @@ class CandidateJobContainer extends Component {
     this.props.fetchJobs();
   }
 
+ //TODO: Fix re-rendering problem --- prevProps.jobs sometimes undefined --- infinite loop of server calls 
+ componentDidUpdate(prevProps, prevState) {
+  if (this.props.jobs !== prevProps.jobs) {
+    this.props.fetchJobs();
+  }
+}
+
+
   //Filter all jobs based on searchText
   getFilteredJobs = () => {
     return ''

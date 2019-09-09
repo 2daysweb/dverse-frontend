@@ -22,13 +22,13 @@ class AdminJobsContainer extends Component {
     }
   }
 
-  //get jobs from redux state 
+  //get jobs from redu;x 
   componentDidMount() {
     this.props.fetchJobs();
   }
 
-
-  componentDidUpdate(prevProps) {
+  //TODO: Fix re-rendering problem --- prevProps.jobs sometimes undefined --- infinite loop of server calls 
+  componentDidUpdate(prevProps, prevState) {
     // Typical usage (don't forget to compare props):
     if (this.props.jobs !== prevProps.jobs) {
       this.props.fetchJobs();

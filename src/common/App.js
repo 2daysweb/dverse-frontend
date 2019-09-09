@@ -12,8 +12,7 @@ import AdminHome from "../admin/AdminHome";
 import AdminJobsContainer from "../admin/AdminJobsContainer";
 import EmployerHome from "../employer/EmployerHome";
 import JobsContainer from "../employer/JobsContainer";
-import { Switch, Route, Redirect} from "react-router-dom";
-
+import { Switch, Route, Redirect } from "react-router-dom";
 
 class App extends Component {
   constructor() {
@@ -36,12 +35,9 @@ class App extends Component {
           this.setState({ currUser: userObj });
         });
     }
- 
   }
 
   //--------------------BEGIN LOGIN CREDENTIALS---------------//
-
-
 
   updateCurrentUser = currUser => {
     this.setState({ currUser: currUser });
@@ -79,7 +75,6 @@ class App extends Component {
               currUser={this.state.currUser}
             />
             <EmployerHome />
-     
           </div>
         );
 
@@ -271,14 +266,14 @@ class App extends Component {
           />
           <Route
             exact
-            path="/employprofile"
+            path="/jobs"
             render={props => (
               <div>
                 <NavBar
                   updateCurrentUser={this.updateCurrentUser}
                   currUser={this.state.currUser}
                 />
-                <Profile />
+                <JobsContainer />
               </div>
             )}
           />
@@ -371,4 +366,4 @@ class App extends Component {
   }
 }
 
-export default App
+export default App;
