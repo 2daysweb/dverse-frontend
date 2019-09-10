@@ -8,7 +8,7 @@ class CandidateList extends Component {
   render() {
      return (
         <ul>
-          {this.props.filteredCandidates.map(candidate => (
+          {this.props.allCandidates.map(candidate => (
             <CandidateItem
               currCandidate={candidate}
               showCandidate={this.props.showCandidate}
