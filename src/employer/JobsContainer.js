@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from "react";
-import Search from "../common/Search";
 import JobSidebar from "./JobSidebar";
 import Content from "./JobContent";
 import { connect } from "react-redux";
@@ -30,9 +29,13 @@ class JobsContainer extends Component {
 
   //TODO: Fix re-rendering problem --- prevProps.jobs sometimes undefined --- infinite loop of server calls
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.jobs !== prevProps.jobs) {
+  
+    if (prevProps.jobs.slice(-1)[0] !== undefined) {
+      debugger 
+    if (prevProps.jobs.slice(-1)[0].id !== this.props.jobs.slice(-1)[0].id) {
       this.props.fetchJobs();
     }
+  }
   }
 
   //Get array of all jobs of current user/employer

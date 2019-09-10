@@ -6,7 +6,7 @@ import LandingPage from "./LandingPage";
 import Applications from "./Applications";
 import Profile from "./Profile";
 import CandidateHome from "../candidate/CandidateHome";
-import CandidateContainer from "../candidate/CandidateContainer";
+import CandidateContainer from "./CandidateContainer";
 import CandidateJobContainer from "../candidate/CandidateJobContainer";
 import AdminHome from "../admin/AdminHome";
 import AdminJobsContainer from "../admin/AdminJobsContainer";
