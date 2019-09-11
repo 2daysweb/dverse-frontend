@@ -29,13 +29,11 @@ class JobsContainer extends Component {
 
   //TODO: Fix re-rendering problem --- prevProps.jobs sometimes undefined --- infinite loop of server calls
   componentDidUpdate(prevProps, prevState) {
-  
     if (prevProps.jobs.slice(-1)[0] !== undefined) {
-      debugger 
-    if (prevProps.jobs.slice(-1)[0].id !== this.props.jobs.slice(-1)[0].id) {
-      this.props.fetchJobs();
+      if (prevProps.jobs.slice(-1)[0].id !== this.props.jobs.slice(-1)[0].id) {
+        this.props.fetchJobs();
+      }
     }
-  }
   }
 
   //Get array of all jobs of current user/employer
@@ -106,25 +104,33 @@ class JobsContainer extends Component {
   //Refactor the SetState to be only one single object --- with KV pairs
 
   handleClickShowJob = currJob => {
-    this.setState({ currJob: currJob });
-    this.setState({ currBody: currJob.body });
-    this.setState({ currTitle: currJob.title });
-    this.setState({ latestClick: "ShowJob" });
+    this.setState({
+      currJob: currJob,
+      currBody: currJob.body,
+      currTitle: currJob.title,
+      latestClick: "ShowJob"
+    });
   };
 
-  //Employer clicks submit job, switch from is_draft to is_submitted
+  //Helper function to create job object from a given job
+
+  createJobObj = job => {
+    let id = job.id;
+    let title = job.title;
+    let body = job.body;
+    let status = job.status;
+    let newJob = { id: id, title: title, body: body, status: status };
+    return newJob;
+  };
 
   handleClickSubmitBtn = currJob => {
-    //get current id of current job
-    //  //
     let id = currJob.id;
-    let title = currJob.title;
-    let body = currJob.body;
-    let status = "submitted";
+    let URL = BASE_URL + "api/v1/jobs/" + id;
+
+    let submittedJob = this.createJobObj(currJob);
+    submittedJob.status = "submitted";
 
     //Create new job object with newTitle and newBody
-
-    let URL = BASE_URL + "api/v1/jobs/" + id;
 
     return fetch(URL, {
       method: "PATCH",
@@ -132,22 +138,16 @@ class JobsContainer extends Component {
         "Content-Type": "application/json",
         Accept: "application/json"
       },
-      body: JSON.stringify({ body: body, title: title, status: status })
+      body: JSON.stringify(submittedJob)
     })
       .then(response => response.json())
       .then(data => console.log(data));
   };
 
   handleClickWithdrawSubmitBtn = currJob => {
-    //get current id of current job
-    //
+    let withdrawnJob = this.createJobObj(currJob);
+    withdrawnJob.status = "draft";
     let id = currJob.id;
-    let title = currJob.title;
-    let body = currJob.body;
-    let status = "draft";
-
-    //create new job object with newTitle and newBody
-
     let URL = BASE_URL + "api/v1/jobs/" + id;
 
     return fetch(URL, {
@@ -156,20 +156,15 @@ class JobsContainer extends Component {
         "Content-Type": "application/json",
         Accept: "application/json"
       },
-      body: JSON.stringify({ body: body, title: title, status: status })
+      body: JSON.stringify(withdrawnJob)
     })
       .then(response => response.json())
       .then(data => console.log(data));
   };
 
   handleClickActivateBtn = currJob => {
-    //get current id of current job
-
+    let activatedJob = this.createJobObj(currJob);
     let id = currJob.id;
-    let title = currJob.title;
-    let body = currJob.body;
-    let status = "active";
-
     let URL = BASE_URL + "api/v1/jobs/" + id;
 
     return fetch(URL, {
@@ -178,7 +173,7 @@ class JobsContainer extends Component {
         "Content-Type": "application/json",
         Accept: "application/json"
       },
-      body: JSON.stringify({ body: body, title: title, status: status })
+      body: JSON.stringify(activatedJob)
     })
       .then(response => response.json())
       .then(data => console.log(data));
@@ -236,8 +231,8 @@ class JobsContainer extends Component {
     let status = "draft";
 
     let newJob = { title: newTitle, body: newBody, id: id, status: status };
+
     let URL = BASE_URL + "api/v1/jobs/" + id;
-    debugger;
 
     return fetch(URL, {
       method: "PATCH",
@@ -281,10 +276,6 @@ class JobsContainer extends Component {
 
   //Delete a job from allJobs on click of Delete Button
   deleteJob = id => {
-    //Make copy of existing currJobs array
-    //update state of allJobs, without deleted job
-
-    // this.setState({currUser:this.state})
     console.log(this.props.jobs);
   };
   //--------------------END-----Event Handlers for Cancel, Delete Buttons-------------------------------//
