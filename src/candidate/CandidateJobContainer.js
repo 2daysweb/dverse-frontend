@@ -32,104 +32,112 @@ class CandidateJobContainer extends Component {
     this.props.fetchJobs();
   }
 
- //TODO: Fix re-rendering problem --- prevProps.jobs sometimes undefined --- infinite loop of server calls 
- componentDidUpdate(prevProps, prevState) {
-  if (this.props.jobs !== prevProps.jobs) {
-    this.props.fetchJobs();
+  //TODO: Fix re-rendering problem --- prevProps.jobs sometimes undefined --- infinite loop of server calls
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.jobs.slice(-1)[0] !== undefined) {
+      if (prevProps.jobs.slice(-1)[0].id !== this.props.jobs.slice(-1)[0].id) {
+        this.props.fetchJobs();
+      }
+    }
   }
-}
-
 
   //Filter all jobs based on searchText
   getFilteredJobs = () => {
-    return ''
+    return "";
   };
 
   getAllApprovedJobs = () => {
-    let allJobs =  this.props.jobs
+    let allJobs = this.props.jobs;
     let allApprovedJobs = allJobs.filter(job => job.status === "approved");
-    console.log(this.getAllMyJobs())
     return allApprovedJobs;
   };
 
-
-
   getAllMyJobs = () => {
     //Filter all jobs, return jobs belonging to current user
-      let currUser = JSON.parse(localStorage.getItem("currUser"));
-      let allJobs = this.props.jobs;
+    let currUser = JSON.parse(localStorage.getItem("currUser"));
+    let allJobs = this.props.jobs;
 
-    //Filter through all jobs and find where userId is included in Job.users 
-      
-      let myJobs = allJobs.filter(job => 
-          job.users.filter(user => 
-              user.id === currUser.id)) 
+    //Filter through all jobs and find where userId is included in Job.users
 
-              return myJobs
-            
+    let myJobs = allJobs.filter(job =>
+      job.users.filter(user => user.id === currUser.id)
+    );
+
+    return myJobs;
+  };
+
+  createJobObj = job => {
+    let id = job.id;
+    let title = job.title;
+    let body = job.body;
+    let status = job.status;
+    let newJob = { id: id, title: title, body: body, status: status };
+    return newJob;
+  };
+
+  handleClickApplyBtn = currJob => {
+    let id = currJob.id;
+    let userId = JSON.parse(localStorage.getItem("currUser")).id;
+    let URL = BASE_URL + "api/v1/jobs/" + id;
+    let appliedJob = this.createJobObj(currJob);
+    appliedJob.user_id = userId;
+
+    return fetch(URL, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify(appliedJob)
+    })
+      .then(response => response.json())
+      .then(data => console.log(data));
+  };
+
+  handleClickFollowBtn = currJob => {
+    //get current id of current job
+    let jobId = currJob.id;
+    let userId = JSON.parse(localStorage.getItem("currUser")).id;
+
+    // debugger
+    //get clicked job body
+    let body = currJob.body;
+    let title = currJob.title;
+    let status = "following";
+
+    let followedJob = {
+      title: title,
+      body: body,
+      id: jobId,
+      status: "applied",
+      user_id: userId
     };
+    let URL = BASE_URL + "api/v1/jobs/" + jobId;
 
-    handleClickApplyBtn = currJob => {
-      // debugger 
-      let userId = JSON.parse(localStorage.getItem("currUser")).id;
-      let jobId = currJob.id;
-      let body = currJob.body
-      let title = currJob.title
-      let status = 'approved'
-      let appliedJob = {id: jobId, user_id:userId, title:title, body:body, status:status}
-      let URL = BASE_URL + "api/v1/jobs/" + jobId;
-      
-      return fetch(URL, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
-        },
-        body: JSON.stringify(appliedJob)
-      })
-        .then(response => response.json())
-        .then(data => console.log(data));
-    };
-
-    handleClickFollowBtn = currJob => {
-      //get current id of current job
-      let jobId = currJob.id;
-      let userId = JSON.parse(localStorage.getItem("currUser")).id;
-
-      // debugger 
-      //get clicked job body
-      let body = currJob.body
-      let title = currJob.title
-      let status = 'following'
-    
-      let followedJob = { title: title, body: body, id: jobId, status:'applied', user_id:userId}
-      let URL = BASE_URL + "api/v1/jobs/" + jobId;
-      
-      return fetch(URL, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
-        },
-        body: JSON.stringify(followedJob)
-      })
-        .then(response => response.json())
-        .then(data => console.log(data));
-    };
-
+    return fetch(URL, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify(followedJob)
+    })
+      .then(response => response.json())
+      .then(data => console.log(data));
+  };
 
   handleClickFollowBtn = currJob => {
     //get current id of current job
     let id = currJob.id;
-    // debugger 
+
     //get clicked job body
-    let body = currJob.body
-    let title = currJob.title
-    let status = 'following'
-  
-    let followedJob = { title: title, body: body, id: id, status:'following'};
+    let body = currJob.body;
+    let title = currJob.title;
+    let status = "following";
+
+    let followedJob = { title: title, body: body, id: id, status: "following" };
     let URL = BASE_URL + "api/v1/jobs/" + id;
-    
+
     return fetch(URL, {
       method: "PATCH",
       headers: {
@@ -146,8 +154,6 @@ class CandidateJobContainer extends Component {
     this.setState({ searchText: e.target.value }, this.getFilteredJobs);
   };
 
-  //Refactor the SetState to be only one single object --- with KV pairs
-
   handleClickShowJob = currJob => {
     this.setState({ currJob: currJob });
     this.setState({ currBody: currJob.body });
@@ -161,26 +167,21 @@ class CandidateJobContainer extends Component {
 
   handleClickDeleteBtn = () => {
     let id = this.state.currJob.id;
-    //create new job object with newTitle and newBody
     let URL = BASE_URL + "api/v1/jobs/" + id;
     let job = { id: id };
 
-    //Remove deleted job from
+    //Remove deleted job
     return fetch(URL, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(job) // body data type must match "Content-Type" header
+      body: JSON.stringify(job)
     })
-      .then(response => response.json()) // parses JSON response into native JavaScript objects
+      .then(response => response.json())
       .then(data => console.log(data))
       .then(this.deleteJob(id));
   };
-
-
-
-  //Consider compoletely removing the "CandidateMainContainer etc etcs if this works out"
 
   render() {
     return (
@@ -221,10 +222,9 @@ class CandidateJobContainer extends Component {
           />
         </div>
       </Fragment>
-    )
+    );
   }
 }
-
 
 const mapStateToProps = state => {
   return {

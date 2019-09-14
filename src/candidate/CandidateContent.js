@@ -11,6 +11,7 @@ class CandidateContent extends Component {
           currCandidate={this.props.currCandidate}
           showCandidate={this.props.showCandidate}
           latestClick={this.props.latestClick}
+          applyBtn={this.props.applyBtn}
         />
       );
       //Cancel job does not mean delete job, simply click cancel btn when in job editor 
