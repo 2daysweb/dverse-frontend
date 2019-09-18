@@ -8,8 +8,8 @@ const CandidateJobViewer = (props) => {
 
   let renderApplyBtn = () => {
     //Only render new job btn if clicked Create Job, "/mydraftjobs" path
-    if (props.location.pathname === "/candidatejobs") {
-      return <button onClick={()=>props.applyJob(props.currJob)}>Apply Job</button>;
+    if (props.location.pathname === "/candidatejobs" && !props.currJob.title === undefined) {
+      return <button onClick={props.applyJob(props.currJob)}>Apply Job</button>;
     }
   }
 

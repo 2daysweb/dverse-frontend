@@ -41,31 +41,6 @@ class CandidateJobContainer extends Component {
     }
   }
 
-  //Filter all jobs based on searchText
-  getFilteredJobs = () => {
-    return "";
-  };
-
-  getAllApprovedJobs = () => {
-    let allJobs = this.props.jobs;
-    let allApprovedJobs = allJobs.filter(job => job.status === "approved");
-    return allApprovedJobs;
-  };
-
-  getAllMyJobs = () => {
-    //Filter all jobs, return jobs belonging to current user
-    let currUser = JSON.parse(localStorage.getItem("currUser"));
-    let allJobs = this.props.jobs;
-
-    //Filter through all jobs and find where userId is included in Job.users
-
-    let myJobs = allJobs.filter(job =>
-      job.users.filter(user => user.id === currUser.id)
-    );
-
-    return myJobs;
-  };
-
   createJobObj = job => {
     let id = job.id;
     let title = job.title;
@@ -80,6 +55,7 @@ class CandidateJobContainer extends Component {
     let userId = JSON.parse(localStorage.getItem("currUser")).id;
     let URL = BASE_URL + "api/v1/jobs/" + id;
     let appliedJob = this.createJobObj(currJob);
+    // appliedJob.applied = 
     appliedJob.user_id = userId;
 
     return fetch(URL, {
@@ -89,38 +65,6 @@ class CandidateJobContainer extends Component {
         Accept: "application/json"
       },
       body: JSON.stringify(appliedJob)
-    })
-      .then(response => response.json())
-      .then(data => console.log(data));
-  };
-
-  handleClickFollowBtn = currJob => {
-    //get current id of current job
-    let jobId = currJob.id;
-    let userId = JSON.parse(localStorage.getItem("currUser")).id;
-
-    // debugger
-    //get clicked job body
-    let body = currJob.body;
-    let title = currJob.title;
-    let status = "following";
-
-    let followedJob = {
-      title: title,
-      body: body,
-      id: jobId,
-      status: "applied",
-      user_id: userId
-    };
-    let URL = BASE_URL + "api/v1/jobs/" + jobId;
-
-    return fetch(URL, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: JSON.stringify(followedJob)
     })
       .then(response => response.json())
       .then(data => console.log(data));
@@ -196,7 +140,6 @@ class CandidateJobContainer extends Component {
             //State variables
             latestClick={this.state.latestClick}
             allJobs={this.props.jobs}
-            approvedJobs={this.getAllApprovedJobs()}
             currJob={this.state.currJob}
             applyJob={this.handleClickApplyBtn}
             //CRUD event handlers

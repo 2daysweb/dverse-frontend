@@ -29,9 +29,13 @@ class JobsContainer extends Component {
 
   //TODO: Fix re-rendering problem --- prevProps.jobs sometimes undefined --- infinite loop of server calls
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.jobs.slice(-1)[0] !== undefined) {
+    console.log(prevProps.jobs, this.props.jobs)
+    if (prevProps.jobs.length) {
+      //If the most recently added job is not equal to previously last job in jobs array, fetchJobs again
       if (prevProps.jobs.slice(-1)[0].id !== this.props.jobs.slice(-1)[0].id) {
-        this.props.fetchJobs();
+        {
+          this.props.fetchJobs();
+        }
       }
     }
   }
@@ -324,8 +328,6 @@ class JobsContainer extends Component {
     );
   }
 }
-
-
 
 const mapStateToProps = state => {
   return {
