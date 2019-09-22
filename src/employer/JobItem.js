@@ -1,7 +1,6 @@
 import React from "react";
 
-var classNames = require('classnames');
-
+var classNames = require("classnames");
 
 //Get the first 3 words of a Job
 const truncateJob = JobTitle => {
@@ -20,35 +19,28 @@ const truncateJob = JobTitle => {
   return caption;
 };
 
-let itemClass = 'background-color: blue';
-classNames({ 'background-color:blue': true });
-
-let setLiBackgroundColor = (status) => {
-
-  switch(status){
-    case 'draft':
-    return 'pink'
-    case 'submitted':
-    return 'yellow'
-    case 'approved':
-    return '#92a8d1'
-    default:
-      return ''
+const setBackgroundColor = job => {
+  switch (job.status) {
+    case "draft":
+      return "pink";
+    case "approved":
+      return "green";
+    case "submitted":
+      return "yellow";
   }
-}
- 
-
-//Component populates sidebar with job posting or candidate informatiion
-
+};
 
 const JobItem = props => {
   return (
-   
-      <li style={{backgroundColor:'#92a8d1'}} onClick={() => props.showJob(props.currJob)}>
-        <h2>{props.currJob.title}</h2>
-        <p>{truncateJob(props.currJob.body)}</p>
-      </li>
-   
+    <li
+      style={{
+        backgroundColor: setBackgroundColor(props.currJob)
+      }}
+      onClick={() => props.showJob(props.currJob)}
+    >
+      <h2>{props.currJob.title}</h2>
+      <p>{truncateJob(props.currJob.body)}</p>
+    </li>
   );
 };
 
