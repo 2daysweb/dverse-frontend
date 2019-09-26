@@ -24,7 +24,7 @@ class LoginPage extends Component {
 
   handleLoginSubmit = e => {
     e.preventDefault()
-    fetch("http://localhost:3000/api/v1/login", {
+    fetch("https://dverse-staffing-backend.herokuapp.com/api/v1/login", {
       method: "POST",
       headers: { "Content-Type": "application/json", "HTTP_AUTHORIZATION"  : "Bearer <super encoded JWT>"
     },
