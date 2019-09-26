@@ -27,7 +27,7 @@ class App extends Component {
   componentDidMount() {
     let token = localStorage.getItem("jwt");
     if (token) {
-      fetch("http://localhost:3000/api/v1/profile", {
+      fetch("https://dverse-staffing-backend.herokuapp.com/api/v1/profile", {
         headers: { Authentication: `Bearer ${token}` }
       })
         .then(res => res.json())
@@ -48,7 +48,7 @@ class App extends Component {
   //--------------------BEGIN NEW USER SIGN UP INPUTs, SUBMIT SIGNUP DETAILS----------------//
 
   handleSubmitSignup = () => {
-    fetch("http://localhost:3000/api/v1/users", {
+    fetch("https://dverse-staffing-backend.herokuapp.com/api/v1/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -104,8 +104,6 @@ class App extends Component {
         return false;
     }
   };
-
-  //Conditionally render Employer, Admin, or Candidate Portal If Authenticated --- Else, render Login Page
 
   render() {
     const { error, loading, jobs } = this.props;
