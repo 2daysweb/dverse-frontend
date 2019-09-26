@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { fetchJobs } from "../actions/index";
 import { withRouter } from "react-router-dom";
 
-const BASE_URL = "http://localhost:3000/";
+const BASE_URL = "https://dverse-staffing-backend.herokuapp.com/";
 
 class JobsContainer extends Component {
   constructor() {

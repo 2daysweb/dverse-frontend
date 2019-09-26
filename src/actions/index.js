@@ -1,6 +1,6 @@
 //--------------- BEGIN ACTION TYPES ------------------------//
 
-const BASE_URL = "http://localhost:3000/"
+const BASE_URL = "https://dverse-staffing-backend.herokuapp.com/"
 
 export const FETCH_JOBS_BEGIN = "FETCH_JOBS_BEGIN"
 export const FETCH_JOBS_SUCCESS = "FETCH_JOBS_SUCCESS"
