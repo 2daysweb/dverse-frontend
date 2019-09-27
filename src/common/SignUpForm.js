@@ -58,7 +58,7 @@ class SignUpForm extends Component {
   handleCandidateSignupSubmit = () => {
     // e.preventDefault()
     debugger 
-    fetch("https://dverse-staffing-frontend.herokuapp.com/api/v1/users", {
+    fetch("https://dverse-staffing-backend.herokuapp.com/api/v1/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -71,6 +71,7 @@ class SignUpForm extends Component {
     })
       .then(res => res.json())
       .then(data =>{ console.log(data)
+
          this.setState({ currUser: data })
   })
   }
@@ -78,7 +79,7 @@ class SignUpForm extends Component {
   handleEmployerSignupSubmit = () => {
     // e.preventDefault()
 
-    fetch("https://dverse-staffing-frontend.herokuapp.com/api/v1/users", {
+    fetch("https://dverse-staffing-backend.herokuapp.com/api/v1/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
