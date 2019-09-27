@@ -37,11 +37,7 @@ class LoginPage extends Component {
       .then(data => {
         //---AUTHENTICATION-----//
         if (data.authenticated) {
-          //store the token in localStorage
-          localStorage.setItem("jwt", data.token);
-          //set current user in localStorage
-          localStorage.setItem("currUser", JSON.stringify(data.user));
-          this.props.updateCurrentUser(data.user);
+          this.props.updateCurrentUser(data.user, data.token);
         } else {
           alert("incorrect username or password");
         }

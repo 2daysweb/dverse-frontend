@@ -18,14 +18,13 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      currUser: null
+      currUser: null,
+      token: null
     };
   }
 
-  //On load of Application, check if JWT exists, if it does, set state of currUser
-
   componentDidMount() {
-    let token = localStorage.getItem("jwt");
+    let token = this.state.token;
     if (token) {
       fetch("https://dverse-staffing-backend.herokuapp.com/api/v1/profile", {
         headers: { Authentication: `Bearer ${token}` }
@@ -39,8 +38,8 @@ class App extends Component {
 
   //--------------------BEGIN LOGIN CREDENTIALS---------------//
 
-  updateCurrentUser = currUser => {
-    this.setState({ currUser: currUser });
+  updateCurrentUser = (currUser, token) => {
+    this.setState({ currUser: currUser, token:token });
   };
 
   //-----------------END LOGIN CREDENTIALS---------------------------//
