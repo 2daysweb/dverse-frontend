@@ -58,7 +58,7 @@ class SignUpForm extends Component {
   handleCandidateSignupSubmit = () => {
     // e.preventDefault()
     debugger 
-    fetch("http://localhost:3000/api/v1/users", {
+    fetch("https://dverse-staffing-backend.herokuapp.com", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

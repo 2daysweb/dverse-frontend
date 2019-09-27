@@ -33,7 +33,7 @@ class Profile extends Component {
         <Resume />
         <ActiveStorageProvider
           endpoint={{
-            path: `http://localhost:3000/api/v1/users/${
+            path: `https://dverse-staffing-backend.herokuapp.com/${
               this.state.currUser.id
             }`,
             model: "User",
