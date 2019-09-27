@@ -35,13 +35,11 @@ class LoginPage extends Component {
     })
       .then(res => res.json())
       .then(data => {
-        //---AUTHENTICATION-----If User Authenticates, Update current user, issue JWT Token
+        //---AUTHENTICATION-----//
         if (data.authenticated) {
-
           //store the token in localStorage
           localStorage.setItem("jwt", data.token);
           //set current user in localStorage
-          // debugger 
           localStorage.setItem("currUser", JSON.stringify(data.user));
           this.props.updateCurrentUser(data.user);
         } else {
@@ -95,7 +93,6 @@ class LoginPage extends Component {
                 value={this.state.password}
               />
             </Form.Group>
-
             <Button variant="primary" type="submit">
               Submit
             </Button>

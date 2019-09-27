@@ -107,7 +107,6 @@ class App extends Component {
 
   render() {
     const { error, loading, jobs } = this.props;
-
     return (
       <div className="app">
         <Switch>
