@@ -44,7 +44,7 @@ class JobsContainer extends Component {
   getAllMyJobs = () => {
     //Filter all jobs, return jobs belonging to current user
     let allJobs = this.props.jobs;
-    let currUser = this.props.currUser);
+    let currUser = this.props.currUser;
     //Filter through all jobs for jobs where user id matches curr user id
     let myJobs = allJobs.filter(job => job.users[0].id === currUser.id);
     return myJobs;
@@ -76,7 +76,6 @@ class JobsContainer extends Component {
     let currUserType = this.props.currUser.user_type;
     let status = this.props.status;
 
-    //;
     switch (status) {
       case "approved":
         if (currUserType === "employer") {
