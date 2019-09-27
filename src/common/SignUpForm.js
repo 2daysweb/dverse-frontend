@@ -60,7 +60,7 @@ class SignUpForm extends Component {
     debugger 
     fetch("https://dverse-staffing-backend.herokuapp.com/api/v1/users", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
       body: JSON.stringify({
         email: this.state.email,
         password: this.state.password,
@@ -71,6 +71,7 @@ class SignUpForm extends Component {
     })
       .then(res => res.json())
       .then(data =>{ console.log(data)
+        .catch(error => console.log(error))
 
          this.setState({ currUser: data })
   })
@@ -81,7 +82,7 @@ class SignUpForm extends Component {
 
     fetch("https://dverse-staffing-backend.herokuapp.com/api/v1/users", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "Accept":"application/json" },
       body: JSON.stringify({
         email: this.state.email,
         password: this.state.password,
@@ -92,6 +93,7 @@ class SignUpForm extends Component {
     })
       .then(res => res.json())
       .then(data => {console.log(data)
+        .catch(error => console.log(error))
         this.setState({ currUser: data })
       })
       
