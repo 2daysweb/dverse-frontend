@@ -10,7 +10,7 @@
     "bootstrap": "^4.3.1",
     "classnames": "^2.2.6",
     "lodash": "^4.17.15",
-    "react": "^16.10.1",
+    "react": "^16.8.6",
     "react-activestorage-provider": "^0.8.0",
     "react-bootstrap": "^1.0.0-beta.10",
     "react-bootstrap-table-next": "^3.1.7",
@@ -26,16 +26,16 @@
     "redux": "^4.0.4",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
-    "serve": "^11.2.0",
-    "typescript": "^3.6.3"
+    "serve": "^11.2.0"
   },
   "scripts": {
-    "dev": "react-scripts start",
+    "dev": "PORT=4000 react-scripts start",
     "start": "serve -s build",
     "build": "react-scripts build",
     "test": "react-scripts test --env:jsdom",
     "eject": "react-scripts eject",
     "heroku-postbuid": "npm run build"
+
   },
   "eslintConfig": {
     "extends": "react-app"

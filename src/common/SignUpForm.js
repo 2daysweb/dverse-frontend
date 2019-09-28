@@ -42,6 +42,7 @@ class SignUpForm extends Component {
 
   handleChangeFirstName = e => {
     let fn = e.target.value
+    //debugger 
     this.setState({ firstName: fn })
    
 
@@ -49,15 +50,17 @@ class SignUpForm extends Component {
 
   handleChangeLastName = e => {
     let ln = e.target.value
+    //debugger
     this.setState({ lastName: ln })
   
   }
 
   handleCandidateSignupSubmit = () => {
+    // e.preventDefault()
     debugger 
-    fetch("https://dverse-staffing-backend.herokuapp.com/api/v1/users", {
+    fetch("https://dverse-staffing-frontend.herokuapp.com/api/v1/users", {
       method: "POST",
-      headers: { "Content-Type": "application/json", "Accept": "application/json"},
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         email: this.state.email,
         password: this.state.password,
@@ -68,16 +71,16 @@ class SignUpForm extends Component {
     })
       .then(res => res.json())
       .then(data =>{ console.log(data)
-
          this.setState({ currUser: data })
   })
   }
 
   handleEmployerSignupSubmit = () => {
+    // e.preventDefault()
 
-    fetch("https://dverse-staffing-backend.herokuapp.com/api/v1/users", {
+    fetch("https://dverse-staffing-frontend.herokuapp.com/api/v1/users", {
       method: "POST",
-      headers: { "Content-Type": "application/json", "Accept":"application/json" },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         email: this.state.email,
         password: this.state.password,
@@ -93,6 +96,7 @@ class SignUpForm extends Component {
       
   }
 
+  //Conditionally render Employer or Candidate form based on state var isEmployer
   renderEmployerOrCandidateForm = () => {
     return !this.state.isEmployer ? (
       <div>

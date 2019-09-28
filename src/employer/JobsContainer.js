@@ -44,7 +44,7 @@ class JobsContainer extends Component {
   getAllMyJobs = () => {
     //Filter all jobs, return jobs belonging to current user
     let allJobs = this.props.jobs;
-    let currUser = this.props.currUser;
+    let currUser = JSON.parse(localStorage.getItem("currUser"));
     //Filter through all jobs for jobs where user id matches curr user id
     let myJobs = allJobs.filter(job => job.users[0].id === currUser.id);
     return myJobs;
@@ -73,9 +73,10 @@ class JobsContainer extends Component {
 
   //Filter all of job based on searchText
   getFilteredJobs = () => {
-    let currUserType = this.props.currUser.user_type;
+    let currUserType = JSON.parse(localStorage.getItem("currUser")).user_type;
     let status = this.props.status;
 
+    //;
     switch (status) {
       case "approved":
         if (currUserType === "employer") {
@@ -184,7 +185,7 @@ class JobsContainer extends Component {
 
   handleClickNewBtn = () => {
     this.setState({ latestClick: "" });
-    let currUser = JSON.parse(this.props.currUser);
+    let currUser = JSON.parse(localStorage.getItem("currUser"));
     let userId = currUser.id;
 
     let newJob = {

@@ -26,7 +26,7 @@ class LoginPage extends Component {
     e.preventDefault()
     fetch("https://dverse-staffing-backend.herokuapp.com/api/v1/login", {
       method: "POST",
-      headers: { "Content-Type": "application/json", "HTTP_AUTHORIZATION"  : "Bearer <super encoded JWT>", "Accept":"application/json"
+      headers: { "Content-Type": "application/json", "HTTP_AUTHORIZATION"  : "Bearer <super encoded JWT>"
     },
       body: JSON.stringify({
         email: this.state.email,
