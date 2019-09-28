@@ -31,7 +31,7 @@ class App extends Component {
       })
         .then(res => res.json())
         .then(userObj => {
-          this.setState({ currUser: userObj });
+          this.setState({ currUser: userObj })
         });
     }
   }
@@ -39,7 +39,8 @@ class App extends Component {
   //--------------------BEGIN LOGIN CREDENTIALS---------------//
 
   updateCurrentUser = (currUser, token) => {
-    this.setState({ currUser: currUser, token: token });
+    this.setState({ currUser: currUser, token: token })
+
   };
 
   //-----------------END LOGIN CREDENTIALS---------------------------//
