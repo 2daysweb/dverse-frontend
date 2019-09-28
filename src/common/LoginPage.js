@@ -9,9 +9,9 @@ class LoginPage extends Component {
     this.state = {
       email: "",
       password: ""
-    }
+    };
   }
-
+  
   handleChangeEmail = e => {
     let un = e.target.value;
     this.setState({ email: un });
@@ -23,11 +23,13 @@ class LoginPage extends Component {
   };
 
   handleLoginSubmit = e => {
-    e.preventDefault()
+    e.preventDefault();
     fetch("https://dverse-staffing-backend.herokuapp.com/api/v1/login", {
       method: "POST",
-      headers: { "Content-Type": "application/json", "HTTP_AUTHORIZATION"  : "Bearer <super encoded JWT>"
-    },
+      headers: {
+        "Content-Type": "application/json",
+        HTTP_AUTHORIZATION: "Bearer <super encoded JWT>"
+      },
       body: JSON.stringify({
         email: this.state.email,
         password: this.state.password
@@ -35,14 +37,14 @@ class LoginPage extends Component {
     })
       .then(res => res.json())
       .then(data => {
-        //---AUTHENTICATION-----//
+        //---------------------------------AUTHENTICATION------------------------------------------------//
         if (data.authenticated) {
           this.props.updateCurrentUser(data.user, data.token);
         } else {
           alert("incorrect username or password");
         }
-      })
-  }
+      });
+  };
 
   render() {
     return (
@@ -100,4 +102,3 @@ class LoginPage extends Component {
 }
 
 export default withRouter(LoginPage);
-

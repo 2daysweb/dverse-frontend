@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { fetchUsers } from "../actions/index";
 import { withRouter } from "react-router-dom";
 
-const BASE_URL = "https://dverse-staffing-backend.herokuapp.com/";
+const BASE_URL = "https://dverse-staffing-frontend.herokuapp.com/";
 
 class CandidateContainer extends Component {
   constructor() {
@@ -28,18 +28,15 @@ class CandidateContainer extends Component {
     };
   }
 
-  //Set all candidates and filtered candidates on load of Main Container
   componentDidMount() {
-   this.props.fetchUsers()
+    this.props.fetchUsers();
   }
 
-  //----------BEGIN EVENT HANDLERS, CLICKS, SUBMITS,
+  //---------------------BEGIN EVENT HANDLERS----------------------------//
 
   handleChangeSearchText = e => {
     this.setState({ searchText: e.target.value }, this.getFilteredCandidates);
   };
-
-  //Refactor the SetState to be only one single object --- with KV pairs
 
   handleClickShowCandidate = currCandidate => {
     this.setState({ currCandidate: currCandidate });
@@ -49,11 +46,8 @@ class CandidateContainer extends Component {
   };
 
   getCandidates = () => {
-    return this.props.users.filter(user => user.user_type == 'candidate')     
-  }
-
-  
-  //---------------BEGIN-----Event Handlers for Editing, Saving  Candidate-------------------------------//
+    return this.props.users.filter(user => user.user_type == "candidate");
+  };
 
   handleChangeTextArea = editedBody => {
     let newBody = editedBody;
@@ -64,9 +58,7 @@ class CandidateContainer extends Component {
     this.setState({ currTitle: editedTitle });
   };
 
-  //--------------------END-----Event Handlers for Editing, Saving  Candidate-------------------------------//
-
-  //Discard any changes made and render "Show" of Current Candidate
+  //--------------------END EVENT HANDLERS---------------------------------------//
   handleClickCancelBtn = () => {
     this.setState({ latestClick: "ShowCandidate" });
   };
@@ -81,24 +73,20 @@ class CandidateContainer extends Component {
         />
         <div className="container">
           <CandidateSidebar
-            //State variables
             latestClick={this.state.latestClick}
-            allCandidates = {this.getCandidates()}
+            allCandidates={this.getCandidates()}
             currCandidate={this.state.currCandidate}
-            //CRUD event handlers
             showCandidate={this.handleClickShowCandidate}
             newCandidate={this.handleClickNewBtn}
             currUser={this.props.currUser}
           />
           <CandidateContent
-            //State variables
             latestClick={this.state.latestClick}
             currTitle={this.state.currTitle}
             currBody={this.state.currBody}
             currCandidate={this.state.currCandidate}
             handleChangeInput={this.handleChangeInput}
             handleChangeTextArea={this.handleChangeTextArea}
-            //CRUD event handlers
             showCandidate={this.handleClickShowCandidate}
           />
         </div>
@@ -121,7 +109,6 @@ const mapDispatchToProps = dispatch => {
     }
   };
 };
-
 
 export default connect(
   mapStateToProps,

@@ -1,14 +1,14 @@
-import React, { Component } from "react"
-import Col from "react-bootstrap/Col"
-import Form from "react-bootstrap/Form"
-import Button from "react-bootstrap/Button"
-import Nav from "react-bootstrap"
-import { LinkContainer } from "react-router-bootstrap"
-import { Redirect, withRouter } from "react-router-dom"
+import React, { Component } from "react";
+import Col from "react-bootstrap/Col";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import Nav from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
+import { Redirect, withRouter } from "react-router-dom";
 
 class SignUpForm extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
       email: "",
       password: "",
@@ -16,49 +16,38 @@ class SignUpForm extends Component {
       userType: "",
       firstName: "",
       lastName: ""
-    }
+    };
   }
-
-  //On mount, set state of isEmployer based on location props passed from LandingPage
   componentDidMount() {
     if (this.props.location.state) {
       this.setState((prevState, prevProps) => ({
         isEmployer: prevProps.location.state.isEmployer
-      }))
+      }));
     }
   }
 
   handleChangeEmail = e => {
-
-    let un = e.target.value
-    this.setState({ email: un })
-  }
+    let un = e.target.value;
+    this.setState({ email: un });
+  };
 
   handleChangePassword = e => {
-   
-    let pw = e.target.value
-    this.setState({ password: pw })
-  }
+    let pw = e.target.value;
+    this.setState({ password: pw });
+  };
 
   handleChangeFirstName = e => {
-    let fn = e.target.value
-    //debugger 
-    this.setState({ firstName: fn })
-   
-
-  }
+    let fn = e.target.value;
+    this.setState({ firstName: fn });
+  };
 
   handleChangeLastName = e => {
-    let ln = e.target.value
-    //debugger
-    this.setState({ lastName: ln })
-  
-  }
+    let ln = e.target.value;
+    this.setState({ lastName: ln });
+  };
 
   handleCandidateSignupSubmit = () => {
-    // e.preventDefault()
-    debugger 
-    fetch("https://dverse-staffing-frontend.herokuapp.com/api/v1/users", {
+    fetch("https://dverse-staffing-backend.herokuapp.com/api/v1/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -70,15 +59,14 @@ class SignUpForm extends Component {
       })
     })
       .then(res => res.json())
-      .then(data =>{ console.log(data)
-         this.setState({ currUser: data })
-  })
-  }
+      .then(data => {
+        console.log(data);
+        this.setState({ currUser: data });
+      });
+  };
 
   handleEmployerSignupSubmit = () => {
-    // e.preventDefault()
-
-    fetch("https://dverse-staffing-frontend.herokuapp.com/api/v1/users", {
+    fetch("https://dverse-staffing-backend.herokuapp.com/api/v1/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -90,13 +78,11 @@ class SignUpForm extends Component {
       })
     })
       .then(res => res.json())
-      .then(data => {console.log(data)
-        this.setState({ currUser: data })
-      })
-      
-  }
-
-  //Conditionally render Employer or Candidate form based on state var isEmployer
+      .then(data => {
+        console.log(data);
+        this.setState({ currUser: data });
+      });
+  };
   renderEmployerOrCandidateForm = () => {
     return !this.state.isEmployer ? (
       <div>
@@ -124,11 +110,17 @@ class SignUpForm extends Component {
             <Form.Row>
               <Form.Group controlId="firstName">
                 <Form.Label>First Name</Form.Label>
-                <Form.Control onChange={this.handleChangeFirstName}placeholder="First Name" />
+                <Form.Control
+                  onChange={this.handleChangeFirstName}
+                  placeholder="First Name"
+                />
               </Form.Group>
               <Form.Group controlId="lastName">
                 <Form.Label>Last Name</Form.Label>
-                <Form.Control onChange={this.handleChangeLastName} placeholder="Last Name" />
+                <Form.Control
+                  onChange={this.handleChangeLastName}
+                  placeholder="Last Name"
+                />
               </Form.Group>
             </Form.Row>
 
@@ -137,7 +129,6 @@ class SignUpForm extends Component {
               <Form.Control placeholder="3 Taleex Street, Mogadishu, Somalia" />
             </Form.Group>
 
-            
             <LinkContainer
               to={{
                 pathname: "/login",
@@ -193,9 +184,7 @@ class SignUpForm extends Component {
               <Form.Label>Address 2</Form.Label>
               <Form.Control placeholder="Apartment, studio, or floor" />
             </Form.Group>
-
             <Form.Row />
-
             <LinkContainer
               to={{
                 pathname: "/login",
@@ -213,12 +202,11 @@ class SignUpForm extends Component {
           </Form>
         </form>
       </div>
-    )
-  }
+    );
+  };
 
   render() {
-    return this.renderEmployerOrCandidateForm()
+    return this.renderEmployerOrCandidateForm();
   }
 }
-
-export default withRouter(SignUpForm)
+export default withRouter(SignUpForm);

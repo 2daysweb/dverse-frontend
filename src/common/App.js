@@ -36,15 +36,11 @@ class App extends Component {
     }
   }
 
-  //--------------------BEGIN LOGIN CREDENTIALS---------------//
-
-  updateCurrentUser = (currUser, token) => {
-    this.setState({ currUser: currUser, token:token });
+  updateCurrentUser = (currUser, token=null) => {
+    this.setState({ currUser: currUser, token: token });
   };
 
-  //-----------------END LOGIN CREDENTIALS---------------------------//
-
-  //--------------------BEGIN NEW USER SIGN UP INPUTs, SUBMIT SIGNUP DETAILS----------------//
+  //----------------------BEGIN SIGNUP EVENT HANDLERS-------------------------//
 
   handleSubmitSignup = () => {
     fetch("https://dverse-staffing-backend.herokuapp.com/api/v1/users", {
@@ -59,10 +55,8 @@ class App extends Component {
       .then(data => console.log(data));
   };
 
-  //--------------------END NEW USER SIGN UP INPUTs, SUBMIT SIGNUP DETAILS----------------//
-
-  //Conditionally render portal based on curr user type
-
+  //--------------------END SIGNUP EVENT HANDLERS-----------------------------------//
+  
   renderPortal = () => {
     let userType = this.state.currUser.user_type;
     switch (userType) {

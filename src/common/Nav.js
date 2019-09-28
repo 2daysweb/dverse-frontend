@@ -11,24 +11,15 @@ const NavBar = props => {
     location: { pathname }
   } = props;
 
-  // let logged_in = props.logged_in
-  let currUser = props.currUser;
-  //updateCurrentUser = props.updateCurrentUser
-
   let logout = () => {
-    
     //clear localStorage of our jwt
-    localStorage.clear()
-    //set the user state back to null
-    props.updateCurrentUser(null)
-
-    props.history.push('/login')
-  }
+    localStorage.clear();
+    props.updateCurrentUser(null);
+    props.history.push("/login");
+  };
 
   const renderNavbar = () => {
-    //Check if Candidate, Employer, or Admin User-Type, conditionally render NavBar
     let userType = props.currUser.user_type;
-    //debugger
     switch (userType) {
       case "employer":
         return (
@@ -67,44 +58,44 @@ const NavBar = props => {
               Logout
             </Button>
           </Navbar>
-        )
+        );
       case "candidate":
         return (
           <Navbar>
-          <Nav className="mr-auto">
-            <LinkContainer to="/candidatehome">
-              <Nav.Link>Home</Nav.Link>
-            </LinkContainer>
+            <Nav className="mr-auto">
+              <LinkContainer to="/candidatehome">
+                <Nav.Link>Home</Nav.Link>
+              </LinkContainer>
 
-            <LinkContainer to="/candidatejobs">
-              <Nav.Link>Jobs</Nav.Link>
-            </LinkContainer>
-            <LinkContainer to="/apptracker">
-              <Nav.Link>App Tracker</Nav.Link>
-            </LinkContainer>
-            {/* <LinkContainer to="/myjobs">
+              <LinkContainer to="/candidatejobs">
+                <Nav.Link>Jobs</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/apptracker">
+                <Nav.Link>App Tracker</Nav.Link>
+              </LinkContainer>
+              {/* <LinkContainer to="/myjobs">
               <Nav.Link>My Jobs</Nav.Link>
             </LinkContainer> */}
-            <LinkContainer to="/myprofile">
-              <Nav.Link>Profile</Nav.Link>
-            </LinkContainer>
-          </Nav>
-          <Navbar.Toggle />
-          <Navbar.Collapse className="justify-content-end">
-            <Navbar.Text>
-              <a href="#login/:" />
-            </Navbar.Text>
-          </Navbar.Collapse>
-          <Button onClick={logout} variant="primary">
-            Logout
-          </Button>
-        </Navbar>
+              <LinkContainer to="/myprofile">
+                <Nav.Link>Profile</Nav.Link>
+              </LinkContainer>
+            </Nav>
+            <Navbar.Toggle />
+            <Navbar.Collapse className="justify-content-end">
+              <Navbar.Text>
+                <a href="#login/:" />
+              </Navbar.Text>
+            </Navbar.Collapse>
+            <Button onClick={logout} variant="primary">
+              Logout
+            </Button>
+          </Navbar>
         );
       case "admin":
         return (
           <Navbar>
             <Nav className="mr-auto">
-            <LinkContainer to="/adminhome">
+              <LinkContainer to="/adminhome">
                 <Nav.Link>Home</Nav.Link>
               </LinkContainer>
               <LinkContainer to="/approvedjobs">
@@ -137,8 +128,6 @@ const NavBar = props => {
     }
   };
 
-  //If User is not logged in (i.e.currUser is NULL) render NavBar component with Login / SignUp Headers only
-
   return (
     <div>
       {currUser ? (
@@ -160,4 +149,4 @@ const NavBar = props => {
   );
 };
 
-export default withRouter(NavBar)
+export default withRouter(NavBar);
