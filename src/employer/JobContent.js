@@ -2,13 +2,14 @@ import React, { Component } from "react";
 import JobEditor from "./JobEditor";
 import JobViewer from "./JobViewer";
 import JobInstructions from "./JobInstructions";
+import updateLatestClick from '../index'
+import { connect } from 'react-redux'
 
 class JobContent extends Component {
   renderContent = () => {
     if (this.props.latestClick === "EditJob") {
       return (
         <JobEditor
-          currUser={this.props.currUser}
           currJob={this.props.currJob}
           currBody={this.props.currBody}
           currTitle={this.props.currTitle}
@@ -23,9 +24,6 @@ class JobContent extends Component {
     } else if (this.props.latestClick === "ShowJob") {
       return (
         <JobViewer
-          submitJob={this.props.submitJob}
-          withdrawSubmitJob={this.props.withdrawSubmitJob}
-          currUser={this.props.currUser}
           currJob={this.props.currJob}
           editJob={this.props.editJob}
           showJob={this.props.showJob}
@@ -33,13 +31,13 @@ class JobContent extends Component {
           latestClick={this.props.latestClick}
           submitJob={this.props.submitJob}
           status={this.props.status}
+          submitJob={this.props.submitJob}
+          withdrawSubmitJob={this.props.withdrawSubmitJob}
         />
       );
-      //Cancel job does not mean delete job, simply click cancel btn when in job editor
     } else if (this.props.latestClick === "CancelJob") {
       return (
         <JobViewer
-          currUser={this.props.currUser}
           currJob={this.props.currJob}
           editJob={this.props.editJob}
           cancelJob={this.props.cancelJob}
@@ -50,7 +48,6 @@ class JobContent extends Component {
     } else if (this.props.latestClick === "NewJob") {
       return (
         <JobViewer
-          currUser={this.props.currUser}
           currJob={this.props.currJob}
           editJob={this.props.editJob}
           showJob={this.props.showJob}
@@ -69,12 +66,18 @@ class JobContent extends Component {
   }
 }
 
-//TODO: Finish implementing redux
-
-function mapStateToProps(state) {
-  return {
-    default: state.default
-  };
+let mapStateToProps = (state) => {
+  return ({
+    latestClick: state.latestClick
+  })
 }
 
-export default JobContent;
+  const mapDispatchToProps = dispatch => {
+    return {
+      updateLatestClick: (latestClick) => {
+        dispatch(latestClick)
+      }
+    }
+  };
+
+export default connect(mapStateToProps, mapDispatchToProps)(JobContent);

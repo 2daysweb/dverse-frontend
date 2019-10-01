@@ -2,48 +2,30 @@ import React, { Component, Fragment } from "react";
 import { Nav, Navbar, Form, Button } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
+import { connect } from "react-redux";
+import { setCurrentUser } from "../actions/index.js";
 
-class LoginPage extends Component {
+class Login extends Component {
   constructor() {
     super();
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      user: null,
+      submitted: false
     };
   }
-  
-  handleChangeEmail = e => {
-    let un = e.target.value;
-    this.setState({ email: un });
-  };
 
-  handleChangePassword = e => {
-    let pw = e.target.value;
-    this.setState({ password: pw });
+  handleChange = e => {
+    e.persist();
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
   };
 
   handleLoginSubmit = e => {
-    e.preventDefault();
-    fetch("https://dverse-staffing-backend.herokuapp.com/api/v1/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        HTTP_AUTHORIZATION: "Bearer <super encoded JWT>"
-      },
-      body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.password
-      })
-    })
-      .then(res => res.json())
-      .then(data => {
-        //---------------------------------AUTHENTICATION------------------------------------------------//
-        if (data.authenticated) {
-          this.props.updateCurrentUser(data.user, data.token);
-        } else {
-          alert("incorrect username or password");
-        }
-      });
+    e.preventDefault()
+    const {email, password} = this.state
+    return this.props.setCurrentUser(email, password);
   };
 
   render() {
@@ -72,10 +54,10 @@ class LoginPage extends Component {
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
               <Form.Control
-                onChange={this.handleChangeEmail}
+                onChange={e => this.handleChange(e)}
                 type="email"
+                name="email"
                 placeholder="Enter email"
-                value={this.state.email}
               />
               <Form.Text className="text-muted">
                 We'll never share your email with anyone else.
@@ -85,10 +67,10 @@ class LoginPage extends Component {
             <Form.Group controlId="formBasicPassword">
               <Form.Label>Password</Form.Label>
               <Form.Control
-                onChange={this.handleChangePassword}
+                onChange={e => this.handleChange(e)}
                 type="password"
+                name="password"
                 placeholder="Password"
-                value={this.state.password}
               />
             </Form.Group>
             <Button variant="primary" type="submit">
@@ -101,4 +83,15 @@ class LoginPage extends Component {
   }
 }
 
-export default withRouter(LoginPage);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setCurrentUser: (email, password) => {
+      dispatch(setCurrentUser(email, password));
+    }
+  }
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(withRouter(Login));

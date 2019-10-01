@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import NavBar from "./Nav";
-import LoginPage from "./LoginPage";
+import Login from "./Login";
 import SignUpForm from "./SignUpForm";
-import LandingPage from "./LandingPage";
-import Applications from "./Applications";
+import Landing from "./Landing";
 import Profile from "./Profile";
 import CandidateHome from "../candidate/CandidateHome";
 import CandidateContainer from "./CandidateContainer";
@@ -12,94 +11,49 @@ import AdminHome from "../admin/AdminHome";
 import AdminJobsContainer from "../admin/AdminJobsContainer";
 import EmployerHome from "../employer/EmployerHome";
 import JobsContainer from "../employer/JobsContainer";
+import { connect } from "react-redux";
 import { Switch, Route, Redirect } from "react-router-dom";
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      currUser: null,
-      token: null
-    };
-  }
-
   componentDidMount() {
-    let token = this.state.token;
-    if (token) {
-      fetch("https://dverse-staffing-backend.herokuapp.com/api/v1/profile", {
-        headers: { Authentication: `Bearer ${token}` }
-      })
-        .then(res => res.json())
-        .then(userObj => {
-          this.setState({ currUser: userObj });
-        });
-    }
+    console.log(
+      "PROPS IN APP",
+      this.props,
+      "CURRENT USER CURRUSER.CURRUSER",
+      this.props.user.user
+    );
   }
-
-  updateCurrentUser = (currUser, token=null) => {
-    this.setState({ currUser: currUser, token: token });
-  };
-
-  //----------------------BEGIN SIGNUP EVENT HANDLERS-------------------------//
-
-  handleSubmitSignup = () => {
-    fetch("https://dverse-staffing-backend.herokuapp.com/api/v1/users", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: this.state.username,
-        password: this.state.password
-      })
-    })
-      .then(res => res.json())
-      .then(data => console.log(data));
-  };
-
-  //--------------------END SIGNUP EVENT HANDLERS-----------------------------------//
-  
   renderPortal = () => {
-    let userType = this.state.currUser.user_type;
+    let userType = this.props.user.user_type;
     switch (userType) {
       case "employer":
+     
         return (
           <div>
-            <NavBar
-              updateCurrentUser={this.updateCurrentUser}
-              currUser={this.state.currUser}
-            />
+            <NavBar />
             <EmployerHome />
           </div>
         );
-
       case "candidate":
         return (
           <div>
-            <NavBar
-              updateCurrentUser={this.updateCurrentUser}
-              currUser={this.state.currUser}
-            />
+            <NavBar />
             <CandidateHome />
           </div>
         );
-
       case "admin":
         return (
           <div>
-            <NavBar
-              updateCurrentUser={this.updateCurrentUser}
-              currUser={this.state.currUser}
-            />
+            <NavBar />
             <AdminHome />
           </div>
         );
-
       default:
         return false;
     }
   };
 
   render() {
-    const { error, loading, jobs } = this.props;
     return (
       <div className="app">
         <Switch>
@@ -107,42 +61,15 @@ class App extends Component {
             exact
             path="/login"
             render={() =>
-              this.state.currUser ? (
-                this.renderPortal()
-              ) : (
-                <LoginPage
-                  updateCurrentUser={this.updateCurrentUser}
-                  currUser={this.state.currUser}
-                />
-              )
+              this.props.loggedIn ? this.renderPortal() : <Login />
             }
-          />
-          <Route
-            exact
-            path="/login"
-            render={props => (
-              <Route
-                exact
-                path="/"
-                render={props => (
-                  <LoginPage
-                    {...props}
-                    updateCurrentUser={this.updateCurrentUser}
-                    currUser={this.state.currUser}
-                    handleLoginSubmit={this.handleLoginSubmit}
-                    handleSignupSubmit={this.handleSignUpSubmit}
-                  />
-                )}
-              />
-            )}
           />
           <Route
             exact
             path="/"
             render={props => (
-              <LandingPage
+              <Landing
                 {...props}
-                handleLoginSubmit={this.handleLoginSubmit}
                 handleSignupSubmit={this.handleSignUpSubmit}
               />
             )}
@@ -153,11 +80,18 @@ class App extends Component {
             path="/adminhome"
             render={props => (
               <div>
-                <NavBar
-                  updateCurrentUser={this.updateCurrentUser}
-                  currUser={this.state.currUser}
-                />
-                <AdminHome />
+                <NavBar  {...props} />
+                <AdminHome {...props}/>
+              </div>
+            )}
+          />
+          <Route
+            exact
+            path="/employerhome"
+            render={props => (
+              <div>
+                <NavBar {...props}/>
+                <EmployerHome {...props}/>
               </div>
             )}
           />
@@ -166,10 +100,7 @@ class App extends Component {
             path="/candidatehome"
             render={props => (
               <div>
-                <NavBar
-                  updateCurrentUser={this.updateCurrentUser}
-                  currUser={this.state.currUser}
-                />
+                <NavBar />
                 <CandidateHome />
               </div>
             )}
@@ -180,10 +111,7 @@ class App extends Component {
             path="/myprofile"
             render={props => (
               <div>
-                <NavBar
-                  updateCurrentUser={this.updateCurrentUser}
-                  currUser={this.state.currUser}
-                />
+                <NavBar />
                 <Profile />
               </div>
             )}
@@ -191,26 +119,10 @@ class App extends Component {
 
           <Route
             exact
-            path="/employhome"
-            render={props => (
-              <div>
-                <NavBar
-                  updateCurrentUser={this.updateCurrentUser}
-                  currUser={this.state.currUser}
-                />
-                <EmployerHome />
-              </div>
-            )}
-          />
-          <Route
-            exact
             path="/candidates"
-            render={props => (
+            render={() => (
               <div>
-                <NavBar
-                  updateCurrentUser={this.updateCurrentUser}
-                  currUser={this.state.currUser}
-                />
+                <NavBar />
                 <CandidateContainer />
               </div>
             )}
@@ -220,11 +132,8 @@ class App extends Component {
             path="/employjobs"
             render={props => (
               <div>
-                <NavBar
-                  updateCurrentUser={this.updateCurrentUser}
-                  currUser={this.state.currUser}
-                />
-                <JobsContainer status={"approved"} />
+                <NavBar />
+                <JobsContainer />
               </div>
             )}
           />
@@ -233,11 +142,8 @@ class App extends Component {
             path="/mypendingjobs"
             render={props => (
               <div>
-                <NavBar
-                  updateCurrentUser={this.updateCurrentUser}
-                  currUser={this.state.currUser}
-                />
-                <JobsContainer status={"submitted"} />
+                <NavBar />
+                <JobsContainer />
               </div>
             )}
           />
@@ -246,11 +152,8 @@ class App extends Component {
             path="/mydraftjobs"
             render={props => (
               <div>
-                <NavBar
-                  updateCurrentUser={this.updateCurrentUser}
-                  currUser={this.state.currUser}
-                />
-                <JobsContainer status={"draft"} />
+                <NavBar />
+                <JobsContainer {...props} />
               </div>
             )}
           />
@@ -259,10 +162,7 @@ class App extends Component {
             path="/jobs"
             render={props => (
               <div>
-                <NavBar
-                  updateCurrentUser={this.updateCurrentUser}
-                  currUser={this.state.currUser}
-                />
+                <NavBar />
                 <JobsContainer />
               </div>
             )}
@@ -272,11 +172,8 @@ class App extends Component {
             path="/pendingjobs"
             render={props => (
               <div>
-                <NavBar
-                  updateCurrentUser={this.updateCurrentUser}
-                  currUser={this.state.currUser}
-                />
-                <AdminJobsContainer status={"submitted"} />
+                <NavBar />
+                <AdminJobsContainer />
               </div>
             )}
           />
@@ -285,11 +182,8 @@ class App extends Component {
             path="/approvedjobs"
             render={props => (
               <div>
-                <NavBar
-                  updateCurrentUser={this.updateCurrentUser}
-                  currUser={this.state.currUser}
-                />
-                <AdminJobsContainer status={"approved"} />
+                <NavBar />
+                <AdminJobsContainer />
               </div>
             )}
           />
@@ -298,38 +192,8 @@ class App extends Component {
             path="/candidatejobs"
             render={props => (
               <div>
-                <NavBar
-                  updateCurrentUser={this.updateCurrentUser}
-                  currUser={this.state.currUser}
-                />
+                <NavBar />
                 <CandidateJobContainer />
-              </div>
-            )}
-          />
-
-          <Route
-            exact
-            path="/applications"
-            render={() => (
-              <div>
-                <NavBar
-                  updateCurrentUser={this.updateCurrentUser}
-                  currUser={this.state.currUser}
-                />
-                <Applications />
-              </div>
-            )}
-          />
-          <Route
-            exact
-            path="/apptracker"
-            render={() => (
-              <div>
-                <NavBar
-                  updateCurrentUser={this.updateCurrentUser}
-                  currUser={this.state.currUser}
-                />
-                <Applications />
               </div>
             )}
           />
@@ -343,11 +207,7 @@ class App extends Component {
             exact
             path="/"
             render={() =>
-              this.state.currUser ? (
-                this.renderPortal()
-              ) : (
-                <Redirect to="/landing" />
-              )
+              this.props.user ? this.renderPortal() : <Redirect to="/landing" />
             }
           />
         </Switch>
@@ -355,5 +215,16 @@ class App extends Component {
     );
   }
 }
+const mapStateToProps = state => {
+  console.log(state, "IN APP MAP STATE TO PROPS");
+  return {
+    loggedIn: state.user.loggedIn,
+    user: state.user.user,
+    token: state.user.token
+  };
+};
 
-export default App;
+export default connect(
+  mapStateToProps,
+  null
+)(App);

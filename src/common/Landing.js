@@ -1,14 +1,36 @@
-import React, { Component } from "react"
-import { LinkContainer } from "react-router-bootstrap"
-import { withRouter } from "react-router-dom"
-import LandingNav from "./LandingNav"
-import { Nav, Col, Row, Container, Jumbotron, Button } from "react-bootstrap"
-
-class LandingPage extends Component {
+import React, { Component } from "react";
+import { LinkContainer } from "react-router-bootstrap";
+import { withRouter } from "react-router-dom";
+import { Nav, Col, Navbar, Row, Form, FormControl, Jumbotron, Button } from "react-bootstrap";
+class Landing extends Component {
   render() {
     return (
       <div>
-        <LandingNav />
+        <div>
+          <Row>
+            <Col md={4}>
+              {" "}
+              <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+                <Navbar.Brand href="#home">
+                  Dverse, Talent {"&"} Opportunites
+                </Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+              </Navbar>
+            </Col>
+            <Col md={{ span: 4, offset: 4 }}>
+              {
+                <Form inline>
+                  <FormControl
+                    type="text"
+                    placeholder="Search"
+                    className="mr-sm-2"
+                  />
+                  <Button variant="outline-success">Search</Button>
+                </Form>
+              }
+            </Col>
+          </Row>
+        </div>
         <Row>
           <Col>
             <Jumbotron>
@@ -94,7 +116,7 @@ class LandingPage extends Component {
           </Jumbotron>
         </Row>
       </div>
-    )
+    );
   }
 }
-export default withRouter(LandingPage)
+export default withRouter(Landing);

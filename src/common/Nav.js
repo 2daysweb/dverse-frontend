@@ -1,34 +1,32 @@
 import React from "react";
-import { Link, Redirect, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
-import LoginPage from "./LoginPage";
+import Login from "./Login";
+import {logout} from '../actions/index.js'
+import { connect } from "react-redux";
 
 const NavBar = props => {
-  let {
-    location: { pathname }
-  } = props;
+  console.log(props, "PROPS IN NAVBAR");
+  const { user, history } = props;
 
   let logout = () => {
-    //clear localStorage of our jwt
-    localStorage.clear();
-    props.updateCurrentUser(null);
-    props.history.push("/login");
+    history.push("/login");
+    props.logout()
   };
 
   const renderNavbar = () => {
-    let userType = props.currUser.user_type;
+    let userType = user.user_type;
     switch (userType) {
       case "employer":
         return (
           <Navbar>
             <Nav className="mr-auto">
-              <LinkContainer to="/employhome">
+              <LinkContainer to="/employerhome">
                 <Nav.Link>Home</Nav.Link>
               </LinkContainer>
-
               <LinkContainer to="/candidates">
                 <Nav.Link>Candidates</Nav.Link>
               </LinkContainer>
@@ -73,9 +71,6 @@ const NavBar = props => {
               <LinkContainer to="/apptracker">
                 <Nav.Link>App Tracker</Nav.Link>
               </LinkContainer>
-              {/* <LinkContainer to="/myjobs">
-              <Nav.Link>My Jobs</Nav.Link>
-            </LinkContainer> */}
               <LinkContainer to="/myprofile">
                 <Nav.Link>Profile</Nav.Link>
               </LinkContainer>
@@ -130,12 +125,12 @@ const NavBar = props => {
 
   return (
     <div>
-      {currUser ? (
+      {user ? (
         renderNavbar()
       ) : (
         <Navbar>
           <Nav className="mr-auto">
-            <LoginPage />
+            <Login />
           </Nav>
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">
@@ -149,4 +144,21 @@ const NavBar = props => {
   );
 };
 
-export default withRouter(NavBar);
+const mapStateToProps = state => {
+  console.log(state, "IN MAP STATE TO PROPS");
+  console.log(state.user.user, "THIS IS THE USER IN THE STATE");
+  return {
+    user: state.user.user
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  console.log("IN MAP DISPATCH TO PROPS", dispatch, "DISPATCH", "LOGUOT", logout())
+  return {
+    logout: () => {
+      dispatch(logout());
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(NavBar));

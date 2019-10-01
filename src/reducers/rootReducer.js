@@ -1,13 +1,14 @@
 import {combineReducers} from 'redux';
+import userReducer from './userReducer'
 import jobsReducer from './jobsReducer';
-import usersReducer from './usersReducer';
-import visibilityFilterReducer from './visibilityFilterReducer';
-
+import candidatesReducer from './candidatesReducer';
+import latestClickReducer from './latestClickReducer';
 
 export default combineReducers({
     jobs: jobsReducer,
-    users: usersReducer,
-    filters: visibilityFilterReducer
+    candidates: candidatesReducer,
+    user: userReducer,
+    latestClick: latestClickReducer
   })
   
  

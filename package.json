@@ -9,6 +9,7 @@
   "dependencies": {
     "bootstrap": "^4.3.1",
     "classnames": "^2.2.6",
+    "jquery": "^1.12.4",
     "lodash": "^4.17.15",
     "react": "^16.10.1",
     "react-activestorage-provider": "^0.8.0",
@@ -26,7 +27,8 @@
     "redux": "^4.0.4",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
-    "serve": "^11.2.0"
+    "serve": "^11.2.0",
+    "typescript": "^3.6.3"
   },
   "scripts": {
     "dev": "PORT=4000 react-scripts start",

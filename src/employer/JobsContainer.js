@@ -2,18 +2,15 @@ import React, { Component, Fragment } from "react";
 import JobSidebar from "./JobSidebar";
 import Content from "./JobContent";
 import { connect } from "react-redux";
-import { fetchJobs } from "../actions/index";
+import { fetchJobs } from "../actions/index.js";
 import { withRouter } from "react-router-dom";
 
-const BASE_URL = "https://dverse-staffing-backend.herokuapp.com/";
+const BASE_URL = "http://localhost:3000/";
 
 class JobsContainer extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
-      jobs: [],
-      filteredJobs: [],
-      myJobs: [],
       currJob: null,
       currBody: "",
       currTitle: "",
@@ -22,35 +19,30 @@ class JobsContainer extends Component {
     };
   }
 
-  //Set jobs from redux state on mount
   componentDidMount() {
     this.props.fetchJobs();
   }
 
-  //TODO: Fix re-rendering problem --- prevProps.jobs sometimes undefined --- infinite loop of server calls
   componentDidUpdate(prevProps, prevState) {
-    console.log(prevProps.jobs, this.props.jobs)
+    console.log(prevProps.jobs, this.props.jobs);
     if (prevProps.jobs.length) {
-      //If the most recently added job is not equal to previously last job in jobs array, fetchJobs again
       if (prevProps.jobs.slice(-1)[0].id !== this.props.jobs.slice(-1)[0].id) {
-        {
-          this.props.fetchJobs();
-        }
+        this.props.fetchJobs();
       }
     }
   }
 
-  //Get array of all jobs of current user/employer
   getAllMyJobs = () => {
-    //Filter all jobs, return jobs belonging to current user
+    //Get jobs belonging to current user
     let allJobs = this.props.jobs;
-    let currUser = JSON.parse(localStorage.getItem("currUser"));
-    //Filter through all jobs for jobs where user id matches curr user id
-    let myJobs = allJobs.filter(job => job.users[0].id === currUser.id);
+    let user = this.props.user;
+    console.log("IN GET ALL MY JOBS", user);
+    debugger;
+    let myJobs = allJobs.filter(job => job.users[0].id === user.id);
     return myJobs;
   };
 
-  //Get all jobs of current user/employer based on userId
+  //Get all user's jobs
   getMyApprovedJobs = () => {
     let myJobs = this.getAllMyJobs();
     let myApprovedJobs = myJobs.filter(job => job.status === "approved");
@@ -67,26 +59,20 @@ class JobsContainer extends Component {
     let mySubmittedJobs = myJobs.filter(job => job.status === "submitted");
     return mySubmittedJobs;
   };
-
-  //Create a JSON switch config
-  // TODO: Make a HOC and extend them, or B use JSON config file to
-
-  //Filter all of job based on searchText
   getFilteredJobs = () => {
-    let currUserType = JSON.parse(localStorage.getItem("currUser")).user_type;
+    let userType = this.props.user.user_type;
     let status = this.props.status;
 
-    //;
     switch (status) {
       case "approved":
-        if (currUserType === "employer") {
+        if (userType === "employer") {
           return this.getMyApprovedJobs();
         } else {
           return this.getAllApprovedJobs();
         }
 
       case "submitted":
-        if (currUserType === "employer") {
+        if (userType === "employer") {
           return this.getMySubmittedJobs();
         } else {
           return this.getAllSubmittedJobs();
@@ -99,13 +85,11 @@ class JobsContainer extends Component {
     }
   };
 
-  //----------BEGIN EVENT HANDLERS, CLICKS, SUBMITS--------------------//
+  //------------------------------------BEGIN EVENT HANDLERS------------------------------------------//
 
   handleChangeSearchText = e => {
     this.setState({ searchText: e.target.value }, this.getFilteredJobs);
   };
-
-  //Refactor the SetState to be only one single object --- with KV pairs
 
   handleClickShowJob = currJob => {
     this.setState({
@@ -116,9 +100,7 @@ class JobsContainer extends Component {
     });
   };
 
-  //Helper function to create job object from a given job
-
-  createJobObj = job => {
+  updateJobObj = job => {
     let id = job.id;
     let title = job.title;
     let body = job.body;
@@ -130,11 +112,8 @@ class JobsContainer extends Component {
   handleClickSubmitBtn = currJob => {
     let id = currJob.id;
     let URL = BASE_URL + "api/v1/jobs/" + id;
-
-    let submittedJob = this.createJobObj(currJob);
+    let submittedJob = this.updateJobObj(currJob);
     submittedJob.status = "submitted";
-
-    //Create new job object with newTitle and newBody
 
     return fetch(URL, {
       method: "PATCH",
@@ -149,7 +128,7 @@ class JobsContainer extends Component {
   };
 
   handleClickWithdrawSubmitBtn = currJob => {
-    let withdrawnJob = this.createJobObj(currJob);
+    let withdrawnJob = this.updateJobObj(currJob);
     withdrawnJob.status = "draft";
     let id = currJob.id;
     let URL = BASE_URL + "api/v1/jobs/" + id;
@@ -167,7 +146,7 @@ class JobsContainer extends Component {
   };
 
   handleClickActivateBtn = currJob => {
-    let activatedJob = this.createJobObj(currJob);
+    let activatedJob = this.updateJobObj(currJob);
     let id = currJob.id;
     let URL = BASE_URL + "api/v1/jobs/" + id;
 
@@ -185,8 +164,8 @@ class JobsContainer extends Component {
 
   handleClickNewBtn = () => {
     this.setState({ latestClick: "" });
-    let currUser = JSON.parse(localStorage.getItem("currUser"));
-    let userId = currUser.id;
+    let user = this.props.user.user_type;
+    let userId = user.id;
 
     let newJob = {
       title: "Deafult Title",
@@ -208,10 +187,7 @@ class JobsContainer extends Component {
       .then(newJob => console.log(newJob));
   };
 
-  //---------------BEGIN-----Event Handlers for Editing, Saving  Job-------------------------------//
-
   handleClickEditBtn = e => {
-    //update latestClick to "edit"
     this.setState({ latestClick: "EditJob" });
   };
 
@@ -225,17 +201,13 @@ class JobsContainer extends Component {
   };
 
   handleClickSaveBtn = currJob => {
-    //get current id of current job
     let id = currJob.id;
-    //get new current title from JobEditor
+    //get title from editor
     let newTitle = this.state.currTitle;
-    //get new current body from JobEditor
+    //get body from editor
     let newBody = this.state.currBody;
-
     let status = "draft";
-
     let newJob = { title: newTitle, body: newBody, id: id, status: status };
-
     let URL = BASE_URL + "api/v1/jobs/" + id;
 
     return fetch(URL, {
@@ -250,61 +222,45 @@ class JobsContainer extends Component {
       .then(data => console.log(data));
   };
 
-  //--------------------END-----Event Handlers for Editing, Saving  Job-------------------------------//
-
-  //--------------------BEGIN-----Event Handlers for Cancel, Delete Buttons-------------------------------//
-
-  //Discard any changes made and render "Show" of Current Job
+  //Discard any changes made in editor
   handleClickCancelBtn = () => {
     this.setState({ latestClick: "ShowJob" });
   };
 
   handleClickDeleteBtn = () => {
     let id = this.state.currJob.id;
-    //create new job object with newTitle and newBody
     let URL = BASE_URL + "api/v1/jobs/" + id;
     let job = { id: id };
-
-    //Remove deleted job from
     return fetch(URL, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(job) // body data type must match "Content-Type" header
+      body: JSON.stringify(job)
     })
-      .then(response => response.json()) // parses JSON response into native JavaScript objects
+      .then(response => response.json())
       .then(data => console.log(data))
       .then(this.deleteJob(id));
   };
 
-  //Delete a job from allJobs on click of Delete Button
   deleteJob = id => {
     console.log(this.props.jobs);
   };
-  //--------------------END-----Event Handlers for Cancel, Delete Buttons-------------------------------//
+
+  //--------------------END-----------------------------------Event Handlers -------------------------------------------------END-------------------------------//
 
   render() {
     return (
       <Fragment>
-        {/* <Search
-          latestClick={this.state.latestClick}
-          handleChangeSearchText={this.handleChangeSearchText}
-          currUser={this.props.currUser}
-        /> */}
         <div className="container">
           <JobSidebar
-            //State variables
             latestClick={this.state.latestClick}
-            filteredJobs={this.getFilteredJobs()}
             currJob={this.state.currJob}
-            //CRUD event handlers
+            //event handlers
             showJob={this.handleClickShowJob}
             newJob={this.handleClickNewBtn}
-            currUser={this.props.currUser}
           />
           <Content
-            //State variables
             latestClick={this.state.latestClick}
             currTitle={this.state.currTitle}
             currBody={this.state.currBody}
@@ -313,7 +269,7 @@ class JobsContainer extends Component {
             handleChangeTextArea={this.handleChangeTextArea}
             submitJob={this.handleClickSubmitBtn}
             withdrawSubmitJob={this.handleClickWithdrawSubmitBtn}
-            //CRUD event handlers
+            //event handlers
             status={this.props.status}
             activateJob={this.handleClickActivateBtn}
             editJob={this.handleClickEditBtn}
@@ -331,20 +287,20 @@ class JobsContainer extends Component {
 
 const mapStateToProps = state => {
   return {
-    jobs: state.jobs.jobs
-  };
+    jobs: state.jobs.jobs,
+    user: state.user.user
+  }
 };
 
 const mapDispatchToProps = dispatch => {
-  console.log(fetchJobs());
   return {
     fetchJobs: () => {
-      dispatch(fetchJobs());
+      dispatch(fetchJobs())
     }
-  };
+  }
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withRouter(JobsContainer));
+)(withRouter(JobsContainer))

@@ -1,9 +1,14 @@
-import React from "react"
+import React, {Component} from "react"
 import { Jumbotron, Container } from "react-bootstrap"
 import {withRouter} from 'react-router-dom'
 
 
- function AdminHome() {
+class AdminHome extends Component {
+
+  componentDidMount(){
+    this.props.history.push('adminhome')
+  }
+  render(){
   return (
     <div>
       <Jumbotron fluid>
@@ -19,6 +24,7 @@ import {withRouter} from 'react-router-dom'
       </Jumbotron>
     </div>
   )
+}
 }
 
 export default withRouter(AdminHome)

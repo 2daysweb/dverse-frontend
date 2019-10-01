@@ -1,10 +1,14 @@
-import React from "react"
+import React, {Component} from "react"
 import { Jumbotron, Container } from "react-bootstrap"
 import {withRouter} from 'react-router-dom'
-//Conditionally render Home depending on user_type
 
- function CandidateHome() {
-  return (
+class CandidateHome extends Component {
+
+  componentDidMount(){
+    this.props.history.push('candidatehome')
+  }
+  render(){
+      return (
     <div>
       <Jumbotron fluid>
         <Container>
@@ -18,6 +22,7 @@ import {withRouter} from 'react-router-dom'
       </Jumbotron>
     </div>
   )
+}
 }
 
 export default withRouter(CandidateHome)
