@@ -13,7 +13,6 @@ class CandidateContainer extends Component {
     super();
     this.state = {
       currCandidate: {},
-      allCandidates: [],
       filteredCandidates: [],
       currCandidate: {},
       currFirstName: "",

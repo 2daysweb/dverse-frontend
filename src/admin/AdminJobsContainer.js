@@ -23,14 +23,12 @@ class AdminJobsContainer extends Component {
     }
   }
 
-  //get jobs from redu;x 
+  //fetch jobs on mount
   componentDidMount() {
     this.props.fetchJobs();
   }
 
-  //TODO: Fix re-rendering problem --- prevProps.jobs sometimes undefined --- infinite loop of server calls 
   componentDidUpdate(prevProps, prevState) {
-    // Typical usage (don't forget to compare props):
     if (this.props.jobs !== prevProps.jobs) {
       this.props.fetchJobs();
     }
@@ -52,7 +50,7 @@ class AdminJobsContainer extends Component {
     return allApprovedJobs;
   };
 
-  //Get all jobs submitted for approval from all employers
+  //get all jobs pending approval (status = submitted)
   getAllSubmittedJobs = () => {
     let allJobs = this.props.jobs;
 
@@ -60,13 +58,9 @@ class AdminJobsContainer extends Component {
     return allSubmittedJobs;
   };
 
-  //Create a JSON switch config
-  //Make a root components and either extend them, or B. Use JSON config file to
-  //Filter all of job based on searchText
   getFilteredJobs = () => {
     let currUserType = JSON.parse(localStorage.getItem("currUser")).user_type;
     let status = this.props.status;
-    //debugger;
     switch (status) {
       case "approved":
         if (currUserType === "employer") {
@@ -100,7 +94,7 @@ class AdminJobsContainer extends Component {
    let body = currJob.body
    let status = 'draft'
   
-    let URL = BASE_URL + "api/v1/jobs/" + id
+    let URL = BASE_URL + "api/v1/jobs" + id
     
     return fetch(URL, {
       method: "PATCH",
@@ -134,20 +128,12 @@ class AdminJobsContainer extends Component {
         .then(data => console.log(data)) 
        }
 
-     //Employer clicks submit job, switch from is_draft to is_submitted
-    handleClickSubmitBtn = currJob => {
-        //get current id of current job
-      
+    handleClickSubmitBtn = currJob => {      
        let id = currJob.id
        let title = currJob.title
        let body = currJob.body
-       let isDraft = !currJob.is_draft
-       let isSubmitted = !currJob.is_submitted
-       let isApproved = currJob.isApproved
-     
-       //Create new job object with newTitle and newBody
-       
-        let URL = BASE_URL + "api/v1/jobs" + id
+       let status = 'approved'
+       let URL = BASE_URL + "api/v1/jobs" + id
         
         return fetch(URL, {
           method: "PATCH",
@@ -155,7 +141,7 @@ class AdminJobsContainer extends Component {
             "Content-Type": "application/json",
             Accept: "application/json"
           },
-          body: JSON.stringify({body: body, title: title, is_approved:isApproved, is_submitted:isSubmitted, is_draft:isDraft}) 
+          body: JSON.stringify({id: id, status:status, body: body, title: title}) 
         })
           .then(response => response.json())
           .then(data => console.log(data)) 
@@ -172,16 +158,13 @@ class AdminJobsContainer extends Component {
         />
         <div className="container">
           <AdminJobSidebar
-            //State variables
             latestClick={this.state.latestClick}
             filteredJobs={this.getFilteredJobs()}
             currJob={this.state.currJob}
-            //CRUD event handlers
             showJob={this.handleClickShowJob}
             newJob={this.handleClickNewBtn}
           />
           <AdminJobContent
-            //State variables
             latestClick={this.state.latestClick}
             currTitle={this.state.currTitle}
             currBody={this.state.currBody}
@@ -189,7 +172,6 @@ class AdminJobsContainer extends Component {
             handleChangeInput={this.handleChangeInput}
             handleChangeTextArea={this.handleChangeTextArea}
             submitJob = {this.handleClickSubmitBtn}
-            //CRUD event handlers
             status={this.props.status}
             activateJob = {this.handleClickActivateBtn}
             approveJob = {this.handleClickApproveBtn}

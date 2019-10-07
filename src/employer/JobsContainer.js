@@ -206,7 +206,7 @@ BASE_URL = "https://dverse-staffing-backend.herokuapp.com/";
     let newBody = this.state.currBody;
     let status = "draft";
     let newJob = { title: newTitle, body: newBody, id: id, status: status };
-    let URL = BASE_URL + "api/v1/jobs/" + id;
+    let URL = BASE_URL + "api/v1/jobs" + id;
 
     return fetch(URL, {
       method: "PATCH",
@@ -227,7 +227,7 @@ BASE_URL = "https://dverse-staffing-backend.herokuapp.com/";
 
   handleClickDeleteBtn = () => {
     let id = this.state.currJob.id;
-    let URL = BASE_URL + "api/v1/jobs/" + id;
+    let URL = BASE_URL + "api/v1/jobs" + id;
     let job = { id: id };
     return fetch(URL, {
       method: "DELETE",
