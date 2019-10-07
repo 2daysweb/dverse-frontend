@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 import { fetchJobs } from "../actions/index.js";
 import { withRouter } from "react-router-dom";
 
+const BASE_URL = "https://dverse-staffing-backend.herokuapp.com/";
+
 class JobsContainer extends Component {
   constructor() {
     super()
@@ -16,9 +18,6 @@ class JobsContainer extends Component {
       searchText: ""
     };
   }
-
-BASE_URL = "https://dverse-staffing-backend.herokuapp.com/";
-
 
   componentDidMount() {
     this.props.fetchJobs();
