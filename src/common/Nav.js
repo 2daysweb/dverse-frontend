@@ -145,15 +145,12 @@ const NavBar = props => {
 };
 
 const mapStateToProps = state => {
-  console.log(state, "IN MAP STATE TO PROPS");
-  console.log(state.user.user, "THIS IS THE USER IN THE STATE");
   return {
     user: state.user.user
   }
 }
 
 const mapDispatchToProps = dispatch => {
-  console.log("IN MAP DISPATCH TO PROPS", dispatch, "DISPATCH", "LOGUOT", logout())
   return {
     logout: () => {
       dispatch(logout());

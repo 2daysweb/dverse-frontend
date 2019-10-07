@@ -3,10 +3,10 @@ import Search from "./Search";
 import CandidateContent from "../candidate/CandidateContent";
 import CandidateSidebar from "../candidate/CandidateSidebar";
 import { connect } from "react-redux";
-import { fetchUsers } from "../actions/index";
+import { fetchCandidates } from "../actions/index";
 import { withRouter } from "react-router-dom";
 
-const BASE_URL = "https://dverse-staffing-frontend.herokuapp.com/";
+const BASE_URL = "https://dverse-staffing-backend.herokuapp.com/";
 
 class CandidateContainer extends Component {
   constructor() {
@@ -24,12 +24,12 @@ class CandidateContainer extends Component {
       currAvatar: "",
       latestClick: "",
       searchText: "",
-      userType: ""
+      candidateType: ""
     };
   }
 
   componentDidMount() {
-    this.props.fetchUsers();
+    this.props.fetchCandidates();
   }
 
   //---------------------BEGIN EVENT HANDLERS----------------------------//
@@ -46,7 +46,7 @@ class CandidateContainer extends Component {
   };
 
   getCandidates = () => {
-    return this.props.users.filter(user => user.user_type == "candidate");
+    return this.props.candidates.filter(candidate => candidate.candidate_type == "candidate");
   };
 
   handleChangeTextArea = editedBody => {
@@ -69,7 +69,7 @@ class CandidateContainer extends Component {
         <Search
           latestClick={this.state.latestClick}
           handleChangeSearchText={this.handleChangeSearchText}
-          currUser={this.props.currUser}
+          currCandidate={this.props.currCandidate}
         />
         <div className="container">
           <CandidateSidebar
@@ -78,7 +78,7 @@ class CandidateContainer extends Component {
             currCandidate={this.state.currCandidate}
             showCandidate={this.handleClickShowCandidate}
             newCandidate={this.handleClickNewBtn}
-            currUser={this.props.currUser}
+            currCandidate={this.props.currCandidate}
           />
           <CandidateContent
             latestClick={this.state.latestClick}
@@ -97,15 +97,15 @@ class CandidateContainer extends Component {
 
 const mapStateToProps = state => {
   return {
-    users: state.users.users
+    candidates: state.candidates.candidates
   };
 };
 
 const mapDispatchToProps = dispatch => {
-  console.log(fetchUsers());
+  console.log(fetchCandidates());
   return {
-    fetchUsers: () => {
-      dispatch(fetchUsers());
+    fetchCandidates: () => {
+      dispatch(fetchCandidates());
     }
   };
 };

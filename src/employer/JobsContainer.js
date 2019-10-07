@@ -5,8 +5,6 @@ import { connect } from "react-redux";
 import { fetchJobs } from "../actions/index.js";
 import { withRouter } from "react-router-dom";
 
-const BASE_URL = "http://localhost:3000/";
-
 class JobsContainer extends Component {
   constructor() {
     super()
@@ -19,12 +17,14 @@ class JobsContainer extends Component {
     };
   }
 
+BASE_URL = "https://dverse-staffing-backend.herokuapp.com/";
+
+
   componentDidMount() {
     this.props.fetchJobs();
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log(prevProps.jobs, this.props.jobs);
     if (prevProps.jobs.length) {
       if (prevProps.jobs.slice(-1)[0].id !== this.props.jobs.slice(-1)[0].id) {
         this.props.fetchJobs();
@@ -32,11 +32,10 @@ class JobsContainer extends Component {
     }
   }
 
-  getAllMyJobs = () => {
     //Get jobs belonging to current user
+  getAllMyJobs = () => {
     let allJobs = this.props.jobs;
     let user = this.props.user;
-    console.log("IN GET ALL MY JOBS", user);
     debugger;
     let myJobs = allJobs.filter(job => job.users[0].id === user.id);
     return myJobs;
@@ -173,7 +172,6 @@ class JobsContainer extends Component {
       user_id: userId
     };
     let URL = BASE_URL + "api/v1/jobs";
-    console.log("Is URL Printing", URL);
 
     return fetch(URL, {
       method: "POST",
@@ -243,8 +241,8 @@ class JobsContainer extends Component {
       .then(this.deleteJob(id));
   };
 
+  //TODO: Finish delete 
   deleteJob = id => {
-    console.log(this.props.jobs);
   };
 
   //--------------------END-----------------------------------Event Handlers -------------------------------------------------END-------------------------------//
@@ -256,7 +254,6 @@ class JobsContainer extends Component {
           <JobSidebar
             latestClick={this.state.latestClick}
             currJob={this.state.currJob}
-            //event handlers
             showJob={this.handleClickShowJob}
             newJob={this.handleClickNewBtn}
           />
@@ -269,7 +266,6 @@ class JobsContainer extends Component {
             handleChangeTextArea={this.handleChangeTextArea}
             submitJob={this.handleClickSubmitBtn}
             withdrawSubmitJob={this.handleClickWithdrawSubmitBtn}
-            //event handlers
             status={this.props.status}
             activateJob={this.handleClickActivateBtn}
             editJob={this.handleClickEditBtn}

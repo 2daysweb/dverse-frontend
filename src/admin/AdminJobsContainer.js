@@ -6,7 +6,8 @@ import { connect } from "react-redux";
 import { fetchJobs } from "../actions/index";
 import { withRouter } from "react-router-dom";
 
-const BASE_URL = "http://localhost:3000/";
+const BASE_URL = "https://dverse-staffing-backend.herokuapp.com/";
+
 
 class AdminJobsContainer extends Component {
   constructor() {
@@ -114,14 +115,12 @@ class AdminJobsContainer extends Component {
      }
 
      handleClickApproveBtn = currJob => {
-      //get current id of current job
-     //  debugger 
       let id = currJob.id
       let title = currJob.title
       let body = currJob.body
       let status = 'approved'
     
-      let URL = BASE_URL + "api/v1/jobs/" + id
+      let URL = BASE_URL + "api/v1/jobs" + id
       
       return fetch(URL, {
         method: "PATCH",
@@ -148,7 +147,7 @@ class AdminJobsContainer extends Component {
      
        //Create new job object with newTitle and newBody
        
-        let URL = BASE_URL + "api/v1/jobs/" + id
+        let URL = BASE_URL + "api/v1/jobs" + id
         
         return fetch(URL, {
           method: "PATCH",
