@@ -32,12 +32,7 @@ const setBackgroundColor = job => {
 
 const JobItem = props => {
   return (
-    <li
-      style={{
-        backgroundColor: setBackgroundColor(props.currJob)
-      }}
-      onClick={() => props.showJob(props.currJob)}
-    >
+    <li onClick={() => props.showJob(props.currJob)}>
       <h2>{props.currJob.title}</h2>
       <p>{truncateJob(props.currJob.body)}</p>
     </li>

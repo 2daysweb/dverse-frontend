@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 const JobList = props => {
   return (
     <ul>
-      {props.jobs.map(job => (
+      {props.filteredJobs().map(job => (
         <JobItem currJob={job} showJob={props.showJob} />
       ))}
     </ul>

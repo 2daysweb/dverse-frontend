@@ -15,14 +15,7 @@ import { connect } from "react-redux";
 import { Switch, Route, Redirect } from "react-router-dom";
 
 class App extends Component {
-  componentDidMount() {
-    console.log(
-      "PROPS IN APP",
-      this.props,
-      "CURRENT USER CURRUSER.CURRUSER",
-      this.props.user.user
-    );
-  }
+
   renderPortal = () => {
     let userType = this.props.user.user_type;
     switch (userType) {
@@ -154,16 +147,6 @@ class App extends Component {
               <div>
                 <NavBar />
                 <JobsContainer {...props} />
-              </div>
-            )}
-          />
-          <Route
-            exact
-            path="/jobs"
-            render={props => (
-              <div>
-                <NavBar />
-                <JobsContainer />
               </div>
             )}
           />

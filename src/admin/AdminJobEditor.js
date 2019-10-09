@@ -13,7 +13,6 @@ class AdminJobEditor extends Component {
     this.props.handleChangeTextArea(newBody);
   };
 
-
   render() {
     return (
       <div>

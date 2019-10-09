@@ -42,7 +42,7 @@ class AdminJobsContainer extends Component {
   };
 
 
-  //Get all approved jobs for all employers
+  //Get all approved jobs
   getAllApprovedJobs = () => {
     let allJobs =  this.props.jobs
 

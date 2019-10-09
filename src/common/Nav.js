@@ -5,7 +5,7 @@ import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
 import Login from "./Login";
-import {logout} from '../actions/index.js'
+import { logout } from "../actions/index.js";
 import { connect } from "react-redux";
 
 const NavBar = props => {
@@ -14,7 +14,7 @@ const NavBar = props => {
 
   let logout = () => {
     history.push("/login");
-    props.logout()
+    props.logout();
   };
 
   const renderNavbar = () => {
@@ -41,9 +41,6 @@ const NavBar = props => {
               </LinkContainer>
               <LinkContainer to="/mydraftjobs">
                 <Nav.Link>Create Job Post</Nav.Link>
-              </LinkContainer>
-              <LinkContainer to="/jobs">
-                <Nav.Link>Jobs</Nav.Link>
               </LinkContainer>
             </Nav>
             <Navbar.Toggle />
@@ -147,8 +144,8 @@ const NavBar = props => {
 const mapStateToProps = state => {
   return {
     user: state.user.user
-  }
-}
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -158,4 +155,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(NavBar));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(NavBar));

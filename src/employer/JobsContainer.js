@@ -9,7 +9,7 @@ const BASE_URL = "https://dverse-staffing-backend.herokuapp.com/";
 
 class JobsContainer extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
       currJob: null,
       currBody: "",
@@ -19,24 +19,27 @@ class JobsContainer extends Component {
     };
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.props.fetchJobs();
-  }
+  };
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.jobs.length) {
-      if (prevProps.jobs.slice(-1)[0].id !== this.props.jobs.slice(-1)[0].id) {
+      if (prevProps.jobs.slice(-1)[0].title !== this.props.jobs.slice(-1)[0].title) {
         this.props.fetchJobs();
       }
     }
   }
-
-    //Get jobs belonging to current user
+  //Get jobs belonging to current user
   getAllMyJobs = () => {
+    debugger
     let allJobs = this.props.jobs;
-    let user = this.props.user;
-    debugger;
-    let myJobs = allJobs.filter(job => job.users[0].id === user.id);
+    let user = this.props.user
+    console.log("USER: ", user, "------", "ALL JOBS: ", this.props.jobs)
+    let myJobs = allJobs.filter(job => {if(job.users[0] && job.users[0].id === user.id)
+      return job
+      
+    });
     return myJobs;
   };
 
@@ -58,28 +61,17 @@ class JobsContainer extends Component {
     return mySubmittedJobs;
   };
   getFilteredJobs = () => {
-    let userType = this.props.user.user_type;
-    let status = this.props.status;
+    let pathname = this.props.history.location.pathname;
 
-    switch (status) {
-      case "approved":
-        if (userType === "employer") {
-          return this.getMyApprovedJobs();
-        } else {
-          return this.getAllApprovedJobs();
-        }
-
-      case "submitted":
-        if (userType === "employer") {
-          return this.getMySubmittedJobs();
-        } else {
-          return this.getAllSubmittedJobs();
-        }
-
-      case "draft":
+    switch (pathname) {
+      case "/mypendingjobs":
+        return this.getMySubmittedJobs();
+      case "/employjobs":
+        return this.getAllMyJobs();
+      case "/mydraftjobs":
         return this.getMyDraftedJobs();
       default:
-        return this.getAllMyJobs();
+        return this.getMyDraftedJobs();
     }
   };
 
@@ -162,7 +154,7 @@ class JobsContainer extends Component {
 
   handleClickNewBtn = () => {
     this.setState({ latestClick: "" });
-    let user = this.props.user.user_type;
+    let {user} = this.props
     let userId = user.id;
 
     let newJob = {
@@ -205,7 +197,7 @@ class JobsContainer extends Component {
     let newBody = this.state.currBody;
     let status = "draft";
     let newJob = { title: newTitle, body: newBody, id: id, status: status };
-    let URL = BASE_URL + "api/v1/jobs" + id;
+    let URL = BASE_URL + "api/v1/jobs/" + id;
 
     return fetch(URL, {
       method: "PATCH",
@@ -226,22 +218,18 @@ class JobsContainer extends Component {
 
   handleClickDeleteBtn = () => {
     let id = this.state.currJob.id;
-    let URL = BASE_URL + "api/v1/jobs" + id;
+    let URL = BASE_URL + "api/v1/jobs/" + id;
     let job = { id: id };
     return fetch(URL, {
       method: "DELETE",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Accept: "application/json"
       },
       body: JSON.stringify(job)
     })
       .then(response => response.json())
-      .then(data => console.log(data))
-      .then(this.deleteJob(id));
-  };
-
-  //TODO: Finish delete 
-  deleteJob = id => {
+      .then(data => console.log(data));
   };
 
   //--------------------END-----------------------------------Event Handlers -------------------------------------------------END-------------------------------//
@@ -255,6 +243,7 @@ class JobsContainer extends Component {
             currJob={this.state.currJob}
             showJob={this.handleClickShowJob}
             newJob={this.handleClickNewBtn}
+            filteredJobs={this.getFilteredJobs}
           />
           <Content
             latestClick={this.state.latestClick}
@@ -284,18 +273,18 @@ const mapStateToProps = state => {
   return {
     jobs: state.jobs.jobs,
     user: state.user.user
-  }
+  };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     fetchJobs: () => {
-      dispatch(fetchJobs())
+      dispatch(fetchJobs());
     }
-  }
+  };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withRouter(JobsContainer))
+)(withRouter(JobsContainer));

@@ -3,7 +3,6 @@ import JobEditor from "./JobEditor";
 import JobViewer from "./JobViewer";
 import JobInstructions from "./JobInstructions";
 import updateLatestClick from '../index'
-import { connect } from 'react-redux'
 
 class JobContent extends Component {
   renderContent = () => {
@@ -66,18 +65,6 @@ class JobContent extends Component {
   }
 }
 
-let mapStateToProps = (state) => {
-  return ({
-    latestClick: state.latestClick
-  })
-}
 
-  const mapDispatchToProps = dispatch => {
-    return {
-      updateLatestClick: (latestClick) => {
-        dispatch(latestClick)
-      }
-    }
-  };
 
-export default connect(mapStateToProps, mapDispatchToProps)(JobContent);
+export default JobContent;
