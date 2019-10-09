@@ -23,6 +23,12 @@ class JobsContainer extends Component {
     this.props.fetchJobs();
   };
 
+  componentDidUpdate = (prevProps, prevState) => {
+      if(this.props.location.pathname !== prevProps.location.pathname){
+        window.location.reload()
+      }
+  }
+
   //Get jobs belonging to current user
   getAllMyJobs = () => {
     let allJobs = this.props.jobs;
