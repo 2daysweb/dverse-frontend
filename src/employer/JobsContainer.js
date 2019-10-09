@@ -91,11 +91,12 @@ class JobsContainer extends Component {
   };
 
   updateJobObj = job => {
+    let user_id = this.props.user.id
     let id = job.id;
     let title = job.title;
     let body = job.body;
     let status = job.status;
-    let newJob = { id: id, title: title, body: body, status: status };
+    let newJob = { id: id, title: title, body: body, status: status, user_id:user_id };
     return newJob;
   };
 
@@ -104,7 +105,7 @@ class JobsContainer extends Component {
     let URL = BASE_URL + "api/v1/jobs/" + id;
     let submittedJob = this.updateJobObj(currJob);
     submittedJob.status = "submitted";
-
+    
     return fetch(URL, {
       method: "PATCH",
       headers: {
@@ -119,10 +120,10 @@ class JobsContainer extends Component {
 
   handleClickWithdrawSubmitBtn = currJob => {
     let withdrawnJob = this.updateJobObj(currJob);
-    withdrawnJob.status = "draft";
+    withdrawnJob.status = "draft"
     let id = currJob.id;
+    
     let URL = BASE_URL + "api/v1/jobs/" + id;
-
     return fetch(URL, {
       method: "PATCH",
       headers: {
@@ -139,7 +140,6 @@ class JobsContainer extends Component {
     let activatedJob = this.updateJobObj(currJob);
     let id = currJob.id;
     let URL = BASE_URL + "api/v1/jobs/" + id;
-
     return fetch(URL, {
       method: "PATCH",
       headers: {
@@ -154,12 +154,12 @@ class JobsContainer extends Component {
 
   handleClickNewBtn = () => {
     this.setState({ latestClick: "" });
-    let {user} = this.props
+    let user = this.props.user
     let userId = user.id;
 
     let newJob = {
-      title: "Deafult Title",
-      body: "Deafult Body",
+      title: "deafult title",
+      body: "deafult body",
       user_id: userId
     };
     let URL = BASE_URL + "api/v1/jobs";
