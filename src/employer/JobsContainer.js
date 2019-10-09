@@ -67,7 +67,7 @@ class JobsContainer extends Component {
       case "/mypendingjobs":
         return this.getMySubmittedJobs();
       case "/employjobs":
-        return this.getAllMyJobs();
+        return this.getMyApprovedJobs();
       case "/mydraftjobs":
         return this.getMyDraftedJobs();
       default:
