@@ -45,7 +45,7 @@ class CandidateContainer extends Component {
   };
 
   getCandidates = () => {
-    return this.props.candidates.filter(candidate => candidate.candidate_type == "candidate");
+    return this.props.candidates.filter(user => user.user_type == "candidate");
   };
 
   handleChangeTextArea = editedBody => {
@@ -58,6 +58,7 @@ class CandidateContainer extends Component {
   };
 
   //--------------------END EVENT HANDLERS---------------------------------------//
+
   handleClickCancelBtn = () => {
     this.setState({ latestClick: "ShowCandidate" });
   };

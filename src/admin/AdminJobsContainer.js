@@ -8,19 +8,16 @@ import { withRouter } from "react-router-dom";
 
 const BASE_URL = "https://dverse-staffing-backend.herokuapp.com/";
 
-
 class AdminJobsContainer extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
-      filteredJobs: [],
-      myJobs: [],
       currJob: null,
       currBody: "",
       currTitle: "",
       latestClick: "",
       searchText: ""
-    }
+    };
   }
 
   //fetch jobs on mount
@@ -29,23 +26,14 @@ class AdminJobsContainer extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.jobs !== prevProps.jobs) {
-      this.props.fetchJobs();
+    if (this.props.location.pathname !== prevProps.location.pathname) {
+      window.location.reload();
     }
   }
 
-  handleClickShowJob = currJob => {
-    this.setState({ currJob: currJob });
-    this.setState({ currBody: currJob.body });
-    this.setState({ currTitle: currJob.title });
-    this.setState({ latestClick: "ShowJob" });
-  };
-
-
   //Get all approved jobs
   getAllApprovedJobs = () => {
-    let allJobs =  this.props.jobs
-
+    let allJobs = this.props.jobs;
     let allApprovedJobs = allJobs.filter(job => job.status === "approved");
     return allApprovedJobs;
   };
@@ -53,31 +41,20 @@ class AdminJobsContainer extends Component {
   //get all jobs pending approval (status = submitted)
   getAllSubmittedJobs = () => {
     let allJobs = this.props.jobs;
-
     let allSubmittedJobs = allJobs.filter(job => job.status === "submitted");
     return allSubmittedJobs;
   };
 
   getFilteredJobs = () => {
-    let currUserType = JSON.parse(localStorage.getItem("currUser")).user_type;
-    let status = this.props.status;
-    switch (status) {
-      case "approved":
-        if (currUserType === "employer") {
-          return this.getMyApprovedJobs();
-        } else {
-          return this.getAllApprovedJobs();
-        }
+    let pathname = this.props.history.location.pathname;
 
-      case "submitted":
-        if (currUserType === "employer") {
-          return this.getMySubmittedJobs();
-        } else {
-          return this.getAllSubmittedJobs();
-        }
-        
+    switch (pathname) {
+      case "/pendingjobs":
+        return this.getAllSubmittedJobs();
+      case "/approvedjobs":
+        return this.getAllApprovedJobs();
       default:
-        return false;
+        return this.getMyDraftedJobs();
     }
   };
 
@@ -87,67 +64,55 @@ class AdminJobsContainer extends Component {
     this.setState({ searchText: e.target.value }, this.getFilteredJobs);
   };
 
+  handleClickShowJob = currJob => {
+    this.setState({ currJob: currJob });
+    this.setState({ currBody: currJob.body });
+    this.setState({ currTitle: currJob.title });
+    this.setState({ latestClick: "ShowJob" });
+  };
+
   handleClickDisapproveBtn = currJob => {
-   
-   let id = currJob.id
-   let title = currJob.title
-   let body = currJob.body
-   let status = 'draft'
-  
-    let URL = BASE_URL + "api/v1/jobs" + id
-    
+    let id = currJob.id;
+    let user_id = this.props.user_id
+    let title = currJob.title;
+    let body = currJob.body;
+    let status = "draft";
+    let URL = BASE_URL + "api/v1/jobs" + id;
+
     return fetch(URL, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json"
       },
-      body: JSON.stringify({body: body, title: title, status: status}) 
+      body: JSON.stringify({id: id, user_id: user_id, body: body, title: title, status: status })
     })
       .then(response => response.json())
-      .then(data => console.log(data)) 
-     }
+      .then(data => window.location.reload());
+  };
 
-     handleClickApproveBtn = currJob => {
-      let id = currJob.id
-      let title = currJob.title
-      let body = currJob.body
-      let status = 'approved'
-    
-      let URL = BASE_URL + "api/v1/jobs" + id
-      
-      return fetch(URL, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
-        },
-        body: JSON.stringify({body: body, title: title, status: status}) 
-      })
-        .then(response => response.json())
-        .then(data => console.log(data)) 
-       }
+  handleClickApproveBtn = currJob => {
+    let id = currJob.id;
+    let user_id = this.props.user.id
+    let title = currJob.title;
+    let body = currJob.body;
+    let status = "approved";
 
-    handleClickSubmitBtn = currJob => {      
-       let id = currJob.id
-       let title = currJob.title
-       let body = currJob.body
-       let status = 'approved'
-       let URL = BASE_URL + "api/v1/jobs" + id
-        
-        return fetch(URL, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json"
-          },
-          body: JSON.stringify({id: id, status:status, body: body, title: title}) 
-        })
-          .then(response => response.json())
-          .then(data => console.log(data)) 
-         }
+    let URL = BASE_URL + "api/v1/jobs" + id;
 
-    //--------------------END-----Event Handlers for Clicks, Submits-----END-------------------------------//
+    return fetch(URL, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify({ user_id: user_id, body: body, title: title, status: status })
+    })
+      .then(response => response.json())
+      .then(data => window.location.reload());
+  };
+
+  //--------------------END-----Event Handlers for Clicks, Submits-----END-------------------------------//
 
   render() {
     return (
@@ -171,11 +136,11 @@ class AdminJobsContainer extends Component {
             currJob={this.state.currJob}
             handleChangeInput={this.handleChangeInput}
             handleChangeTextArea={this.handleChangeTextArea}
-            submitJob = {this.handleClickSubmitBtn}
+            submitJob={this.handleClickSubmitBtn}
             status={this.props.status}
-            activateJob = {this.handleClickActivateBtn}
-            approveJob = {this.handleClickApproveBtn}
-            disapproveJob = {this.handleClickDisapproveBtn}
+            activateJob={this.handleClickActivateBtn}
+            approveJob={this.handleClickApproveBtn}
+            disapproveJob={this.handleClickDisapproveBtn}
             editJob={this.handleClickEditBtn}
             showJob={this.handleClickShowJob}
             saveJob={this.handleClickSaveBtn}
