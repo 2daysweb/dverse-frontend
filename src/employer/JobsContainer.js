@@ -25,7 +25,7 @@ class JobsContainer extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.jobs.length) {
-      if (prevProps.jobs.slice(-1)[0].title !== this.props.jobs.slice(-1)[0].title) {
+      if (prevProps.jobs.slice(-1)[0].id !== this.props.jobs.slice(-1)[0].id) {
         this.props.fetchJobs();
       }
     }
@@ -190,22 +190,24 @@ class JobsContainer extends Component {
   };
 
   handleClickSaveBtn = currJob => {
+    
     let id = currJob.id;
+    let user_id = this.props.user.id
     //get title from editor
-    let newTitle = this.state.currTitle;
+    let title = this.state.currTitle;
     //get body from editor
-    let newBody = this.state.currBody;
+    let body = this.state.currBody;
     let status = "draft";
-    let newJob = { title: newTitle, body: newBody, id: id, status: status };
+    let job = { title: title, body: body, id: id, status: status, user_id:user_id };
+   
     let URL = BASE_URL + "api/v1/jobs/" + id;
-
     return fetch(URL, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json"
       },
-      body: JSON.stringify(newJob)
+      body: JSON.stringify(job)
     })
       .then(response => response.json())
       .then(data => console.log(data));
