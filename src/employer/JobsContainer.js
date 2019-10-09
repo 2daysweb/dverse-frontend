@@ -23,22 +23,13 @@ class JobsContainer extends Component {
     this.props.fetchJobs();
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.jobs.length) {
-      if (prevProps.jobs.slice(-1)[0].id !== this.props.jobs.slice(-1)[0].id) {
-        this.props.fetchJobs();
-      }
-    }
-  }
   //Get jobs belonging to current user
   getAllMyJobs = () => {
-    debugger
     let allJobs = this.props.jobs;
-    let user = this.props.user
-    console.log("USER: ", user, "------", "ALL JOBS: ", this.props.jobs)
-    let myJobs = allJobs.filter(job => {if(job.users[0] && job.users[0].id === user.id)
-      return job
-      
+    let user = this.props.user;
+    console.log("USER: ", user, "------", "ALL JOBS: ", this.props.jobs);
+    let myJobs = allJobs.filter(job => {
+      if (job.users.length && job.users[0].id === user.id) return job;
     });
     return myJobs;
   };
@@ -91,12 +82,18 @@ class JobsContainer extends Component {
   };
 
   updateJobObj = job => {
-    let user_id = this.props.user.id
+    let user_id = this.props.user.id;
     let id = job.id;
     let title = job.title;
     let body = job.body;
     let status = job.status;
-    let newJob = { id: id, title: title, body: body, status: status, user_id:user_id };
+    let newJob = {
+      id: id,
+      title: title,
+      body: body,
+      status: status,
+      user_id: user_id
+    };
     return newJob;
   };
 
@@ -105,7 +102,7 @@ class JobsContainer extends Component {
     let URL = BASE_URL + "api/v1/jobs/" + id;
     let submittedJob = this.updateJobObj(currJob);
     submittedJob.status = "submitted";
-    
+
     return fetch(URL, {
       method: "PATCH",
       headers: {
@@ -115,14 +112,14 @@ class JobsContainer extends Component {
       body: JSON.stringify(submittedJob)
     })
       .then(response => response.json())
-      .then(data => console.log(data));
+      .then(data => window.location.reload());
   };
 
   handleClickWithdrawSubmitBtn = currJob => {
     let withdrawnJob = this.updateJobObj(currJob);
-    withdrawnJob.status = "draft"
+    withdrawnJob.status = "draft";
     let id = currJob.id;
-    
+
     let URL = BASE_URL + "api/v1/jobs/" + id;
     return fetch(URL, {
       method: "PATCH",
@@ -133,7 +130,7 @@ class JobsContainer extends Component {
       body: JSON.stringify(withdrawnJob)
     })
       .then(response => response.json())
-      .then(data => console.log(data));
+      .then(data => window.location.reload());
   };
 
   handleClickActivateBtn = currJob => {
@@ -149,12 +146,12 @@ class JobsContainer extends Component {
       body: JSON.stringify(activatedJob)
     })
       .then(response => response.json())
-      .then(data => console.log(data));
+      .then(data => window.location.reload());
   };
 
   handleClickNewBtn = () => {
     this.setState({ latestClick: "" });
-    let user = this.props.user
+    let user = this.props.user;
     let userId = user.id;
 
     let newJob = {
@@ -173,7 +170,7 @@ class JobsContainer extends Component {
       body: JSON.stringify(newJob)
     })
       .then(response => response.json())
-      .then(newJob => console.log(newJob));
+      .then(job => window.location.reload());
   };
 
   handleClickEditBtn = e => {
@@ -190,16 +187,21 @@ class JobsContainer extends Component {
   };
 
   handleClickSaveBtn = currJob => {
-    
     let id = currJob.id;
-    let user_id = this.props.user.id
+    let user_id = this.props.user.id;
     //get title from editor
     let title = this.state.currTitle;
     //get body from editor
     let body = this.state.currBody;
     let status = "draft";
-    let job = { title: title, body: body, id: id, status: status, user_id:user_id };
-   
+    let job = {
+      title: title,
+      body: body,
+      id: id,
+      status: status,
+      user_id: user_id
+    };
+
     let URL = BASE_URL + "api/v1/jobs/" + id;
     return fetch(URL, {
       method: "PATCH",
@@ -210,7 +212,7 @@ class JobsContainer extends Component {
       body: JSON.stringify(job)
     })
       .then(response => response.json())
-      .then(data => console.log(data));
+      .then(data => window.location.reload());
   };
 
   //Discard any changes made in editor
@@ -231,7 +233,7 @@ class JobsContainer extends Component {
       body: JSON.stringify(job)
     })
       .then(response => response.json())
-      .then(data => console.log(data));
+      .then(data => window.location.reload);
   };
 
   //--------------------END-----------------------------------Event Handlers -------------------------------------------------END-------------------------------//
