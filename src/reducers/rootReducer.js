@@ -3,12 +3,23 @@ import userReducer from './userReducer'
 import jobsReducer from './jobsReducer';
 import candidatesReducer from './candidatesReducer';
 import latestClickReducer from './latestClickReducer';
+import storage from 'redux-persist/lib/storage'
 
-export default combineReducers({
+const appReducer = combineReducers({
     jobs: jobsReducer,
     candidates: candidatesReducer,
     user: userReducer,
     latestClick: latestClickReducer
   })
   
- 
+export default rootReducer = (state, action) => {
+    if (action.type === 'LOGOUT') {
+      storage.removeItem('persist:root')
+      state = undefined
+    }
+  
+    return appReducer(state, action)
+  }
+
+
+
