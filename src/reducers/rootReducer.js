@@ -12,7 +12,7 @@ const appReducer = combineReducers({
     latestClick: latestClickReducer
   })
   
-export default rootReducer = (state, action) => {
+const rootReducer = (state, action) => {
     if (action.type === 'LOGOUT') {
       storage.removeItem('persist:root')
       state = undefined
@@ -22,4 +22,4 @@ export default rootReducer = (state, action) => {
   }
 
 
-
+export default rootReducer
