@@ -1,10 +1,11 @@
 import React, { Fragment } from "react";
 import { withRouter } from "react-router-dom";
+import {connect} from 'react-redux'
 
 const AdminJobViewer = props => {
   let renderButtons = () => {
-    let currUserType = JSON.parse(localStorage.getItem("currUser")).user_type;
-    let status = props.status;
+    let currUserType = props.user.user_type;
+    let status = props.currJob.status;
 
     switch (status) {
       case "approved":
@@ -42,4 +43,10 @@ const AdminJobViewer = props => {
   );
 };
 
-export default withRouter(AdminJobViewer);
+const mapStateToProps = state => {
+  return {
+    user: state.user.user
+  };
+};
+
+export default connect(mapStateToProps)(withRouter(AdminJobViewer));

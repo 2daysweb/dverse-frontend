@@ -93,12 +93,12 @@ class AdminJobsContainer extends Component {
 
   handleClickApproveBtn = currJob => {
     let id = currJob.id;
-    let user_id = this.props.user.id
+    let user_id = currJob.users
     let title = currJob.title;
     let body = currJob.body;
     let status = "approved";
 
-    let URL = BASE_URL + "api/v1/jobs" + id;
+    let URL = BASE_URL + "api/v1/jobs/" + id;
 
     return fetch(URL, {
       method: "PATCH",
@@ -109,7 +109,7 @@ class AdminJobsContainer extends Component {
       body: JSON.stringify({ user_id: user_id, body: body, title: title, status: status })
     })
       .then(response => response.json())
-      .then(data => window.location.reload());
+      .then(data => console.log(data));
   };
 
   //--------------------END-----Event Handlers for Clicks, Submits-----END-------------------------------//
@@ -156,7 +156,8 @@ class AdminJobsContainer extends Component {
 
 const mapStateToProps = state => {
   return {
-    jobs: state.jobs.jobs
+    jobs: state.jobs.jobs,
+    user: state.user.user
   };
 };
 

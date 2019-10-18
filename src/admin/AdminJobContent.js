@@ -8,7 +8,7 @@ function AdminJobContent(props) {
   const {latestClick, status, currJob, showJob, approveJob, disapproveJob} = props
   
   const renderContent = () => {
-    if (this.props.latestClick === "ShowJob") {
+    if (latestClick === "ShowJob") {
       return (
         <JobViewer
           latestClick={latestClick}
@@ -16,7 +16,7 @@ function AdminJobContent(props) {
           currJob={currJob}
           showJob={showJob}
           approveJob={approveJob}
-          disapproveJob={isapproveJob}
+          disapproveJob={disapproveJob}
         />
       );
     } else {
