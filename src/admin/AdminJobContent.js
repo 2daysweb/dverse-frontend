@@ -3,17 +3,20 @@ import JobEditor from "./AdminJobEditor";
 import JobViewer from "./AdminJobViewer";
 import Instructions from "./AdminJobInstructions";
 
-class AdminJobContent extends Component {
-  renderContent = () => {
+function AdminJobContent(props) {
+
+  const {latestClick, status, currJob, showJob, approveJob, disapproveJob} = props
+  
+  const renderContent = () => {
     if (this.props.latestClick === "ShowJob") {
       return (
         <JobViewer
-          latestClick={this.props.latestClick}
-          status={this.props.status}
-          currJob={this.props.currJob}
-          showJob={this.props.showJob}
-          approveJob={this.props.approveJob}
-          disapproveJob={this.props.disapproveJob}
+          latestClick={latestClick}
+          status={status}
+          currJob={currJob}
+          showJob={showJob}
+          approveJob={approveJob}
+          disapproveJob={isapproveJob}
         />
       );
     } else {
@@ -21,11 +24,10 @@ class AdminJobContent extends Component {
     }
   };
 
-  render() {
+
     return (
-      <div className="master-detail-element detail">{this.renderContent()}</div>
+      <div className="master-detail-element detail">{renderContent()}</div>
     );
-  }
 }
 
 export default AdminJobContent;

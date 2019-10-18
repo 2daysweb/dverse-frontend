@@ -4,7 +4,7 @@ const initialState = {
   latestClick: ""
 };
 
-const userInterfaceReducer = (state = initialState, action) => {
+const latestClickReducer = (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_LATEST_CLICK:
       return action.payload.click;
@@ -13,4 +13,4 @@ const userInterfaceReducer = (state = initialState, action) => {
   }
 };
 
-export default userInterfaceReducer;
+export default latestClickReducer;

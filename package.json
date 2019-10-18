@@ -4,7 +4,8 @@
   "private": true,
   "engines": {
     "npm": "6.11.3",
-    "node": "12.4.0"
+    "node": "12.4.0",
+    "homepage": "www.dversejobs.com"
   },
   "dependencies": {
     "bootstrap": "^4.3.1",
