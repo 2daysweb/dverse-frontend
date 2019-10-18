@@ -1,12 +1,17 @@
-import React, { Component } from "react";
-import JobEditor from "./AdminJobEditor";
+import React from "react";
 import JobViewer from "./AdminJobViewer";
 import Instructions from "./AdminJobInstructions";
 
 function AdminJobContent(props) {
+  const {
+    latestClick,
+    status,
+    currJob,
+    showJob,
+    approveJob,
+    disapproveJob
+  } = props;
 
-  const {latestClick, status, currJob, showJob, approveJob, disapproveJob} = props
-  
   const renderContent = () => {
     if (latestClick === "ShowJob") {
       return (
@@ -24,10 +29,7 @@ function AdminJobContent(props) {
     }
   };
 
-
-    return (
-      <div className="master-detail-element detail">{renderContent()}</div>
-    );
+  return <div className="master-detail-element detail">{renderContent()}</div>;
 }
 
 export default AdminJobContent;

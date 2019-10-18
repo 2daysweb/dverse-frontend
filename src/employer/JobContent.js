@@ -2,55 +2,65 @@ import React, { Component } from "react";
 import JobEditor from "./JobEditor";
 import JobViewer from "./JobViewer";
 import JobInstructions from "./JobInstructions";
-import updateLatestClick from '../index'
 
 class JobContent extends Component {
   renderContent = () => {
-    if (this.props.latestClick === "EditJob") {
+    const {
+      latestClick,
+      currJob,
+      currBody,
+      currTitle,
+      showJob,
+      editJob,
+      handleChangeInput,
+      handleChangeTextArea,
+      saveJob,
+      cancelJob
+    } = this.props;
+    if (latestClick === "EditJob") {
       return (
         <JobEditor
-          currJob={this.props.currJob}
-          currBody={this.props.currBody}
-          currTitle={this.props.currTitle}
-          editJob={this.props.editJob}
-          handleChangeTextArea={this.props.handleChangeTextArea}
-          handleChangeInput={this.props.handleChangeInput}
-          saveJob={this.props.saveJob}
-          cancelJob={this.props.cancelJob}
-          latestClick={this.props.latestClick}
+          currJob={currJob}
+          currBody={currBody}
+          currTitle={currTitle}
+          editJob={editJob}
+          handleChangeTextArea={handleChangeTextArea}
+          handleChangeInput={handleChangeInput}
+          saveJob={saveJob}
+          cancelJob={cancelJob}
+          latestClick={latestClick}
         />
       );
-    } else if (this.props.latestClick === "ShowJob") {
+    } else if (latestClick === "ShowJob") {
+      const { submitJob, withdrawSubmitJob, deleteJob } = this.props;
       return (
         <JobViewer
-          currJob={this.props.currJob}
-          editJob={this.props.editJob}
-          showJob={this.props.showJob}
-          deleteJob={this.props.deleteJob}
-          latestClick={this.props.latestClick}
-          submitJob={this.props.submitJob}
-          status={this.props.status}
-          submitJob={this.props.submitJob}
-          withdrawSubmitJob={this.props.withdrawSubmitJob}
+          currJob={currJob}
+          editJob={editJob}
+          showJob={showJob}
+          deleteJob={deleteJob}
+          latestClick={latestClick}
+          submitJob={submitJob}
+          withdrawSubmitJob={withdrawSubmitJob}
         />
       );
-    } else if (this.props.latestClick === "CancelJob") {
+    } else if (latestClick === "CancelJob") {
       return (
         <JobViewer
-          currJob={this.props.currJob}
-          editJob={this.props.editJob}
-          cancelJob={this.props.cancelJob}
-          showJob={this.props.showJob}
-          latestClick={this.props.latestClick}
+          currJob={currJob}
+          editJob={editJob}
+          cancelJob={cancelJob}
+          showJob={showJob}
+          latestClick={latestClick}
         />
       );
-    } else if (this.props.latestClick === "NewJob") {
+    } else if (latestClick === "NewJob") {
       return (
         <JobViewer
-          currJob={this.props.currJob}
-          editJob={this.props.editJob}
-          showJob={this.props.showJob}
-          latestClick={this.props.latestClick}
+          currJob={currJob}
+          editJob={editJob}
+          showJob={showJob}
+          latestClick={latestClick}
         />
       );
     } else {
@@ -64,7 +74,5 @@ class JobContent extends Component {
     );
   }
 }
-
-
 
 export default JobContent;

@@ -9,44 +9,43 @@ import { withRouter } from "react-router-dom";
 const BASE_URL = "https://dverse-staffing-backend.herokuapp.com/";
 
 class AdminJobsContainer extends Component {
-  constructor() {
-    super();
-    this.state = {
-      currJob: null,
-      currBody: "",
-      currTitle: "",
-      latestClick: "",
-      searchText: ""
-    };
-  }
+  state = {
+    currJob: null,
+    currBody: "",
+    currTitle: "",
+    latestClick: "",
+    searchText: ""
+  };
 
-  //fetch jobs on mount
   componentDidMount() {
-    this.props.fetchJobs();
+    const { fetchJobs } = this.props;
+    fetchJobs();
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.location.pathname !== prevProps.location.pathname) {
+    const { location } = this.props;
+    if (location.pathname !== prevProps.location.pathname) {
       window.location.reload();
     }
   }
 
-  //Get all approved jobs
   getAllApprovedJobs = () => {
-    let allJobs = this.props.jobs;
+    const { jobs } = this.props;
+    let allJobs = jobs;
     let allApprovedJobs = allJobs.filter(job => job.status === "approved");
     return allApprovedJobs;
   };
 
-  //get all jobs pending approval (status = submitted)
   getAllSubmittedJobs = () => {
-    let allJobs = this.props.jobs;
+    const { jobs } = this.props;
+    let allJobs = jobs;
     let allSubmittedJobs = allJobs.filter(job => job.status === "submitted");
     return allSubmittedJobs;
   };
 
   getFilteredJobs = () => {
-    let pathname = this.props.history.location.pathname;
+    const { history } = this.props;
+    let pathname = history.location.pathname;
 
     switch (pathname) {
       case "/pendingjobs":
@@ -73,11 +72,11 @@ class AdminJobsContainer extends Component {
 
   handleClickDisapproveBtn = currJob => {
     let id = currJob.id;
-    let user_id = this.props.user_id
+    let user_id = this.props.user_id;
     let title = currJob.title;
     let body = currJob.body;
     let status = "draft";
-    let URL = BASE_URL + "api/v1/jobs" + id;
+    let URL = BASE_URL + "api/v1/jobs/" + id;
 
     return fetch(URL, {
       method: "PATCH",
@@ -85,7 +84,13 @@ class AdminJobsContainer extends Component {
         "Content-Type": "application/json",
         Accept: "application/json"
       },
-      body: JSON.stringify({id: id, user_id: user_id, body: body, title: title, status: status })
+      body: JSON.stringify({
+        id: id,
+        user_id: user_id,
+        body: body,
+        title: title,
+        status: status
+      })
     })
       .then(response => response.json())
       .then(data => window.location.reload());
@@ -93,7 +98,7 @@ class AdminJobsContainer extends Component {
 
   handleClickApproveBtn = currJob => {
     let id = currJob.id;
-    let user_id = currJob.users
+    let user_id = currJob.users;
     let title = currJob.title;
     let body = currJob.body;
     let status = "approved";
@@ -106,10 +111,15 @@ class AdminJobsContainer extends Component {
         "Content-Type": "application/json",
         Accept: "application/json"
       },
-      body: JSON.stringify({ user_id: user_id, body: body, title: title, status: status })
+      body: JSON.stringify({
+        user_id: user_id,
+        body: body,
+        title: title,
+        status: status
+      })
     })
       .then(response => response.json())
-      .then(data => console.log(data));
+      .then(data => window.location.reload());
   };
 
   //--------------------END-----Event Handlers for Clicks, Submits-----END-------------------------------//
@@ -127,7 +137,6 @@ class AdminJobsContainer extends Component {
             filteredJobs={this.getFilteredJobs()}
             currJob={this.state.currJob}
             showJob={this.handleClickShowJob}
-            newJob={this.handleClickNewBtn}
           />
           <AdminJobContent
             latestClick={this.state.latestClick}
@@ -136,17 +145,10 @@ class AdminJobsContainer extends Component {
             currJob={this.state.currJob}
             handleChangeInput={this.handleChangeInput}
             handleChangeTextArea={this.handleChangeTextArea}
-            submitJob={this.handleClickSubmitBtn}
-            status={this.props.status}
-            activateJob={this.handleClickActivateBtn}
             approveJob={this.handleClickApproveBtn}
             disapproveJob={this.handleClickDisapproveBtn}
-            editJob={this.handleClickEditBtn}
             showJob={this.handleClickShowJob}
             saveJob={this.handleClickSaveBtn}
-            cancelJob={this.handleClickCancelBtn}
-            deleteJob={this.handleClickDeleteBtn}
-            newJob={this.handleClickNewBtn}
           />
         </div>
       </Fragment>

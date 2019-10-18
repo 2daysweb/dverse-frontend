@@ -1,7 +1,5 @@
 import React from "react";
 
-var classNames = require("classnames");
-
 //Get the first 3 words of a Job
 const truncateJob = JobTitle => {
   let JobWordsArray = JobTitle.split(" ");
@@ -19,22 +17,12 @@ const truncateJob = JobTitle => {
   return caption;
 };
 
-const setBackgroundColor = job => {
-  switch (job.status) {
-    case "draft":
-      return "pink";
-    case "approved":
-      return "green";
-    case "submitted":
-      return "yellow";
-  }
-};
-
-const JobItem = props => {
+const JobItem = (props) => {
+  const {currJob, showJob} = props
   return (
-    <li onClick={() => props.showJob(props.currJob)}>
-      <h2>{props.currJob.title}</h2>
-      <p>{truncateJob(props.currJob.body)}</p>
+    <li onClick={() => showJob(props.currJob)}>
+      <h2>{currJob.title}</h2>
+      <p>{truncateJob(currJob.body)}</p>
     </li>
   );
 };

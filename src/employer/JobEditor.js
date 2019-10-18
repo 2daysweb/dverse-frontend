@@ -1,17 +1,19 @@
 import React, { Component } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 
 class JobEditor extends Component {
   handleChangeTitle = e => {
+    const { handleChangeInput } = this.props;
     e.persist();
     let newTitle = e.target.value;
-    this.props.handleChangeInput(newTitle);
+    handleChangeInput(newTitle);
   };
 
   handleChangeTextArea = e => {
+    const { handleChangeTextArea } = this.props;
     e.persist();
     let newBody = e.target.value;
-    this.props.handleChangeTextArea(newBody);
+    handleChangeTextArea(newBody);
   };
 
   render() {

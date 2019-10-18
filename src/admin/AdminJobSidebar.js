@@ -1,20 +1,19 @@
-import React, { Component } from "react";
+import React from "react";
 import JobList from "./AdminJobList";
 
-class AdminJobSidebar extends Component {
-  render() {
-    return (
-      <div className="master-detail-element sidebar">
-        <JobList
-          filteredJobs={this.props.filteredJobs}
-          showJob={this.props.showJob}
-          currJob={this.props.currJob}
-          disapproveJob={this.props.disapproveJob}
-          deleteJob={this.props.deleteJob}
-        />
-      </div>
-    );
-  }
+function AdminJobSidebar(props) {
+  const { filteredJobs, showJob, currJob, disapproveJob } = props;
+
+  return (
+    <div className="master-detail-element sidebar">
+      <JobList
+        filteredJobs={filteredJobs}
+        showJob={showJob}
+        currJob={currJob}
+        disapproveJob={disapproveJob}
+      />
+    </div>
+  );
 }
 
 export default AdminJobSidebar;

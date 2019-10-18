@@ -1,34 +1,24 @@
 import React, { Fragment } from "react";
 import { withRouter } from "react-router-dom";
-import {connect} from 'react-redux'
 
 const AdminJobViewer = props => {
+  const { currJob, disapproveJob, approveJob } = props;
+
   let renderButtons = () => {
-    let currUserType = props.user.user_type;
-    let status = props.currJob.status;
+    let status = currJob.status;
 
     switch (status) {
       case "approved":
-        if (currUserType === "employer") {
-          return <button>Take Job Post Down</button>;
-        } else {
-          return (
-            <button onClick={() => props.disapproveJob(props.currJob)}>
-              Revoke Job Post Approval
-            </button>
-          );
-        }
+        return (
+          <button onClick={() => disapproveJob(currJob)}>
+            Revoke Job Post Approval
+          </button>
+        );
 
       case "submitted":
-        if (currUserType === "employer") {
-          return <button>Withdraw Submission to Drafts</button>;
-        } else {
-          return (
-            <button onClick={() => props.approveJob(props.currJob)}>
-              Approve Job Post
-            </button>
-          );
-        }
+        return (
+          <button onClick={() => approveJob(currJob)}>Approve Job Post</button>
+        );
       default:
         return false;
     }
@@ -36,17 +26,11 @@ const AdminJobViewer = props => {
 
   return (
     <Fragment>
-      <h2>{props.currJob.title}</h2>
-      <p>{props.currJob.body}</p>
+      <h2>{currJob.title}</h2>
+      <p>{currJob.body}</p>
       {renderButtons()}
     </Fragment>
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    user: state.user.user
-  };
-};
-
-export default connect(mapStateToProps)(withRouter(AdminJobViewer));
+export default withRouter(AdminJobViewer);

@@ -6,15 +6,12 @@ import { connect } from "react-redux";
 import { setCurrentUser } from "../actions/index.js";
 
 class Login extends Component {
-  constructor() {
-    super();
-    this.state = {
-      email: "",
-      password: "",
-      user: null,
-      submitted: false
-    };
-  }
+  state = {
+    email: "",
+    password: "",
+    user: null,
+    submitted: false
+  };
 
   handleChange = e => {
     e.persist();
@@ -23,8 +20,8 @@ class Login extends Component {
   };
 
   handleLoginSubmit = e => {
-    e.preventDefault()
-    const {email, password} = this.state
+    e.preventDefault();
+    const { email, password } = this.state;
     return this.props.setCurrentUser(email, password);
   };
 
@@ -83,12 +80,12 @@ class Login extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     setCurrentUser: (email, password) => {
       dispatch(setCurrentUser(email, password));
     }
-  }
+  };
 };
 
 export default connect(
