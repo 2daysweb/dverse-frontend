@@ -4,17 +4,16 @@ import CandidateInstructions from "./CandidateInstructions";
 
 class CandidateContent extends Component {
   renderContent = () => {
-    if (this.props.latestClick === "ShowCandidate") {
+    const {currCandidate, showCandidate, latestClick, applyBtn} = this.props
+    if (latestClick === "ShowCandidate") {
       return (
         <CandidateJobViewer
-          currUser={this.props.currUser}
-          currCandidate={this.props.currCandidate}
-          showCandidate={this.props.showCandidate}
-          latestClick={this.props.latestClick}
-          applyBtn={this.props.applyBtn}
+          currCandidate={currCandidate}
+          showCandidate={showCandidate}
+          latestClick={latestClick}
+          applyBtn={applyBtn}
         />
       );
-      //Cancel job does not mean delete job, simply click cancel btn when in job editor 
     }  else {
       return <CandidateInstructions />
     }

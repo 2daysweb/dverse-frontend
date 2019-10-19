@@ -3,45 +3,41 @@ import Search from "./Search";
 import CandidateContent from "../candidate/CandidateContent";
 import CandidateSidebar from "../candidate/CandidateSidebar";
 import { connect } from "react-redux";
-import { fetchCandidates } from "../actions/index";
+import { fetchCandidates } from "../../actions/index";
 import { withRouter } from "react-router-dom";
 
 const BASE_URL = "https://dverse-staffing-backend.herokuapp.com/";
 
 class CandidateContainer extends Component {
-  constructor() {
-    super();
-    this.state = {
-      currCandidate: {},
-      filteredCandidates: [],
-      currCandidate: {},
-      currFirstName: "",
-      currLastName: "",
-      currResume: "",
-      currAvatar: "",
-      currSkills: [],
-      currAvatar: "",
-      latestClick: "",
-      searchText: "",
-      candidateType: ""
-    };
-  }
-
+  state = {
+    currCandidate: {},
+    filteredCandidates: [],
+    currCandidate: {},
+    currFirstName: "",
+    currLastName: "",
+    currResume: "",
+    currAvatar: "",
+    currSkills: [],
+    currAvatar: "",
+    latestClick: "",
+    searchText: "",
+    candidateType: ""
+  };
   componentDidMount() {
     this.props.fetchCandidates();
   }
 
-  //---------------------BEGIN EVENT HANDLERS----------------------------//
-
   handleChangeSearchText = e => {
-    this.setState({ searchText: e.target.value }, this.getFilteredCandidates);
+    this.setState({ searchText: e.target.value})
   };
 
-  handleClickShowCandidate = currCandidate => {
-    this.setState({ currCandidate: currCandidate });
-    this.setState({ currFirstName: currCandidate.first_name });
-    this.setState({ currLastName: currCandidate.last_name });
-    this.setState({ latestClick: "ShowCandidate" });
+  handleClickShowCandidate = candidate => {
+    this.setState({
+      currCandidate: candidate,
+      currFirstName: currCandidate.first_name,
+      currLastName: currCandidate.last_name,
+      latestClick: "ShowCandidate"
+    });
   };
 
   getCandidates = () => {
@@ -56,8 +52,6 @@ class CandidateContainer extends Component {
   handleChangeInput = editedTitle => {
     this.setState({ currTitle: editedTitle });
   };
-
-  //--------------------END EVENT HANDLERS---------------------------------------//
 
   handleClickCancelBtn = () => {
     this.setState({ latestClick: "ShowCandidate" });
@@ -77,7 +71,6 @@ class CandidateContainer extends Component {
             allCandidates={this.getCandidates()}
             currCandidate={this.state.currCandidate}
             showCandidate={this.handleClickShowCandidate}
-            newCandidate={this.handleClickNewBtn}
             currCandidate={this.props.currCandidate}
           />
           <CandidateContent
@@ -97,7 +90,8 @@ class CandidateContainer extends Component {
 
 const mapStateToProps = state => {
   return {
-    candidates: state.candidates.candidates
+    candidates: state.candidates.candidates,
+    user: state.user.user
   };
 };
 

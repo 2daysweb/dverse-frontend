@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import JobSidebar from "./JobSidebar";
 import Content from "./JobContent";
 import { connect } from "react-redux";
-import { fetchJobs } from "../actions/index.js";
+import { fetchJobs } from "../../actions/index.js";
 import { withRouter } from "react-router-dom";
 
 const BASE_URL = "https://dverse-staffing-backend.herokuapp.com/";
@@ -87,7 +87,7 @@ class JobsContainer extends Component {
     });
   };
 
-  updateJobObj = job => {
+  updateJob = job => {
     let user_id = this.props.user.id;
     let id = job.id;
     let title = job.title;
@@ -106,7 +106,7 @@ class JobsContainer extends Component {
   handleClickSubmitBtn = currJob => {
     let id = currJob.id;
     let URL = BASE_URL + "api/v1/jobs/" + id;
-    let submittedJob = this.updateJobObj(currJob);
+    let submittedJob = this.updateJob(currJob);
     submittedJob.status = "submitted";
 
     return fetch(URL, {
@@ -122,7 +122,7 @@ class JobsContainer extends Component {
   };
 
   handleClickWithdrawSubmitBtn = currJob => {
-    let withdrawnJob = this.updateJobObj(currJob);
+    let withdrawnJob = this.updateJob(currJob);
     withdrawnJob.status = "draft";
     let id = currJob.id;
 
@@ -134,22 +134,6 @@ class JobsContainer extends Component {
         Accept: "application/json"
       },
       body: JSON.stringify(withdrawnJob)
-    })
-      .then(response => response.json())
-      .then(data => window.location.reload());
-  };
-
-  handleClickActivateBtn = currJob => {
-    let activatedJob = this.updateJobObj(currJob);
-    let id = currJob.id;
-    let URL = BASE_URL + "api/v1/jobs/" + id;
-    return fetch(URL, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: JSON.stringify(activatedJob)
     })
       .then(response => response.json())
       .then(data => window.location.reload());
@@ -195,9 +179,7 @@ class JobsContainer extends Component {
   handleClickSaveBtn = currJob => {
     let id = currJob.id;
     let user_id = this.props.user.id;
-    //get title from editor
     let title = this.state.currTitle;
-    //get body from editor
     let body = this.state.currBody;
     let status = "draft";
     let job = {
@@ -221,7 +203,6 @@ class JobsContainer extends Component {
       .then(data => window.location.reload());
   };
 
-  //Discard any changes made in editor
   handleClickCancelBtn = () => {
     this.setState({ latestClick: "ShowJob" });
   };
@@ -264,8 +245,6 @@ class JobsContainer extends Component {
             handleChangeTextArea={this.handleChangeTextArea}
             submitJob={this.handleClickSubmitBtn}
             withdrawSubmitJob={this.handleClickWithdrawSubmitBtn}
-            status={this.props.status}
-            activateJob={this.handleClickActivateBtn}
             editJob={this.handleClickEditBtn}
             showJob={this.handleClickShowJob}
             saveJob={this.handleClickSaveBtn}

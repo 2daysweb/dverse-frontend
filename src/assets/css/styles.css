@@ -1,8 +1,3 @@
-/**
- * By Brooke.
- **/
-
-/* Global Styles */
 @import url('https://fonts.googleapis.com/css?family=Didact+Gothic|IBM+Plex+Mono|Poppins');
 
 * {
@@ -20,7 +15,6 @@ body {
 /* Styles */
 h2, input[name="title"], textarea {
   font-family: 'Arial, Helvetica, sans-serif'	
-
 }
 
 p.instructions {
@@ -114,7 +108,6 @@ div.sidebar ul li:first-child {
 }
 
 div.sidebar ul li:hover {
-  /* background-color: yellow; */
   background-image: linear-gradient(#E6E6E6, #F7F7F7);
   background-repeat: no-repeat;
   background-color: #4A9EEC;
@@ -177,21 +170,6 @@ input[type="submit"] {
 .container{
   display: flex
 }
-
-
-
-/* button, input[type="submit"] {
-  width: 125px;
-  border-radius: 200px;
-  margin-right: 10px;
-  padding: 5px 35px;
-  border: 0px;
-  background-image: linear-gradient(to right top, #8C33E3, #696CE8, #4A9EEC);
-  background-repeat: no-repeat;
-  color: white;
-  font-size: 14px;
-  letter-spacing: 0.5px;
-} */
 
 .nav-bar:hover, input[type="submit"]:hover {
   background-image: linear-gradient(to right top, #B32, #E94057, #F27121);

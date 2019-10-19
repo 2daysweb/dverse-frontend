@@ -5,7 +5,7 @@ import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
 import Login from "./Login";
-import { logout } from "../actions/index.js";
+import { logout } from "../../actions/index.js";
 import { connect } from "react-redux";
 
 const NavBar = props => {

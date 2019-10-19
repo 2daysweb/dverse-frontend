@@ -12,7 +12,7 @@ const JobViewer = props => {
     editJob,
     submitJob,
     deleteJob
-  } = {};
+  } = props;
 
   let renderButtons = () => {
     let currUserType = user.user_type;

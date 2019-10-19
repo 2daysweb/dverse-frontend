@@ -1,23 +1,18 @@
-import React, { Component } from "react"
+import React from "react"
 import CandidateItem from "./CandidateItem"
 
-class CandidateList extends Component {
-
-  
-
-  render() {
+function CandidateList(props){
+  const {allCandidates, showCandidate} = props 
      return (
         <ul>
-          {this.props.allCandidates.map(candidate => (
+          {allCandidates.map(candidate => (
             <CandidateItem
               currCandidate={candidate}
-              showCandidate={this.props.showCandidate}
+              showCandidate={showCandidate}
             />
           ))}
         </ul>
       )
   }
-}
-
 
 export default CandidateList

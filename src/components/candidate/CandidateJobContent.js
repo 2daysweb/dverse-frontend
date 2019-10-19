@@ -5,6 +5,7 @@ import JobInstructions from "../employer/JobInstructions";
 class CandidateJobContent extends Component {
   renderContent = () => {
     if (this.props.latestClick === "ShowJob") {
+      const {currUser, currJob, showJob, applyJob, latestClick} = this.props
       return (
         <CandidateJobViewer
           currUser={this.props.currUser}
@@ -14,7 +15,6 @@ class CandidateJobContent extends Component {
           latestClick={this.props.latestClick}
         />
       );
-      //Cancel job does not mean delete job, simply click cancel btn when in job editor
     } else {
       return <JobInstructions />;
     }

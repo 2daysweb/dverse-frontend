@@ -3,7 +3,7 @@ import Search from "../common/Search";
 import AdminJobSidebar from "./AdminJobSidebar";
 import AdminJobContent from "./AdminJobContent";
 import { connect } from "react-redux";
-import { fetchJobs } from "../actions/index";
+import { fetchJobs } from "../../actions/index";
 import { withRouter } from "react-router-dom";
 
 const BASE_URL = "https://dverse-staffing-backend.herokuapp.com/";
@@ -57,17 +57,17 @@ class AdminJobsContainer extends Component {
     }
   };
 
-  //----------BEGIN EVENT HANDLERS, CLICKS, SUBMITS--------BEGIN-------------//
-
   handleChangeSearchText = e => {
     this.setState({ searchText: e.target.value }, this.getFilteredJobs);
   };
 
   handleClickShowJob = currJob => {
-    this.setState({ currJob: currJob });
-    this.setState({ currBody: currJob.body });
-    this.setState({ currTitle: currJob.title });
-    this.setState({ latestClick: "ShowJob" });
+    this.setState({
+      currJob: currJob,
+      currBody: currJob.body,
+      currTitle: currJob.title,
+      latestClick: "ShowJob"
+    });
   };
 
   handleClickDisapproveBtn = currJob => {
@@ -121,9 +121,7 @@ class AdminJobsContainer extends Component {
       .then(response => response.json())
       .then(data => window.location.reload());
   };
-
-  //--------------------END-----Event Handlers for Clicks, Submits-----END-------------------------------//
-
+  
   render() {
     return (
       <Fragment>

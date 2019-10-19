@@ -3,7 +3,7 @@ import { Nav, Navbar, Form, Button } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { connect } from "react-redux";
-import { setCurrentUser } from "../actions/index.js";
+import { setCurrentUser } from "../../actions/index.js";
 
 class Login extends Component {
   state = {

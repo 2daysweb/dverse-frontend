@@ -4,13 +4,13 @@ import CandidateJobList from "./CandidateJobList";
 class CandidateJobSidebar extends Component {
 
   render() {
+    const {showJob, currJob, applyJob} = this.props
     return (
       <div className="master-detail-element sidebar">
         <CandidateJobList
-          showJob={this.props.showJob}
-          currJob={this.props.currJob}
-          applyJob={this.props.applyJob}
-          approvedJobs={this.approvedJobs}
+          showJob={showJob}
+          currJob={currJob}
+          applyJob={applyJob}
         />
       </div>
     );

@@ -5,7 +5,8 @@ import {withRouter} from 'react-router-dom'
 class CandidateHome extends Component {
 
   componentDidMount(){
-    this.props.history.push('candidatehome')
+    const {history} = this.props
+    history.push('candidatehome')
   }
   render(){
       return (

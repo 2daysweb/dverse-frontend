@@ -1,26 +1,22 @@
 import React, { Component } from "react";
-import NavBar from "./Nav";
-import Login from "./Login";
-import SignUpForm from "./SignUpForm";
-import Landing from "./Landing";
-import Profile from "./Profile";
-import CandidateHome from "../candidate/CandidateHome";
-import CandidateContainer from "./CandidateContainer";
-import CandidateJobContainer from "../candidate/CandidateJobContainer";
-import AdminHome from "../admin/AdminHome";
-import AdminJobsContainer from "../admin/AdminJobsContainer";
-import EmployerHome from "../employer/EmployerHome";
-import JobsContainer from "../employer/JobsContainer";
+import NavBar from "./common/Nav";
+import Login from "./common/Login";
+import SignUpForm from "./common/SignUpForm";
+import Profile from "./common/Profile";
+import CandidateHome from "./candidate/CandidateHome";
+import CandidateJobContainer from "./candidate/CandidateJobContainer";
+import AdminHome from "./admin/AdminHome";
+import AdminJobsContainer from "./admin/AdminJobsContainer";
+import EmployerHome from "./employer/EmployerHome";
+import JobsContainer from "./employer/JobsContainer";
 import { connect } from "react-redux";
 import { Switch, Route, Redirect } from "react-router-dom";
 
 class App extends Component {
-
   renderPortal = () => {
     let userType = this.props.user.user_type;
     switch (userType) {
       case "employer":
-     
         return (
           <div>
             <NavBar />
@@ -57,51 +53,10 @@ class App extends Component {
               this.props.loggedIn ? this.renderPortal() : <Login />
             }
           />
-          <Route
-            exact
-            path="/"
-            render={props => (
-              <Landing
-                {...props}
-                handleSignupSubmit={this.handleSignUpSubmit}
-              />
-            )}
-          />
 
           <Route
             exact
-            path="/adminhome"
-            render={props => (
-              <div>
-                <NavBar  {...props} />
-                <AdminHome {...props}/>
-              </div>
-            )}
-          />
-          <Route
-            exact
-            path="/employerhome"
-            render={props => (
-              <div>
-                <NavBar {...props}/>
-                <EmployerHome {...props}/>
-              </div>
-            )}
-          />
-          <Route
-            exact
-            path="/candidatehome"
-            render={props => (
-              <div>
-                <NavBar />
-                <CandidateHome />
-              </div>
-            )}
-          />
-
-          <Route
-            exact
-            path="/myprofile"
+            path="/profile"
             render={props => (
               <div>
                 <NavBar />
@@ -112,14 +67,25 @@ class App extends Component {
 
           <Route
             exact
-            path="/candidates"
-            render={() => (
+            path="/adminhome"
+            render={props => (
               <div>
-                <NavBar />
-                <CandidateContainer />
+                <NavBar {...props} />
+                <AdminHome {...props} />
               </div>
             )}
           />
+          <Route
+            exact
+            path="/employerhome"
+            render={props => (
+              <div>
+                <NavBar {...props} />
+                <EmployerHome {...props} />
+              </div>
+            )}
+          />
+
           <Route
             exact
             path="/employjobs"
@@ -170,6 +136,17 @@ class App extends Component {
               </div>
             )}
           />
+          <Route
+            exact
+            path="/candidatehome"
+            render={props => (
+              <div>
+                <NavBar />
+                <CandidateHome />
+              </div>
+            )}
+          />
+
           <Route
             exact
             path="/candidatejobs"
