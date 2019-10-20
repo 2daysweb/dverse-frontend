@@ -8,99 +8,62 @@ import { withRouter } from "react-router-dom";
 const BASE_URL = "https://dverse-staffing-backend.herokuapp.com/";
 
 class JobsContainer extends Component {
-  constructor() {
-    super();
-    this.state = {
-      currJob: null,
-      currBody: "",
-      currTitle: "",
-      latestClick: "",
-      searchText: ""
-    };
-  }
+  state = {
+    currBody: "",
+    currTitle: "",
+  };
+
+
 
   componentDidMount = () => {
-    this.props.fetchJobs();
+    const {fetchJobs} = this.props
+    fetchJobs();
   };
 
   componentDidUpdate = (prevProps, prevState) => {
-      if(this.props.location.pathname !== prevProps.location.pathname){
-        window.location.reload()
-      }
-  }
-
-  //Get jobs belonging to current user
-  getAllMyJobs = () => {
-    let allJobs = this.props.jobs;
-    let user = this.props.user;
-    console.log("USER: ", user, "------", "ALL JOBS: ", this.props.jobs);
-    let myJobs = allJobs.filter(job => {
-      if (job.users.length && job.users[0].id === user.id) return job;
-    });
-    return myJobs;
-  };
-
-  //Get all user's jobs
-  getMyApprovedJobs = () => {
-    let myJobs = this.getAllMyJobs();
-    let myApprovedJobs = myJobs.filter(job => job.status === "approved");
-    return myApprovedJobs;
-  };
-
-  getMyDraftedJobs = () => {
-    let myJobs = this.getAllMyJobs();
-    let draftedJobs = myJobs.filter(job => job.status === "draft");
-    return draftedJobs;
-  };
-  getMySubmittedJobs = () => {
-    let myJobs = this.getAllMyJobs();
-    let mySubmittedJobs = myJobs.filter(job => job.status === "submitted");
-    return mySubmittedJobs;
-  };
-  getFilteredJobs = () => {
-    let pathname = this.props.history.location.pathname;
-
-    switch (pathname) {
-      case "/mypendingjobs":
-        return this.getMySubmittedJobs();
-      case "/employjobs":
-        return this.getMyApprovedJobs();
-      case "/mydraftjobs":
-        return this.getMyDraftedJobs();
-      default:
-        return this.getMyDraftedJobs();
+    const {location} = this.props
+    if (location.pathname !== prevProps.location.pathname) {
+      window.location.reload();
     }
   };
 
-  //------------------------------------BEGIN EVENT HANDLERS------------------------------------------//
 
-  handleChangeSearchText = e => {
-    this.setState({ searchText: e.target.value }, this.getFilteredJobs);
+  getApprovedJobs = () => {
+    const { jobs } = this.props;
+    let approvedJobs = jobs.filter(job => job.status === "approved");
+    return approvedJobs;
+  };
+  getDraftedJobs = () => {
+    const { jobs } = this.props;
+    let draftedJobs = jobs.filter(job => job.status === "draft");
+    return draftedJobs;
+  };
+  getSubmittedJobs = () => {
+    const { jobs } = this.props;
+    let submittedJobs = jobs.filter(job => job.status === "submitted");
+    return submittedJobs;
+  };
+  getFilteredJobs = () => {
+    const { location } = this.props;
+    const pathname = location.pathname;
+    switch (pathname) {
+      case "/pendingjobs":
+        return this.getSubmittedJobs();
+      case "/employjobs":
+        return this.getApprovedJobs();
+      case "/draftjobs":
+        return this.getDraftedJobs();
+      default:
+        return this.getDraftedJobs();
+    }
+  };
+  
+  handleChangeTextArea = body => {
+    this.setState({ currBody: body });
   };
 
-  handleClickShowJob = currJob => {
-    this.setState({
-      currJob: currJob,
-      currBody: currJob.body,
-      currTitle: currJob.title,
-      latestClick: "ShowJob"
-    });
-  };
-
-  updateJob = job => {
-    let user_id = this.props.user.id;
-    let id = job.id;
-    let title = job.title;
-    let body = job.body;
-    let status = job.status;
-    let newJob = {
-      id: id,
-      title: title,
-      body: body,
-      status: status,
-      user_id: user_id
-    };
-    return newJob;
+  handleChangeInput = title => {
+    this.setState({ currTitle: title });
   };
 
   handleClickSubmitBtn = currJob => {
@@ -140,7 +103,6 @@ class JobsContainer extends Component {
   };
 
   handleClickNewBtn = () => {
-    this.setState({ latestClick: "" });
     let user = this.props.user;
     let userId = user.id;
 
@@ -163,17 +125,20 @@ class JobsContainer extends Component {
       .then(job => window.location.reload());
   };
 
-  handleClickEditBtn = e => {
-    this.setState({ latestClick: "EditJob" });
-  };
-
-  handleChangeTextArea = editedBody => {
-    let newBody = editedBody;
-    this.setState({ currBody: newBody });
-  };
-
-  handleChangeInput = editedTitle => {
-    this.setState({ currTitle: editedTitle });
+  updateJob = job => {
+    let user_id = this.props.user.id;
+    let id = job.id;
+    let title = job.title;
+    let body = job.body;
+    let status = job.status;
+    let newJob = {
+      id: id,
+      title: title,
+      body: body,
+      status: status,
+      user_id: user_id
+    };
+    return newJob;
   };
 
   handleClickSaveBtn = currJob => {
@@ -200,11 +165,7 @@ class JobsContainer extends Component {
       body: JSON.stringify(job)
     })
       .then(response => response.json())
-      .then(data => window.location.reload());
-  };
-
-  handleClickCancelBtn = () => {
-    this.setState({ latestClick: "ShowJob" });
+      .then(window.location.reload());
   };
 
   handleClickDeleteBtn = () => {
@@ -220,7 +181,7 @@ class JobsContainer extends Component {
       body: JSON.stringify(job)
     })
       .then(response => response.json())
-      .then(data => window.location.reload);
+      .then(window.location.reload);
   };
 
   //--------------------END-----------------------------------Event Handlers -------------------------------------------------END-------------------------------//
@@ -230,23 +191,17 @@ class JobsContainer extends Component {
       <Fragment>
         <div className="container">
           <JobSidebar
-            latestClick={this.state.latestClick}
-            currJob={this.state.currJob}
-            showJob={this.handleClickShowJob}
             newJob={this.handleClickNewBtn}
             filteredJobs={this.getFilteredJobs}
           />
           <Content
-            latestClick={this.state.latestClick}
             currTitle={this.state.currTitle}
             currBody={this.state.currBody}
-            currJob={this.state.currJob}
             handleChangeInput={this.handleChangeInput}
             handleChangeTextArea={this.handleChangeTextArea}
             submitJob={this.handleClickSubmitBtn}
             withdrawSubmitJob={this.handleClickWithdrawSubmitBtn}
             editJob={this.handleClickEditBtn}
-            showJob={this.handleClickShowJob}
             saveJob={this.handleClickSaveBtn}
             cancelJob={this.handleClickCancelBtn}
             deleteJob={this.handleClickDeleteBtn}

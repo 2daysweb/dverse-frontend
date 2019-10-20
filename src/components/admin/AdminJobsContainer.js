@@ -44,8 +44,8 @@ class AdminJobsContainer extends Component {
   };
 
   getFilteredJobs = () => {
-    const { history } = this.props;
-    let pathname = history.location.pathname;
+    const { location } = this.props;
+    let pathname = location.pathname;
 
     switch (pathname) {
       case "/pendingjobs":

@@ -4,53 +4,33 @@ import { connect } from "react-redux";
 
 const JobViewer = props => {
   const {
-    user,
-    currJob,
-    disapproveJob,
+    selectedJob,
     withdrawSubmitJob,
-    approveJob,
     editJob,
     submitJob,
     deleteJob
   } = props;
 
   let renderButtons = () => {
-    let currUserType = user.user_type;
-    let status = currJob.status;
+    let status = selectedJob.status;
 
     switch (status) {
       case "approved":
-        if (currUserType === "employer") {
-          return <button>Take Job Post Down</button>;
-        } else {
-          return (
-            <button onClick={() => disapproveJob(currJob)}>
-              Revoke Job Post Approval
-            </button>
-          );
-        }
-
+        return <button>Take Job Post Down</button>;
       case "submitted":
-        if (currUserType === "employer") {
-          return (
-            <button onClick={() => withdrawSubmitJob(currJob)}>
-              Withdraw Submission to Drafts
-            </button>
-          );
-        } else {
-          return (
-            <button onClick={() => approveJob(currJob)}>Approve Job</button>
-          );
-        }
-
+        return (
+          <button onClick={() => withdrawSubmitJob(selectedJob)}>
+            Withdraw Submission to Drafts
+          </button>
+        );
       case "draft":
         return (
           <div>
             <button onClick={editJob}>Edit Job</button>
-            <button onClick={() => submitJob(currJob)}>
+            <button onClick={() => submitJob(selectedJob)}>
               Submit For Approval
             </button>
-            <button onClick={() => deleteJob(currJob)}>Delete Job</button>
+            <button onClick={() => deleteJob(selectedJob)}>Delete Job</button>
           </div>
         );
       default:
@@ -60,8 +40,8 @@ const JobViewer = props => {
 
   return (
     <Fragment>
-      <h2>{currJob.title}</h2>
-      <p>{currJob.body}</p>
+      <h2>{selectedJob.title}</h2>
+      <p>{selectedJob.body}</p>
       {renderButtons()}
     </Fragment>
   );
@@ -69,7 +49,8 @@ const JobViewer = props => {
 
 let mapStateToProps = state => {
   return {
-    user: state.user.user
+    user: state.user.user,
+    selectedJob: state.ui.selectedJob
   };
 };
 

@@ -13,7 +13,7 @@ function AdminJobContent(props) {
   } = props;
 
   const renderContent = () => {
-    if (latestClick === "ShowJob") {
+    if (latestClick === "Show") {
       return (
         <JobViewer
           latestClick={latestClick}

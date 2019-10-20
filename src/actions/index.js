@@ -1,8 +1,3 @@
-//---------------------------- BEGIN ACTION TYPES ------------------------//
-
-
-const BASE_URL = "https://dverse-staffing-backend.herokuapp.com/";
-
 export const LOGIN_BEGIN = "LOGIN_BEGIN";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
@@ -16,11 +11,12 @@ export const FETCH_CANDIDATES_BEGIN = "FETCH_CANDIDATES_BEGIN";
 export const FETCH_CANDIDATES_SUCCESS = "FETCH_CANDIDATES_SUCCESS";
 export const FETCH_CANDIDATES_FAILURE = "FETCH_CANDIDATES_FAILURE";
 
-export const UPDATE_LATEST_CLICK = "UPDATE_LATEST_CLICK";
+export const SELECT_JOB = "SELECT_JOB";
+export const SELECT_CANDIDATE = "SELECT_CANDIDATE";
 
-//--------------- END ACTION TYPES ------------------------//
+//---------------------------------------------------------------------------------------------------//
 
-//--------------- BEGIN ACTION CREATORS ------------------------//
+const BASE_URL = "https://dverse-staffing-backend.herokuapp.com/"
 
 export function setCurrentUser(email, password) {
   return dispatch => {
@@ -46,10 +42,17 @@ export function setCurrentUser(email, password) {
         } else {
           alert("Incorrect username or password");
         }
-      })
-      .catch(e => loginFailure(e));
+      });
   };
 }
+
+export function setJob(job) {
+  return dispatch => {
+     dispatch(selectJob(job))
+  }
+}
+
+//---------------------------------------------------------------------------------------------------//
 
 export const loginBegin = (email, password) => ({
   type: "LOGIN_BEGIN",
@@ -74,6 +77,8 @@ export const logout = () => ({
   type: "LOGOUT"
 });
 
+//---------------------------------------------------------------------------------------------------//
+
 export function fetchCandidates() {
   return dispatch => {
     dispatch(fetchCandidatesBegin());
@@ -84,7 +89,7 @@ export function fetchCandidates() {
         dispatch(fetchCandidatesSuccess(users));
         return users;
       })
-      .catch(error => dispatch(fetchCandidatesFailure(error)));
+      .catch(error => dispatch(fetchJobsFailure(error)));
   };
 }
 
@@ -102,12 +107,12 @@ export const fetchCandidatesFailure = error => ({
   payload: { error }
 });
 
-function handleErrors(response) {
-  if (!response.ok) {
-    throw Error(response.statusText);
-  }
-  return response;
-}
+export const selectCandidate = candidate => ({
+  type: "SELECT_CANDIDATE",
+  payload: { candidate }
+});
+
+//---------------------------------------------------------------------------------------------------//
 
 export function fetchJobs() {
   return dispatch => {
@@ -137,9 +142,9 @@ export const fetchJobsFailure = error => ({
   payload: { error }
 });
 
-export const updateLatestClick = latestClick => ({
-  type: "UPDATE_LATEST_CLICK",
-  payload: { latestClick }
+export const selectJob = (job) => ({
+  type: "SELECT_JOB",
+  payload: { job  }
 });
 
 export const toggleJobStatus = id => ({
@@ -147,4 +152,9 @@ export const toggleJobStatus = id => ({
   id
 });
 
-//---------------------------------------------------------- END ACTION CREATORS ------------------------------------------------------------------------//
+function handleErrors(response) {
+  if (!response.ok) {
+    throw Error(response.statusText);
+  }
+  return response;
+}

@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 class JobSidebar extends Component {
   renderNewBtn() {
     const { location, newJob } = this.props;
-    if (location.pathname === "/mydraftjobs") {
+    if (location.pathname === "/draftjobs") {
       return <button onClick={newJob}>New</button>;
     }
   }
@@ -13,9 +13,7 @@ class JobSidebar extends Component {
   render() {
     const {
       filteredJobs,
-      showJob,
       editJob,
-      currJob,
       submitJob,
       deleteJob
     } = this.props;
@@ -23,9 +21,7 @@ class JobSidebar extends Component {
       <div className="master-detail-element sidebar">
         <JobList
           filteredJobs={filteredJobs}
-          showJob={showJob}
           editJob={editJob}
-          currJob={currJob}
           submitJob={submitJob}
           deleteJob={deleteJob}
         />

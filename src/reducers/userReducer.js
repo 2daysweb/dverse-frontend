@@ -10,10 +10,10 @@ const initialState = {
   password: "",
   token: null,
   loggedIn: false,
+  user: null,
   loading: false,
   failure: false,
-  error: null,
-  user: {}
+  error: null 
 };
 
 export default function UserReducer(state = initialState, action) {

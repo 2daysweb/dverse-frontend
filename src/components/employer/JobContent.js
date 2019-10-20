@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import JobEditor from "./JobEditor";
 import JobViewer from "./JobViewer";
 import JobInstructions from "./JobInstructions";
@@ -7,20 +8,17 @@ class JobContent extends Component {
   renderContent = () => {
     const {
       latestClick,
-      currJob,
       currBody,
       currTitle,
-      showJob,
       editJob,
       handleChangeInput,
       handleChangeTextArea,
       saveJob,
       cancelJob
     } = this.props;
-    if (latestClick === "EditJob") {
+    if (latestClick === "Edit") {
       return (
         <JobEditor
-          currJob={currJob}
           currBody={currBody}
           currTitle={currTitle}
           editJob={editJob}
@@ -28,41 +26,22 @@ class JobContent extends Component {
           handleChangeInput={handleChangeInput}
           saveJob={saveJob}
           cancelJob={cancelJob}
-          latestClick={latestClick}
         />
       );
-    } else if (latestClick === "ShowJob") {
+    } else if (latestClick === "Show") {
       const { submitJob, withdrawSubmitJob, deleteJob } = this.props;
       return (
         <JobViewer
-          currJob={currJob}
           editJob={editJob}
-          showJob={showJob}
           deleteJob={deleteJob}
-          latestClick={latestClick}
           submitJob={submitJob}
           withdrawSubmitJob={withdrawSubmitJob}
         />
       );
-    } else if (latestClick === "CancelJob") {
-      return (
-        <JobViewer
-          currJob={currJob}
-          editJob={editJob}
-          cancelJob={cancelJob}
-          showJob={showJob}
-          latestClick={latestClick}
-        />
-      );
-    } else if (latestClick === "NewJob") {
-      return (
-        <JobViewer
-          currJob={currJob}
-          editJob={editJob}
-          showJob={showJob}
-          latestClick={latestClick}
-        />
-      );
+    } else if (latestClick === "Cancel") {
+      return <JobViewer editJob={editJob} cancelJob={cancelJob} />;
+    } else if (latestClick === "New") {
+      return <JobViewer editJob={editJob} />;
     } else {
       return <JobInstructions />;
     }
@@ -74,5 +53,10 @@ class JobContent extends Component {
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    latestClick: state.ui.latestClick
+  };
+};
 
-export default JobContent;
+export default connect(mapStateToProps)(JobContent);

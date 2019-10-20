@@ -53,7 +53,6 @@ class App extends Component {
               this.props.loggedIn ? this.renderPortal() : <Login />
             }
           />
-
           <Route
             exact
             path="/profile"
@@ -64,7 +63,6 @@ class App extends Component {
               </div>
             )}
           />
-
           <Route
             exact
             path="/adminhome"
@@ -85,7 +83,6 @@ class App extends Component {
               </div>
             )}
           />
-
           <Route
             exact
             path="/employjobs"
@@ -98,7 +95,7 @@ class App extends Component {
           />
           <Route
             exact
-            path="/mypendingjobs"
+            path="/pendingjobs"
             render={props => (
               <div>
                 <NavBar />
@@ -108,7 +105,7 @@ class App extends Component {
           />
           <Route
             exact
-            path="/mydraftjobs"
+            path="/draftjobs"
             render={props => (
               <div>
                 <NavBar />
@@ -146,7 +143,6 @@ class App extends Component {
               </div>
             )}
           />
-
           <Route
             exact
             path="/candidatejobs"
@@ -157,7 +153,6 @@ class App extends Component {
               </div>
             )}
           />
-
           <Route
             exact
             path="/signup"
@@ -176,7 +171,6 @@ class App extends Component {
   }
 }
 const mapStateToProps = state => {
-  console.log(state, "IN APP MAP STATE TO PROPS");
   return {
     loggedIn: state.user.loggedIn,
     user: state.user.user,

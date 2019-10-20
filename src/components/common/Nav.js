@@ -9,7 +9,6 @@ import { logout } from "../../actions/index.js";
 import { connect } from "react-redux";
 
 const NavBar = props => {
-  console.log(props, "PROPS IN NAVBAR");
   const { user, history } = props;
 
   let logout = () => {
@@ -30,17 +29,14 @@ const NavBar = props => {
               <LinkContainer to="/candidates">
                 <Nav.Link>Candidates</Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/applications">
-                <Nav.Link>Applications</Nav.Link>
-              </LinkContainer>
               <LinkContainer to="/employjobs">
-                <Nav.Link>My Jobs</Nav.Link>
+                <Nav.Link>Active Jobs</Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/mypendingjobs">
-                <Nav.Link>Pending Jobs</Nav.Link>
+              <LinkContainer to="/pendingjobs">
+                <Nav.Link>Pending Approval</Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/mydraftjobs">
-                <Nav.Link>Create Job Post</Nav.Link>
+              <LinkContainer to="/draftjobs">
+                <Nav.Link>Post a Job</Nav.Link>
               </LinkContainer>
             </Nav>
             <Navbar.Toggle />
@@ -68,7 +64,7 @@ const NavBar = props => {
               <LinkContainer to="/apptracker">
                 <Nav.Link>App Tracker</Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/myprofile">
+              <LinkContainer to="profile">
                 <Nav.Link>Profile</Nav.Link>
               </LinkContainer>
             </Nav>

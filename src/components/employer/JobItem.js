@@ -1,30 +1,29 @@
 import React from "react";
+import { connect } from "react-redux";
 
-//Get the first 3 words of a Job
 const truncateJob = JobTitle => {
-  let JobWordsArray = JobTitle.split(" ");
-  //take first 3 words of array
-  let firstThreeWords = JobWordsArray.splice(0, 3);
-
-  //create string of first 3 words
-  let threeWords = firstThreeWords.join();
-
-  //set caption after removing commas, adding space b/w words
-  var caption = threeWords.replace(/,/g, " ");
-
+  const JobWordsArray = JobTitle.split(" ");
+  const firstThreeWords = JobWordsArray.splice(0, 3);
+  const threeWords = firstThreeWords.join();
+  let caption = threeWords.replace(/,/g, " ");
   caption += "...";
-
   return caption;
 };
 
-const JobItem = (props) => {
-  const {currJob, showJob} = props
+const JobItem = props => {
+  const { job, setJob } = props;
   return (
-    <li onClick={() => showJob(props.currJob)}>
-      <h2>{currJob.title}</h2>
-      <p>{truncateJob(currJob.body)}</p>
+    <li onClick={() => setJob(job)}>
+      <h2> {job.title} </h2>
+      <p> {truncateJob(job.body)} </p>
     </li>
   );
 };
 
-export default JobItem;
+const mapStateToProps = state => {
+  return {
+    selectedJob: state.selectedJob
+  };
+};
+
+export default connect(mapStateToProps)(JobItem);
