@@ -168,7 +168,7 @@ export function fetchCandidates() {
       .then(resp => resp.json())
       .then(users => {
         dispatch(fetchCandidatesSuccess(users));
-        return users;
+        return
       })
       .catch(error => dispatch(fetchCandidatesFailure(error)));
   };
@@ -181,18 +181,14 @@ export function fetchJobs() {
       .then(resp => resp.json())
       .then(jobs => {
         dispatch(fetchJobsSuccess(jobs));
-        return jobs;
+        return
       })
       .catch(error => dispatch(fetchJobsFailure(error)));
   };
 }
 
 export function createJob(id) {
-  const job = {
-    title: "default title",
-    body: "default body",
-    user_id: id
-  }
+  debugger
   return dispatch => {
     dispatch(createJobBegin());
     return fetch(BASE_URL + "api/v1/jobs", {
@@ -201,12 +197,16 @@ export function createJob(id) {
         "Content-Type": "application/json",
         Accept: "application/json"
       },
-      body: JSON.stringify(job)
+      body: JSON.stringify({
+        user_id: id
+      })
     })
       .then(resp => resp.json())
-      .then(() => {
-        dispatch(createJobSuccess(job))
-        return job;
+      .then(job => {
+        dispatch(createJobSuccess(
+          job
+        ))
+        return 
       })
       .catch(error => dispatch(createJobFailure(error)));
   };

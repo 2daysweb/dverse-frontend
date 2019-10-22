@@ -63,7 +63,6 @@ export default function jobReducer(state = initialState, action) {
         error: null
       };
     case DELETE_JOB_SUCCESS:
-      console.log(action, "STATE: ", state);
       return {
         ...state,
         loading: false,

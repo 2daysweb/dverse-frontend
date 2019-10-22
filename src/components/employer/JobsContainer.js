@@ -26,8 +26,7 @@ class JobsContainer extends Component {
   };
   getDraftedJobs = () => {
     const { jobs } = this.props;
-    let statusJobs = jobs.slice(0, -1);
-    let draftedJobs = statusJobs.filter(job => job.status === "draft");
+    let draftedJobs = jobs.filter(job => job.status === "draft");
     return draftedJobs;
   };
   getSubmittedJobs = () => {
@@ -93,14 +92,14 @@ class JobsContainer extends Component {
       title,
       createJob,
       deleteSelected,
-      setJob,
-      editJob
+      editJob,
+      setJob
     } = this.props;
     return (
       <Fragment>
         <div className="container">
           <JobSidebar
-            userId={user.id}
+            id={user.id}
             create={createJob}
             filteredJobs={this.getFilteredJobs}
             set={setJob}
@@ -137,8 +136,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    createJob: job => {
-      dispatch(createJob(job));
+    createJob: id => {
+      dispatch(createJob(id));
     },
     deleteSelected: id => {
       dispatch(deleteSelected(id));

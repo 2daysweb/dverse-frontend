@@ -2,19 +2,17 @@ import React, { Component } from "react";
 import JobList from "./JobList";
 import { withRouter } from "react-router-dom";
 
-class JobSidebar extends Component {
-  renderNewBtn() {
-    const { location, userId, create  } = this.props;
+function JobSidebar(props){
+  let  renderNewBtn = () => {
+    const {  id, location, create  } = props;
     if (location.pathname === "/draftjobs") {
-      return <button onClick={(userId) => create(userId)}>New</button>;
+      return <button onClick={() => create(id)}>New</button>;
     }
   }
-
-  render() {
     const {
       filteredJobs,
       set
-    } = this.props;
+    } = props;
 
     console.log(filteredJobs())
     return (
@@ -22,12 +20,10 @@ class JobSidebar extends Component {
         <JobList
           filteredJobs={filteredJobs}
           set={set}
-      
         />
-        {this.renderNewBtn()}
+        {renderNewBtn()}
       </div>
     );
-  }
 }
 
 export default withRouter(JobSidebar);

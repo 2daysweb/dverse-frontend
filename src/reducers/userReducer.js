@@ -7,11 +7,11 @@ import {
 
 const initialState = {
   user: null,
+  email: "",
+  password: "",
   loggedIn: false,
   loading: false,
   failure: false,
-  email: "",
-  password: "",
   token: null
 };
 
