@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from "react";
-import Search from "../common/Search";
 import CandidateJobContent from "./CandidateJobContent";
 import CandidateJobSidebar from "./CandidateJobSidebar";
 import { connect } from "react-redux";
@@ -16,8 +15,7 @@ class CandidateJobContainer extends Component {
     currCandidate: null,
     currFirstName: "",
     currLastName: "",
-    latestClick: "",
-    searchText: ""
+    latestClick: ""
   };
 
   componentDidMount() {
@@ -52,9 +50,7 @@ class CandidateJobContainer extends Component {
       .then(data => console.log(data));
   };
 
-  handleChangeSearchText = e => {
-    this.setState({ searchText: e.target.value }, this.getFilteredJobs);
-  };
+
 
   handleClickShowJob = currJob => {
     this.setState({
@@ -83,9 +79,6 @@ class CandidateJobContainer extends Component {
   render() {
     return (
       <Fragment>
-        <Search
-          handleChangeSearchText={this.handleChangeSearchText}
-        />
         <div className="container">
           <CandidateJobSidebar
             latestClick={this.state.latestClick}

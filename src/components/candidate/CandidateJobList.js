@@ -28,7 +28,7 @@ class CandidateJobList extends Component {
     const myJobs = jobs.filter(job =>
       job.users.filter(u => {
         const { user } = this.props;
-        return u.id == user.id;
+        return u.id === user.id;
       })
     );
     return myJobs;

@@ -1,15 +1,15 @@
 import { combineReducers } from "redux";
-import userReducer from "./userReducer";
-import jobsReducer from "./jobsReducer";
-import candidatesReducer from "./candidatesReducer";
-import uiReducer from "./uiReducer";
+import candidates from "./candidatesReducer";
+import jobs from "./jobsReducer";
+import ui from "./uiReducer";
+import user from "./userReducer";
 import storage from "redux-persist/lib/storage";
 
 const appReducer = combineReducers({
-  jobs: jobsReducer,
-  candidates: candidatesReducer,
-  user: userReducer,
-  ui: uiReducer
+  candidates,
+  jobs,
+  ui,
+  user
 });
 
 const rootReducer = (state, action) => {

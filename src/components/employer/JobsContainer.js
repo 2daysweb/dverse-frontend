@@ -1,32 +1,23 @@
 import React, { Component, Fragment } from "react";
-import JobSidebar from "./JobSidebar";
 import Content from "./JobContent";
+import JobSidebar from "./JobSidebar";
+import {
+  createJob,
+  deleteSelected as deleteSelected,
+  editJob,
+  fetchJobs,
+  setJob
+} from "../../actions/index.js";
 import { connect } from "react-redux";
-import { fetchJobs } from "../../actions/index.js";
 import { withRouter } from "react-router-dom";
 
 const BASE_URL = "https://dverse-staffing-backend.herokuapp.com/";
 
 class JobsContainer extends Component {
-  state = {
-    currBody: "",
-    currTitle: "",
-  };
-
-
-
   componentDidMount = () => {
-    const {fetchJobs} = this.props
+    const { fetchJobs } = this.props;
     fetchJobs();
   };
-
-  componentDidUpdate = (prevProps, prevState) => {
-    const {location} = this.props
-    if (location.pathname !== prevProps.location.pathname) {
-      window.location.reload();
-    }
-  };
-
 
   getApprovedJobs = () => {
     const { jobs } = this.props;
@@ -35,7 +26,8 @@ class JobsContainer extends Component {
   };
   getDraftedJobs = () => {
     const { jobs } = this.props;
-    let draftedJobs = jobs.filter(job => job.status === "draft");
+    let statusJobs = jobs.slice(0, -1);
+    let draftedJobs = statusJobs.filter(job => job.status === "draft");
     return draftedJobs;
   };
   getSubmittedJobs = () => {
@@ -57,37 +49,28 @@ class JobsContainer extends Component {
         return this.getDraftedJobs();
     }
   };
-  
-  handleChangeTextArea = body => {
-    this.setState({ currBody: body });
-  };
 
-  handleChangeInput = title => {
-    this.setState({ currTitle: title });
-  };
-
-  handleClickSubmitBtn = currJob => {
-    let id = currJob.id;
-    let URL = BASE_URL + "api/v1/jobs/" + id;
-    let submittedJob = this.updateJob(currJob);
+  submit = () => {
+    const { job } = this.props;
+    const id = job.id;
+    let submittedJob = this.updateJob(job);
     submittedJob.status = "submitted";
 
-    return fetch(URL, {
+    return fetch(BASE_URL + "api/v1/jobs/" + id, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json"
       },
       body: JSON.stringify(submittedJob)
-    })
-      .then(response => response.json())
-      .then(data => window.location.reload());
+    }).then(response => response.json());
   };
 
-  handleClickWithdrawSubmitBtn = currJob => {
-    let withdrawnJob = this.updateJob(currJob);
+  withdrawSubmission = () => {
+    const { job } = this.props;
+    let withdrawnJob = this.updateJob(job);
     withdrawnJob.status = "draft";
-    let id = currJob.id;
+    let id = job.id;
 
     let URL = BASE_URL + "api/v1/jobs/" + id;
     return fetch(URL, {
@@ -97,115 +80,43 @@ class JobsContainer extends Component {
         Accept: "application/json"
       },
       body: JSON.stringify(withdrawnJob)
-    })
-      .then(response => response.json())
-      .then(data => window.location.reload());
+    }).then(response => response.json());
   };
 
-  handleClickNewBtn = () => {
-    let user = this.props.user;
-    let userId = user.id;
-
-    let newJob = {
-      title: "deafult title",
-      body: "deafult body",
-      user_id: userId
-    };
-    let URL = BASE_URL + "api/v1/jobs";
-
-    return fetch(URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: JSON.stringify(newJob)
-    })
-      .then(response => response.json())
-      .then(job => window.location.reload());
-  };
-
-  updateJob = job => {
-    let user_id = this.props.user.id;
-    let id = job.id;
-    let title = job.title;
-    let body = job.body;
-    let status = job.status;
-    let newJob = {
-      id: id,
-      title: title,
-      body: body,
-      status: status,
-      user_id: user_id
-    };
-    return newJob;
-  };
-
-  handleClickSaveBtn = currJob => {
-    let id = currJob.id;
-    let user_id = this.props.user.id;
-    let title = this.state.currTitle;
-    let body = this.state.currBody;
-    let status = "draft";
-    let job = {
-      title: title,
-      body: body,
-      id: id,
-      status: status,
-      user_id: user_id
-    };
-
-    let URL = BASE_URL + "api/v1/jobs/" + id;
-    return fetch(URL, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: JSON.stringify(job)
-    })
-      .then(response => response.json())
-      .then(window.location.reload());
-  };
-
-  handleClickDeleteBtn = () => {
-    let id = this.state.currJob.id;
-    let URL = BASE_URL + "api/v1/jobs/" + id;
-    let job = { id: id };
-    return fetch(URL, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: JSON.stringify(job)
-    })
-      .then(response => response.json())
-      .then(window.location.reload);
-  };
-
-  //--------------------END-----------------------------------Event Handlers -------------------------------------------------END-------------------------------//
 
   render() {
+    const {
+      user,
+      latestClick,
+      job,
+      body,
+      title,
+      createJob,
+      deleteSelected,
+      setJob,
+      editJob
+    } = this.props;
     return (
       <Fragment>
         <div className="container">
           <JobSidebar
-            newJob={this.handleClickNewBtn}
+            userId={user.id}
+            create={createJob}
             filteredJobs={this.getFilteredJobs}
+            set={setJob}
           />
           <Content
-            currTitle={this.state.currTitle}
-            currBody={this.state.currBody}
+            latestClick={latestClick}
+            job={job}
+            body={body}
+            title={title}
+            cancel={this.handleClickCancelBtn}
+            deleteSelected={deleteSelected}
             handleChangeInput={this.handleChangeInput}
             handleChangeTextArea={this.handleChangeTextArea}
-            submitJob={this.handleClickSubmitBtn}
-            withdrawSubmitJob={this.handleClickWithdrawSubmitBtn}
-            editJob={this.handleClickEditBtn}
-            saveJob={this.handleClickSaveBtn}
-            cancelJob={this.handleClickCancelBtn}
-            deleteJob={this.handleClickDeleteBtn}
-            newJob={this.handleClickNewBtn}
+            edit={this.editJob}
+            submit={this.submit}
+            withdrawSubmit={this.withdrawSubmission}
           />
         </div>
       </Fragment>
@@ -215,15 +126,31 @@ class JobsContainer extends Component {
 
 const mapStateToProps = state => {
   return {
+    user: state.user.user,
+    latestClick: state.ui.latestClick,
     jobs: state.jobs.jobs,
-    user: state.user.user
+    job: state.ui.selectedJob,
+    body: state.ui.body,
+    title: state.ui.title
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
+    createJob: job => {
+      dispatch(createJob(job));
+    },
+    deleteSelected: id => {
+      dispatch(deleteSelected(id));
+    },
     fetchJobs: () => {
       dispatch(fetchJobs());
+    },
+    setJob: job => {
+      dispatch(setJob(job));
+    },
+    editJob: job => {
+      dispatch(editJob(job));
     }
   };
 };

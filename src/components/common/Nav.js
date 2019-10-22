@@ -1,16 +1,15 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
-import { LinkContainer } from "react-router-bootstrap";
-import Navbar from "react-bootstrap/Navbar";
-import Button from "react-bootstrap/Button";
-import Nav from "react-bootstrap/Nav";
 import Login from "./Login";
+import { LinkContainer } from "react-router-bootstrap";
+import { Button, Nav, Navbar } from "react-bootstrap";
 import { logout } from "../../actions/index.js";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 const NavBar = props => {
+  
   const { user, history } = props;
-
+  
   let logout = () => {
     history.push("/login");
     props.logout();

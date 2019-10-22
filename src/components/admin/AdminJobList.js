@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import JobItem from "./AdminJobItem";
 
 const AdminJobList = props => {

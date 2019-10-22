@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from "react";
-import Search from "./Search";
 import CandidateContent from "../candidate/CandidateContent";
 import CandidateSidebar from "../candidate/CandidateSidebar";
 import { connect } from "react-redux";
@@ -26,10 +25,6 @@ class CandidateContainer extends Component {
   componentDidMount() {
     this.props.fetchCandidates();
   }
-
-  handleChangeSearchText = e => {
-    this.setState({ searchText: e.target.value})
-  };
 
   handleClickShowCandidate = candidate => {
     this.setState({
@@ -60,11 +55,6 @@ class CandidateContainer extends Component {
   render() {
     return (
       <Fragment>
-        <Search
-          latestClick={this.state.latestClick}
-          handleChangeSearchText={this.handleChangeSearchText}
-          currCandidate={this.props.currCandidate}
-        />
         <div className="container">
           <CandidateSidebar
             latestClick={this.state.latestClick}

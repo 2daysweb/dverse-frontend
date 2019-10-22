@@ -4,26 +4,25 @@ import { withRouter } from "react-router-dom";
 
 class JobSidebar extends Component {
   renderNewBtn() {
-    const { location, newJob } = this.props;
+    const { location, userId, create  } = this.props;
     if (location.pathname === "/draftjobs") {
-      return <button onClick={newJob}>New</button>;
+      return <button onClick={(userId) => create(userId)}>New</button>;
     }
   }
 
   render() {
     const {
       filteredJobs,
-      editJob,
-      submitJob,
-      deleteJob
+      set
     } = this.props;
+
+    console.log(filteredJobs())
     return (
       <div className="master-detail-element sidebar">
         <JobList
           filteredJobs={filteredJobs}
-          editJob={editJob}
-          submitJob={submitJob}
-          deleteJob={deleteJob}
+          set={set}
+      
         />
         {this.renderNewBtn()}
       </div>

@@ -1,9 +1,8 @@
 import React, { Component, Fragment } from "react";
-import Search from "../common/Search";
-import AdminJobSidebar from "./AdminJobSidebar";
 import AdminJobContent from "./AdminJobContent";
+import AdminJobSidebar from "./AdminJobSidebar";
+import { fetchJobs } from '../../actions/index.js';
 import { connect } from "react-redux";
-import { fetchJobs } from "../../actions/index";
 import { withRouter } from "react-router-dom";
 
 const BASE_URL = "https://dverse-staffing-backend.herokuapp.com/";
@@ -55,10 +54,6 @@ class AdminJobsContainer extends Component {
       default:
         return this.getMyDraftedJobs();
     }
-  };
-
-  handleChangeSearchText = e => {
-    this.setState({ searchText: e.target.value }, this.getFilteredJobs);
   };
 
   handleClickShowJob = currJob => {
@@ -125,10 +120,6 @@ class AdminJobsContainer extends Component {
   render() {
     return (
       <Fragment>
-        <Search
-          latestClick={this.state.latestClick}
-          handleChangeSearchText={this.handleChangeSearchText}
-        />
         <div className="container">
           <AdminJobSidebar
             latestClick={this.state.latestClick}

@@ -1,11 +1,18 @@
-import { SELECT_JOB } from "../actions";
-import { SELECT_CANDIDATE } from "../actions";
+import {
+  SELECT_CANDIDATE,
+  SELECT_JOB,
+  JOB_EDIT_BEGIN,
+  JOB_EDIT_CANCEL
+} from "../actions/index";
 
 const initialState = {
-  selectedJob: null,
+  latestClick: "",
   selectedCandidate: null,
-  latestClick: ""
+  selectedJob: null,
+  body: "",
+  title: ""
 };
+
 const uiReducer = (state = initialState, action) => {
   switch (action.type) {
     case SELECT_JOB:
@@ -18,6 +25,18 @@ const uiReducer = (state = initialState, action) => {
       return {
         ...state,
         selectedCandidate: action.payload.candidate,
+        latestClick: "Show"
+      };
+    case JOB_EDIT_BEGIN:
+      return {
+        ...state,
+        title: action.payload.title,
+        body: action.payload.body,
+        latestClick: "Edit"
+      };
+    case JOB_EDIT_CANCEL:
+      return {
+        ...state,
         latestClick: "Show"
       };
     default:

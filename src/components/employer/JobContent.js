@@ -1,47 +1,41 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import JobEditor from "./JobEditor";
-import JobViewer from "./JobViewer";
 import JobInstructions from "./JobInstructions";
+import JobViewer from "./JobViewer";
 
 class JobContent extends Component {
   renderContent = () => {
     const {
       latestClick,
-      currBody,
-      currTitle,
-      editJob,
       handleChangeInput,
       handleChangeTextArea,
-      saveJob,
-      cancelJob
+      cancel,
+      edit
     } = this.props;
     if (latestClick === "Edit") {
       return (
         <JobEditor
-          currBody={currBody}
-          currTitle={currTitle}
-          editJob={editJob}
+          edit={edit}
           handleChangeTextArea={handleChangeTextArea}
           handleChangeInput={handleChangeInput}
-          saveJob={saveJob}
-          cancelJob={cancelJob}
+          cancel={cancel}
         />
       );
     } else if (latestClick === "Show") {
-      const { submitJob, withdrawSubmitJob, deleteJob } = this.props;
+      const { job, submit, withdrawSubmit, deleteSelected } = this.props;
       return (
         <JobViewer
-          editJob={editJob}
-          deleteJob={deleteJob}
-          submitJob={submitJob}
-          withdrawSubmitJob={withdrawSubmitJob}
+          job={job}
+          deleteSelected={deleteSelected}
+          edit={edit}
+          submit={submit}
+          withdrawSubmit={withdrawSubmit}
         />
       );
     } else if (latestClick === "Cancel") {
-      return <JobViewer editJob={editJob} cancelJob={cancelJob} />;
+      return <JobViewer />;
     } else if (latestClick === "New") {
-      return <JobViewer editJob={editJob} />;
+      return <JobViewer />;
     } else {
       return <JobInstructions />;
     }
@@ -53,10 +47,5 @@ class JobContent extends Component {
     );
   }
 }
-const mapStateToProps = state => {
-  return {
-    latestClick: state.ui.latestClick
-  };
-};
 
-export default connect(mapStateToProps)(JobContent);
+export default JobContent;

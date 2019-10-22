@@ -1,15 +1,15 @@
 import React, { Component, Fragment } from "react";
 import { Nav, Navbar, Form, Button } from "react-bootstrap";
-import { withRouter } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
+import { setUser } from "../../actions/index.js";
 import { connect } from "react-redux";
-import { setCurrentUser } from "../../actions/index.js";
+import { withRouter } from "react-router-dom";
 
 class Login extends Component {
   state = {
+    user: null,
     email: "",
     password: "",
-    user: null,
     submitted: false
   };
 
@@ -22,7 +22,8 @@ class Login extends Component {
   handleLoginSubmit = e => {
     e.preventDefault();
     const { email, password } = this.state;
-    return this.props.setCurrentUser(email, password);
+    const { setUser } = this.props;
+    return setUser(email, password);
   };
 
   render() {
@@ -82,8 +83,8 @@ class Login extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setCurrentUser: (email, password) => {
-      dispatch(setCurrentUser(email, password));
+    setUser: (email, password) => {
+      dispatch(setUser(email, password));
     }
   };
 };

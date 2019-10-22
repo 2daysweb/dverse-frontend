@@ -6,14 +6,13 @@ import {
 } from "../actions/index";
 
 const initialState = {
-  email: "",
-  password: "",
-  token: null,
-  loggedIn: false,
   user: null,
+  loggedIn: false,
   loading: false,
   failure: false,
-  error: null 
+  email: "",
+  password: "",
+  token: null
 };
 
 export default function UserReducer(state = initialState, action) {
@@ -29,9 +28,9 @@ export default function UserReducer(state = initialState, action) {
     case LOGIN_SUCCESS:
       state = {
         ...state,
-        loading: false,
-        loggedIn: true,
         user: action.user,
+        loggedIn: true,
+        loading: false,
         email: "",
         password: "",
         token: action.token

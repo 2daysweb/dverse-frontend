@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 
 const truncateJob = JobTitle => {
   const JobWordsArray = JobTitle.split(" ");
@@ -11,19 +10,13 @@ const truncateJob = JobTitle => {
 };
 
 const JobItem = props => {
-  const { job, setJob } = props;
+  const { job, set } = props;
   return (
-    <li onClick={() => setJob(job)}>
+    <li onClick={() => set(job)}>
       <h2> {job.title} </h2>
       <p> {truncateJob(job.body)} </p>
     </li>
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    selectedJob: state.selectedJob
-  };
-};
-
-export default connect(mapStateToProps)(JobItem);
+export default JobItem;

@@ -1,25 +1,15 @@
 import React from "react";
-import {connect} from 'react-redux'
-import {setJob} from '../../actions/index'
 import JobItem from "./JobItem";
 
 const JobList = props => {
-  const {setJob, filteredJobs} = props
+  const { filteredJobs, set } = props;
   return (
     <ul>
-      {filteredJobs().map((job)=>(
-        <JobItem job={job} setJob={setJob} />
-      ))}
+      {filteredJobs().length? (filteredJobs().map(job => (
+        <JobItem key={job.id} job={job} set={set} />))):(null)
+        }
     </ul>
-  )
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    setJob: (job) => {
-      dispatch(setJob(job));
-    }
-  };
+  );
 };
 
-export default connect(null, mapDispatchToProps)(JobList);
+export default JobList;
