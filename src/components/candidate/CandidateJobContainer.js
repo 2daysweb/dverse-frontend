@@ -38,7 +38,7 @@ class CandidateJobContainer extends Component {
     let job = this.updateJob(currJob);
     job.user_id = user.id;
 
-    return fetch(BASE_URL + "api/v1/jobs/" + id, {
+    return fetch(BASE_URL + "jobs/" + id, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -62,7 +62,7 @@ class CandidateJobContainer extends Component {
   };
   handleClickDeleteBtn = () => {
     let id = this.state.currJob.id;
-    let URL = BASE_URL + "api/v1/jobs/" + id;
+    let URL = BASE_URL + "jobs/" + id;
     let job = { id: id };
     return fetch(URL, {
       method: "DELETE",

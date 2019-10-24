@@ -22,14 +22,14 @@ class JobContent extends Component {
         />
       );
     } else if (latestClick === "Show") {
-      const { job, submit, withdrawSubmit, deleteSelected } = this.props;
+      const { job, submit,update, deleteSelected } = this.props;
       return (
         <JobViewer
           job={job}
           deleteSelected={deleteSelected}
           edit={edit}
           submit={submit}
-          withdrawSubmit={withdrawSubmit}
+          update={update}
         />
       );
     } else if (latestClick === "Cancel") {

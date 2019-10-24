@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Landing from "./common/Landing";
 import NavBar from "./common/Nav";
 import Login from "./common/Login";
 import SignUpForm from "./common/SignUpForm";
@@ -14,7 +15,8 @@ import { Switch, Route, Redirect } from "react-router-dom";
 
 class App extends Component {
   renderPortal = () => {
-    let userType = this.props.user.user_type;
+    const { user } = this.props;
+    const userType = user.type;
     switch (userType) {
       case "employer":
         return (
@@ -43,26 +45,25 @@ class App extends Component {
   };
 
   render() {
+    const { loggedIn, user } = this.props;
     return (
       <div className="app">
         <Switch>
           <Route
             exact
-            path="/login"
-            render={() =>
-              this.props.loggedIn ? this.renderPortal() : <Login />
-            }
-          />
-          <Route
-            exact
-            path="/profile"
+            path="/landing"
             render={props => (
               <div>
-                <NavBar />
-                <Profile />
+                <Landing {...props} />
               </div>
             )}
           />
+          <Route
+            exact
+            path="/login"
+            render={() => (loggedIn ? this.renderPortal() : <Login />)}
+          />
+
           <Route
             exact
             path="/adminhome"
@@ -70,6 +71,27 @@ class App extends Component {
               <div>
                 <NavBar {...props} />
                 <AdminHome {...props} />
+              </div>
+            )}
+          />
+
+          <Route
+            exact
+            path="/pendingjobs"
+            render={props => (
+              <div>
+                <NavBar />
+                <AdminJobsContainer />
+              </div>
+            )}
+          />
+          <Route
+            exact
+            path="/approvedjobs"
+            render={props => (
+              <div>
+                <NavBar />
+                <AdminJobsContainer />
               </div>
             )}
           />
@@ -113,26 +135,7 @@ class App extends Component {
               </div>
             )}
           />
-          <Route
-            exact
-            path="/pendingjobs"
-            render={props => (
-              <div>
-                <NavBar />
-                <AdminJobsContainer />
-              </div>
-            )}
-          />
-          <Route
-            exact
-            path="/approvedjobs"
-            render={props => (
-              <div>
-                <NavBar />
-                <AdminJobsContainer />
-              </div>
-            )}
-          />
+
           <Route
             exact
             path="/candidatehome"
@@ -155,6 +158,16 @@ class App extends Component {
           />
           <Route
             exact
+            path="/profile"
+            render={props => (
+              <div>
+                <NavBar />
+                <Profile />
+              </div>
+            )}
+          />
+          <Route
+            exact
             path="/signup"
             component={props => <SignUpForm {...props} />}
           />
@@ -162,7 +175,7 @@ class App extends Component {
             exact
             path="/"
             render={() =>
-              this.props.user ? this.renderPortal() : <Redirect to="/landing" />
+              user ? this.renderPortal() : <Redirect to="/landing" />
             }
           />
         </Switch>
@@ -172,9 +185,8 @@ class App extends Component {
 }
 const mapStateToProps = state => {
   return {
-    loggedIn: state.user.loggedIn,
-    user: state.user.user,
-    token: state.user.token
+    loggedIn: state.auth.loggedIn,
+    user: state.auth.user
   };
 };
 

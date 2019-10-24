@@ -3,10 +3,11 @@ import Content from "./JobContent";
 import JobSidebar from "./JobSidebar";
 import {
   createJob,
-  deleteSelected as deleteSelected,
+  deleteSelected,
   editJob,
   fetchJobs,
-  setJob
+  setJob,
+  updateStatus
 } from "../../actions/index.js";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
@@ -55,7 +56,7 @@ class JobsContainer extends Component {
     let submittedJob = this.updateJob(job);
     submittedJob.status = "submitted";
 
-    return fetch(BASE_URL + "api/v1/jobs/" + id, {
+    return fetch(BASE_URL + "jobs/" + id, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -64,24 +65,6 @@ class JobsContainer extends Component {
       body: JSON.stringify(submittedJob)
     }).then(response => response.json());
   };
-
-  withdrawSubmission = () => {
-    const { job } = this.props;
-    let withdrawnJob = this.updateJob(job);
-    withdrawnJob.status = "draft";
-    let id = job.id;
-
-    let URL = BASE_URL + "api/v1/jobs/" + id;
-    return fetch(URL, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: JSON.stringify(withdrawnJob)
-    }).then(response => response.json());
-  };
-
 
   render() {
     const {
@@ -93,7 +76,8 @@ class JobsContainer extends Component {
       createJob,
       deleteSelected,
       editJob,
-      setJob
+      setJob,
+      updateStatus
     } = this.props;
     return (
       <Fragment>
@@ -110,12 +94,12 @@ class JobsContainer extends Component {
             body={body}
             title={title}
             cancel={this.handleClickCancelBtn}
+            edit={this.editJob}
             deleteSelected={deleteSelected}
             handleChangeInput={this.handleChangeInput}
             handleChangeTextArea={this.handleChangeTextArea}
-            edit={this.editJob}
             submit={this.submit}
-            withdrawSubmit={this.withdrawSubmission}
+            update={updateStatus}
           />
         </div>
       </Fragment>
@@ -125,12 +109,12 @@ class JobsContainer extends Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.user.user,
-    latestClick: state.ui.latestClick,
+    user: state.auth.user,
+    latestClick: state.jobs.latestClick,
     jobs: state.jobs.jobs,
-    job: state.ui.selectedJob,
-    body: state.ui.body,
-    title: state.ui.title
+    job: state.jobs.selectedJob,
+    body: state.jobs.body,
+    title: state.jobs.title
   };
 };
 
@@ -142,14 +126,17 @@ const mapDispatchToProps = dispatch => {
     deleteSelected: id => {
       dispatch(deleteSelected(id));
     },
+    editJob: job => {
+      dispatch(editJob(job));
+    },
     fetchJobs: () => {
       dispatch(fetchJobs());
     },
     setJob: job => {
       dispatch(setJob(job));
     },
-    editJob: job => {
-      dispatch(editJob(job));
+    updateStatus: (job, status) => {
+      dispatch(updateStatus(job, status))
     }
   };
 };

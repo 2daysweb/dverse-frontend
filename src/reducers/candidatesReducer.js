@@ -1,13 +1,15 @@
 import {
   FETCH_CANDIDATES_BEGIN,
   FETCH_CANDIDATES_SUCCESS,
-  FETCH_CANDIDATES_FAILURE
+  FETCH_CANDIDATES_FAILURE,
+  SELECT_CANDIDATE
 } from "../actions/index";
 
 const initialState = {
   candidates: [],
   loading: false,
-  error: null
+  error: null,
+  selectedCandidate: null
 };
 
 export default function candidatesReducer(state = initialState, action) {
@@ -31,6 +33,13 @@ export default function candidatesReducer(state = initialState, action) {
         loading: false,
         error: action.payload.error,
         candidates: []
+      };
+
+    case SELECT_CANDIDATE:
+      return {
+        ...state,
+        latestClick: "Show",
+        selectedCandidate: action.payload.candidate
       };
 
     default:

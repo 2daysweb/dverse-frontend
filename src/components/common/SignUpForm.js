@@ -48,7 +48,7 @@ class SignUpForm extends Component {
   };
 
   handleCandidateSignupSubmit = () => {
-    fetch(BASE_URL + "api/v1/users", {
+    fetch(BASE_URL + "users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -67,7 +67,7 @@ class SignUpForm extends Component {
   };
 
   handleEmployerSignupSubmit = () => {
-    fetch(BASE_URL + "api/v1/users", {
+    fetch(BASE_URL + "users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

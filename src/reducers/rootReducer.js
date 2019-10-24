@@ -1,15 +1,13 @@
 import { combineReducers } from "redux";
 import candidates from "./candidatesReducer";
 import jobs from "./jobsReducer";
-import ui from "./uiReducer";
-import user from "./userReducer";
+import auth from "./authReducer";
 import storage from "redux-persist/lib/storage";
 
 const appReducer = combineReducers({
+  auth,
   candidates,
   jobs,
-  ui,
-  user
 });
 
 const rootReducer = (state, action) => {

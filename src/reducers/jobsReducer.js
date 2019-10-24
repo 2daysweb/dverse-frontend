@@ -1,43 +1,34 @@
 import {
-  FETCH_JOBS_BEGIN,
-  FETCH_JOBS_SUCCESS,
-  FETCH_JOBS_FAILURE,
   CREATE_JOB_BEGIN,
   CREATE_JOB_SUCCESS,
   CREATE_JOB_FAILURE,
   DELETE_JOB_BEGIN,
   DELETE_JOB_SUCCESS,
-  DELETE_JOB_FAILURE
+  DELETE_JOB_FAILURE,
+  EDIT_JOB_BEGIN,
+  EDIT_JOB_SUCCESS,
+  EDIT_JOB_CANCEL,
+  FETCH_JOBS_BEGIN,
+  FETCH_JOBS_SUCCESS,
+  FETCH_JOBS_FAILURE,
+  SELECT_JOB,
+  UPDATE_STATUS_BEGIN,
+  UPDATE_STATUS_SUCCESS,
+  UPDATE_STATUS_FAILURE
 } from "../actions/index";
 
 const initialState = {
   latestClick: "",
   loading: false,
   error: null,
-  jobs: []
+  jobs: [],
+  selectedJob: null,
+  body: "",
+  title: ""
 };
 
-export default function jobReducer(state = initialState, action) {
+export default function jobsReducer(state = initialState, action) {
   switch (action.type) {
-    case FETCH_JOBS_BEGIN:
-      return {
-        ...state,
-        loading: true,
-        error: null
-      };
-
-    case FETCH_JOBS_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        jobs: action.payload.jobs
-      };
-    case FETCH_JOBS_FAILURE:
-      return {
-        ...state,
-        loading: false,
-        error: action.payload.error
-      };
     case CREATE_JOB_BEGIN:
       return { ...state, loading: true, error: null };
     case CREATE_JOB_SUCCESS:
@@ -65,6 +56,7 @@ export default function jobReducer(state = initialState, action) {
     case DELETE_JOB_SUCCESS:
       return {
         ...state,
+        latestClick:"",
         loading: false,
         error: null,
         jobs: state.jobs.filter(job => job.id !== action.payload.id)
@@ -76,7 +68,73 @@ export default function jobReducer(state = initialState, action) {
         error: action.payload.error
       };
 
+    case EDIT_JOB_BEGIN:
+      return {
+        ...state,
+        latestClick: "Edit",
+        body: action.payload.body,
+        title: action.payload.title
+      };
+    case EDIT_JOB_SUCCESS:
+      return {
+        state
+      };
+    case EDIT_JOB_CANCEL:
+      return {
+        ...state,
+        latestClick: "Show"
+      };
     default:
       return state;
+    case FETCH_JOBS_BEGIN:
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+    case FETCH_JOBS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        jobs: action.payload.jobs
+      };
+    case FETCH_JOBS_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload.error
+      };
+    case SELECT_JOB:
+      console.log("SELECTED_JOB", action.payload.job)
+      return {
+        ...state,
+        latestClick: "Show",
+        selectedJob: action.payload.job
+      };
+    case UPDATE_STATUS_BEGIN:
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+
+    case UPDATE_STATUS_SUCCESS:
+      return {
+        ...state,
+        latestClick:"",
+        loading: false,
+        error: null,
+        jobs: state.jobs.map(job => {
+           return job.id === action.payload.id ? 
+          {...job, status: action.payload.status} : job
+        }
+        )
+      };
+    case UPDATE_STATUS_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload.error
+      };
   }
 }

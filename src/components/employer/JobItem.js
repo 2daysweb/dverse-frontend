@@ -1,12 +1,12 @@
 import React from "react";
 
-const truncateJob = JobTitle => {
-  const JobWordsArray = JobTitle.split(" ");
-  const firstThreeWords = JobWordsArray.splice(0, 3);
-  const threeWords = firstThreeWords.join();
-  let caption = threeWords.replace(/,/g, " ");
-  caption += "...";
-  return caption;
+const truncateBody = body => {
+  if(body){
+  let truncatedBody = body.substring(0,6)
+  truncatedBody += "...";
+  return truncatedBody;
+  }
+  return "default"
 };
 
 const JobItem = props => {
@@ -14,7 +14,7 @@ const JobItem = props => {
   return (
     <li onClick={() => set(job)}>
       <h2> {job.title} </h2>
-      <p> {truncateJob(job.body)} </p>
+      <p> {truncateBody(job.body)} </p>
     </li>
   );
 };
