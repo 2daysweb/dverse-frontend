@@ -10,8 +10,8 @@ import AdminHome from "./admin/AdminHome";
 import AdminJobsContainer from "./admin/AdminJobsContainer";
 import EmployerHome from "./employer/EmployerHome";
 import JobsContainer from "./employer/JobsContainer";
-import { connect } from "react-redux";
 import { Switch, Route, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
 class App extends Component {
   renderPortal = () => {
@@ -67,7 +67,7 @@ class App extends Component {
 
           <Route
             exact
-            path="/adminhome"
+            path="/admin-home"
             render={props => (
               <div>
                 <NavBar {...props} user={user} />
@@ -77,7 +77,7 @@ class App extends Component {
           />
           <Route
             exact
-            path="/pendingjobs"
+            path="/pending-jobs"
             render={props => (
               <div>
                 <NavBar user={user} />
@@ -88,7 +88,7 @@ class App extends Component {
 
           <Route
             exact
-            path="/pendingjobs"
+            path="/pending-jobs"
             render={props => (
               <div>
                 <NavBar user={user} />
@@ -98,7 +98,7 @@ class App extends Component {
           />
           <Route
             exact
-            path="/approvedjobs"
+            path="/approved-jobs"
             render={props => (
               <div>
                 <NavBar />
@@ -108,7 +108,7 @@ class App extends Component {
           />
           <Route
             exact
-            path="/employerhome"
+            path="/employer-home"
             render={props => (
               <div>
                 <NavBar {...props} user={user} />
@@ -118,7 +118,7 @@ class App extends Component {
           />
           <Route
             exact
-            path="/employjobs"
+            path="/employer-jobs"
             render={props => (
               <div>
                 <NavBar user={user} />
@@ -129,7 +129,7 @@ class App extends Component {
 
           <Route
             exact
-            path="/draftjobs"
+            path="/draft-jobs"
             render={props => (
               <div>
                 <NavBar user={user} />
@@ -140,7 +140,7 @@ class App extends Component {
 
           <Route
             exact
-            path="/candidatehome"
+            path="/candidate-home"
             render={props => (
               <div>
                 <NavBar user={user} />
@@ -150,7 +150,7 @@ class App extends Component {
           />
           <Route
             exact
-            path="/candidatejobs"
+            path="/candidate-jobs"
             render={props => (
               <div>
                 <NavBar user={user} />

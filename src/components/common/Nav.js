@@ -20,19 +20,19 @@ const NavBar = props => {
         return (
           <Navbar>
             <Nav className="mr-auto">
-              <LinkContainer to="/employerhome">
+              <LinkContainer to="/employer-home">
                 <Nav.Link>Home</Nav.Link>
               </LinkContainer>
               <LinkContainer to="/candidates">
                 <Nav.Link>Candidates</Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/employjobs">
+              <LinkContainer to="/employ-jobs">
                 <Nav.Link>Active Jobs</Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/pendingjobs">
+              <LinkContainer to="/pending-jobs">
                 <Nav.Link>Pending Approval</Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/draftjobs">
+              <LinkContainer to="/draft-jobs">
                 <Nav.Link>Post a Job</Nav.Link>
               </LinkContainer>
             </Nav>
@@ -51,14 +51,14 @@ const NavBar = props => {
         return (
           <Navbar>
             <Nav className="mr-auto">
-              <LinkContainer to="/candidatehome">
+              <LinkContainer to="/candidate-home">
                 <Nav.Link>Home</Nav.Link>
               </LinkContainer>
 
-              <LinkContainer to="/candidatejobs">
+              <LinkContainer to="/candidate-jobs">
                 <Nav.Link>Jobs</Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/apptracker">
+              <LinkContainer to="/app-tracker">
                 <Nav.Link>App Tracker</Nav.Link>
               </LinkContainer>
               <LinkContainer to="profile">
@@ -80,19 +80,19 @@ const NavBar = props => {
         return (
           <Navbar>
             <Nav className="mr-auto">
-              <LinkContainer to="/adminhome">
+              <LinkContainer to="/admin-home">
                 <Nav.Link>Home</Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/approvedjobs">
+              <LinkContainer to="/approved-jobs">
                 <Nav.Link>Approved Jobs</Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/pendingjobs">
+              <LinkContainer to="/pending-jobs">
                 <Nav.Link>Pending Jobs</Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/activecandidates">
+              <LinkContainer to="/active-candidates">
                 <Nav.Link>Active Candidates</Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/pendingcandidates">
+              <LinkContainer to="/pending-candidates">
                 <Nav.Link>Pending Candidates</Nav.Link>
               </LinkContainer>
             </Nav>

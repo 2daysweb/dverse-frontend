@@ -37,11 +37,11 @@ class JobsContainer extends Component {
     const { location } = this.props;
     const pathname = location.pathname;
     switch (pathname) {
-      case "/pendingjobs":
+      case "/pending-jobs":
         return this.getSubmittedJobs();
-      case "/employjobs":
+      case "/employ-jobs":
         return this.getApprovedJobs();
-      case "/draftjobs":
+      case "/draft-jobs":
         return this.getDraftedJobs();
       default:
         return this.getDraftedJobs();
