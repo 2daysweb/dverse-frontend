@@ -5,7 +5,7 @@ const AdminJobList = props => {
   return (
     <ul>
       {props.filteredJobs.map(job => (
-        <JobItem currJob={job} showJob={props.showJob} />
+        <JobItem key={job.id} currJob={job} showJob={props.showJob} />
       ))}
     </ul>
   );

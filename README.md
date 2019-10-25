@@ -68,15 +68,3 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
 
 
-Notes on OOP Conversion:
-
-What's likely to change in JobsContainer?
-
-*Cosmetic
-
-*Functional
-
-*Performance
-
-*External 
-

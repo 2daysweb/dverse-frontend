@@ -16,31 +16,32 @@ import { Switch, Route, Redirect } from "react-router-dom";
 class App extends Component {
   renderPortal = () => {
     const { user } = this.props;
-    const userType = user.type;
+    const userType = user.user_type;
     switch (userType) {
-      case "employer":
+      case "admin":
         return (
           <div>
-            <NavBar />
-            <EmployerHome />
+            <NavBar user={user} />
+            <AdminHome />
           </div>
         );
       case "candidate":
         return (
           <div>
-            <NavBar />
+            <NavBar user={user} />
             <CandidateHome />
           </div>
         );
-      case "admin":
+      case "employer":
         return (
           <div>
-            <NavBar />
-            <AdminHome />
+            <NavBar user={user} />
+            <EmployerHome />
           </div>
         );
+
       default:
-        return false;
+        return null;
     }
   };
 
@@ -69,8 +70,18 @@ class App extends Component {
             path="/adminhome"
             render={props => (
               <div>
-                <NavBar {...props} />
+                <NavBar {...props} user={user} />
                 <AdminHome {...props} />
+              </div>
+            )}
+          />
+          <Route
+            exact
+            path="/pendingjobs"
+            render={props => (
+              <div>
+                <NavBar user={user} />
+                <JobsContainer user={user} />
               </div>
             )}
           />
@@ -80,8 +91,8 @@ class App extends Component {
             path="/pendingjobs"
             render={props => (
               <div>
-                <NavBar />
-                <AdminJobsContainer />
+                <NavBar user={user} />
+                <AdminJobsContainer user={user} />
               </div>
             )}
           />
@@ -91,7 +102,7 @@ class App extends Component {
             render={props => (
               <div>
                 <NavBar />
-                <AdminJobsContainer />
+                <AdminJobsContainer user={user} />
               </div>
             )}
           />
@@ -100,7 +111,7 @@ class App extends Component {
             path="/employerhome"
             render={props => (
               <div>
-                <NavBar {...props} />
+                <NavBar {...props} user={user} />
                 <EmployerHome {...props} />
               </div>
             )}
@@ -110,28 +121,19 @@ class App extends Component {
             path="/employjobs"
             render={props => (
               <div>
-                <NavBar />
-                <JobsContainer />
+                <NavBar user={user} />
+                <JobsContainer user={user} />
               </div>
             )}
           />
-          <Route
-            exact
-            path="/pendingjobs"
-            render={props => (
-              <div>
-                <NavBar />
-                <JobsContainer />
-              </div>
-            )}
-          />
+
           <Route
             exact
             path="/draftjobs"
             render={props => (
               <div>
-                <NavBar />
-                <JobsContainer {...props} />
+                <NavBar user={user} />
+                <JobsContainer user={user} {...props} />
               </div>
             )}
           />
@@ -141,7 +143,7 @@ class App extends Component {
             path="/candidatehome"
             render={props => (
               <div>
-                <NavBar />
+                <NavBar user={user} />
                 <CandidateHome />
               </div>
             )}
@@ -151,8 +153,8 @@ class App extends Component {
             path="/candidatejobs"
             render={props => (
               <div>
-                <NavBar />
-                <CandidateJobContainer />
+                <NavBar user={user} />
+                <CandidateJobContainer user={user} />
               </div>
             )}
           />
@@ -161,8 +163,8 @@ class App extends Component {
             path="/profile"
             render={props => (
               <div>
-                <NavBar />
-                <Profile />
+                <NavBar user={user} />
+                <Profile user={user} />
               </div>
             )}
           />

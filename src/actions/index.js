@@ -132,17 +132,15 @@ export const updateStatusBegin = () => {
   };
 };
 
-export const updateStatusSuccess = (id, status) => {
-  return {
+export const updateStatusSuccess = (id, status) => ({
     type: UPDATE_STATUS_SUCCESS,
     payload: { id, status }
-  };
-};
+});
 
 export const updateStatusFailure = error => {
   return {
     type: UPDATE_STATUS_SUCCESS,
-    payload: error
+    payload: { error }
   };
 };
 
@@ -153,7 +151,7 @@ const BASE_URL = "https://dverse-staffing-backend.herokuapp.com/";
 export function setUser(email, password) {
   return dispatch => {
     dispatch(loginBegin(email, password));
-    fetch(BASE_URL + "login", {
+    fetch(BASE_URL + "api/v1/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -182,7 +180,7 @@ export function setUser(email, password) {
 export function createJob(id) {
   return dispatch => {
     dispatch(createJobBegin());
-    return fetch(BASE_URL + "jobs", {
+    return fetch(BASE_URL + "api/v1/jobs", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -204,7 +202,7 @@ export function createJob(id) {
 export function deleteSelected(id) {
   return dispatch => {
     dispatch(deleteJobBegin());
-    return fetch(BASE_URL + "jobs/" + id, {
+    return fetch(BASE_URL + "api/v1/jobs/" + id, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -228,7 +226,7 @@ export function editJob() {
 export function fetchCandidates() {
   return dispatch => {
     dispatch(fetchCandidatesBegin());
-    return fetch(BASE_URL + "users")
+    return fetch(BASE_URL + "api/v1/users")
       .then(resp => resp.json())
       .then(users => {
         dispatch(fetchCandidatesSuccess(users));
@@ -241,9 +239,9 @@ export function fetchCandidates() {
 export function fetchJobs() {
   return dispatch => {
     dispatch(fetchJobsBegin());
-    return fetch(BASE_URL + "jobs")
+    return fetch(BASE_URL + "api/v1/jobs")
       .then(resp => resp.json())
-      .then(jobs => {
+      .then(jobs => {console.log("IN FETCH JOBS JOBS: ", jobs)
         dispatch(fetchJobsSuccess(jobs));
         return;
       })
@@ -255,27 +253,24 @@ export function setJob(job) {
   return selectJob(job);
 }
 
-export function updateStatus(job, status) {
+export function updateStatus(job, status, user) {
   const { id } = job;
-  console.log("ID: ", id)
+  const user_id = user.id;
   return dispatch => {
     dispatch(updateStatusBegin());
-    return fetch(BASE_URL + "jobs/" + id, {
+    return fetch(BASE_URL + "api/v1/jobs/" + id, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json"
       },
-      body: JSON.stringify({ id, status })
+      body: JSON.stringify({ id: id, status: status, user_id: user_id })
     })
-      .then(resp => {
-        console.log("RESPONSE ON TOP: ", resp)
-        resp.json()})
+      .then(resp => resp.json())
       .then(job => {
-        console.log("JOB IN UPDATE STATUS: ", job)
-        dispatch(updateStatusSuccess(id, status));
-        return;
-      })
-      .catch(error => dispatch(updateStatusFailure(error)));
+        console.log("JOB: ", job, "ID: ", id, "STATUS: ", status)
+        dispatch(updateStatusSuccess(id, status))
+        return 
+      }).catch(error => dispatch(updateStatusFailure(error)))
   };
 }

@@ -1,18 +1,13 @@
-import React, { Component } from "react";
+import React from "react";
 import JobEditor from "./JobEditor";
 import JobInstructions from "./JobInstructions";
 import JobViewer from "./JobViewer";
 
-class JobContent extends Component {
-  renderContent = () => {
-    const {
-      latestClick,
-      handleChangeInput,
-      handleChangeTextArea,
-      cancel,
-      edit
-    } = this.props;
+const JobContent = (props) => {
+  let renderContent = () => {
+    const { latestClick, user } = props;
     if (latestClick === "Edit") {
+      const { handleChangeInput, handleChangeTextArea, cancel, edit } = props;
       return (
         <JobEditor
           edit={edit}
@@ -22,9 +17,10 @@ class JobContent extends Component {
         />
       );
     } else if (latestClick === "Show") {
-      const { job, submit,update, deleteSelected } = this.props;
+      const { job, deleteSelected, edit, submit, update } = props;
       return (
         <JobViewer
+          user={user}
           job={job}
           deleteSelected={deleteSelected}
           edit={edit}
@@ -33,19 +29,14 @@ class JobContent extends Component {
         />
       );
     } else if (latestClick === "Cancel") {
-      return <JobViewer />;
+      return <JobViewer user={user} />;
     } else if (latestClick === "New") {
-      return <JobViewer />;
+      return <JobViewer user={user} />;
     } else {
       return <JobInstructions />;
     }
   };
-
-  render() {
-    return (
-      <div className="master-detail-element detail">{this.renderContent()}</div>
-    );
-  }
+  return <div className="master-detail-element detail">{renderContent()}</div>;
 }
 
 export default JobContent;

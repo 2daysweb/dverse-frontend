@@ -36,7 +36,7 @@ class CandidateContainer extends Component {
   };
 
   getCandidates = () => {
-    return this.props.candidates.filter(user => user.user_type == "candidate");
+    return this.props.candidates.filter(user => auth.user_type == "candidate");
   };
 
   handleChangeTextArea = editedBody => {
@@ -81,7 +81,7 @@ class CandidateContainer extends Component {
 const mapStateToProps = state => {
   return {
     candidates: state.candidates.candidates,
-    user: state.user.user
+    user: state.auth.user
   };
 };
 

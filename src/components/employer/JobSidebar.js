@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import JobList from "./JobList";
 import { withRouter } from "react-router-dom";
 
@@ -13,8 +13,6 @@ function JobSidebar(props){
       filteredJobs,
       set
     } = props;
-
-    console.log(filteredJobs())
     return (
       <div className="master-detail-element sidebar">
         <JobList

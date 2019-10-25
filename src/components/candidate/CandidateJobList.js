@@ -53,7 +53,7 @@ class CandidateJobList extends Component {
 const mapStateToProps = state => {
   return {
     jobs: state.jobs.jobs,
-    user: state.user.user
+    user: state.auth.user
   };
 };
 

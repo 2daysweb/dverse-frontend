@@ -2,8 +2,7 @@ import React, { Fragment } from "react";
 import { withRouter } from "react-router-dom";
 
 const JobViewer = props => {
-  let { job, deleteSelected, edit, submit, update } = props;
- 
+  const { user, job, deleteSelected, edit, update } = props;
   let renderButtons = () => {
     let status = job.status;
     switch (status) {
@@ -12,7 +11,7 @@ const JobViewer = props => {
       case "submitted":
       const drafted = "drafted"
         return (
-          <button onClick={() => update(job, drafted)}>
+          <button onClick={() => update(job, drafted, user)}>
             Withdraw Submission to Drafts
           </button>
         );
@@ -21,7 +20,7 @@ const JobViewer = props => {
         return (
           <div>
             <button onClick={() => edit(job)}>Edit</button>
-            <button onClick={() => update(job, submitted)}> Submit For Approval</button>
+            <button onClick={() => update(job, submitted, user)}> Submit For Approval</button>
             <button onClick={() => deleteSelected(job.id)}>Delete</button>
           </div>
         );

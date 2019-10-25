@@ -12,11 +12,7 @@ class SignUpForm extends Component {
     super();
     this.state = {
       email: "",
-      password: "",
-      currUser: {},
-      userType: "",
-      firstName: "",
-      lastName: ""
+      password: ""
     };
   }
   componentDidMount() {
@@ -48,7 +44,7 @@ class SignUpForm extends Component {
   };
 
   handleCandidateSignupSubmit = () => {
-    fetch(BASE_URL + "users", {
+    fetch(BASE_URL + "api/v1/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -67,7 +63,7 @@ class SignUpForm extends Component {
   };
 
   handleEmployerSignupSubmit = () => {
-    fetch(BASE_URL + "users", {
+    fetch(BASE_URL + "api/v1/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -127,7 +123,7 @@ class SignUpForm extends Component {
 
             <Form.Group controlId="formGridAddress1">
               <Form.Label>Address</Form.Label>
-              <Form.Control placeholder="3 Taleex Street, Mogadishu, Somalia" />
+              <Form.Control placeholder="555 DEFAULT STREET" />
             </Form.Group>
 
             <LinkContainer

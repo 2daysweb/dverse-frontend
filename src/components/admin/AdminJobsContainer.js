@@ -71,7 +71,7 @@ class AdminJobsContainer extends Component {
     let title = currJob.title;
     let body = currJob.body;
     let status = "draft";
-    let URL = BASE_URL + "jobs/" + id;
+    let URL = BASE_URL + "api/v1/jobs/" + id;
 
     return fetch(URL, {
       method: "PATCH",
@@ -98,7 +98,7 @@ class AdminJobsContainer extends Component {
     let body = currJob.body;
     let status = "approved";
 
-    let URL = BASE_URL + "jobs/" + id;
+    let URL = BASE_URL + "api/v1/jobs/" + id;
 
     return fetch(URL, {
       method: "PATCH",
@@ -148,12 +148,11 @@ class AdminJobsContainer extends Component {
 const mapStateToProps = state => {
   return {
     jobs: state.jobs.jobs,
-    user: state.user.user
+    user: state.auth.user
   };
 };
 
 const mapDispatchToProps = dispatch => {
-  console.log(fetchJobs());
   return {
     fetchJobs: () => {
       dispatch(fetchJobs());

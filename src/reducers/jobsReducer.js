@@ -121,11 +121,11 @@ export default function jobsReducer(state = initialState, action) {
     case UPDATE_STATUS_SUCCESS:
       return {
         ...state,
-        latestClick:"",
+        latestClick: "",
         loading: false,
         error: null,
         jobs: state.jobs.map(job => {
-           return job.id === action.payload.id ? 
+          return job.id === action.payload.id ? 
           {...job, status: action.payload.status} : job
         }
         )

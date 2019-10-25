@@ -7,9 +7,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
 const NavBar = props => {
-  
   const { user, history } = props;
-  
   let logout = () => {
     history.push("/login");
     props.logout();
@@ -136,12 +134,6 @@ const NavBar = props => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    user: state.auth.user
-  };
-};
-
 const mapDispatchToProps = dispatch => {
   return {
     logout: () => {
@@ -151,6 +143,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(withRouter(NavBar));

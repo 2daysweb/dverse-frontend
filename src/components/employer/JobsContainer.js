@@ -12,8 +12,6 @@ import {
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
-const BASE_URL = "https://dverse-staffing-backend.herokuapp.com/";
-
 class JobsContainer extends Component {
   componentDidMount = () => {
     const { fetchJobs } = this.props;
@@ -27,12 +25,12 @@ class JobsContainer extends Component {
   };
   getDraftedJobs = () => {
     const { jobs } = this.props;
-    let draftedJobs = jobs.filter(job => job.status === "draft");
+    const draftedJobs = jobs.filter(job => job.status === "draft");
     return draftedJobs;
   };
   getSubmittedJobs = () => {
     const { jobs } = this.props;
-    let submittedJobs = jobs.filter(job => job.status === "submitted");
+    const submittedJobs = jobs.filter(job => job.status === "submitted");
     return submittedJobs;
   };
   getFilteredJobs = () => {
@@ -50,22 +48,6 @@ class JobsContainer extends Component {
     }
   };
 
-  submit = () => {
-    const { job } = this.props;
-    const id = job.id;
-    let submittedJob = this.updateJob(job);
-    submittedJob.status = "submitted";
-
-    return fetch(BASE_URL + "jobs/" + id, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: JSON.stringify(submittedJob)
-    }).then(response => response.json());
-  };
-
   render() {
     const {
       user,
@@ -75,7 +57,6 @@ class JobsContainer extends Component {
       title,
       createJob,
       deleteSelected,
-      editJob,
       setJob,
       updateStatus
     } = this.props;
@@ -89,6 +70,7 @@ class JobsContainer extends Component {
             set={setJob}
           />
           <Content
+            user={user}
             latestClick={latestClick}
             job={job}
             body={body}
@@ -98,7 +80,6 @@ class JobsContainer extends Component {
             deleteSelected={deleteSelected}
             handleChangeInput={this.handleChangeInput}
             handleChangeTextArea={this.handleChangeTextArea}
-            submit={this.submit}
             update={updateStatus}
           />
         </div>
@@ -109,7 +90,6 @@ class JobsContainer extends Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.auth.user,
     latestClick: state.jobs.latestClick,
     jobs: state.jobs.jobs,
     job: state.jobs.selectedJob,
@@ -135,8 +115,8 @@ const mapDispatchToProps = dispatch => {
     setJob: job => {
       dispatch(setJob(job));
     },
-    updateStatus: (job, status) => {
-      dispatch(updateStatus(job, status))
+    updateStatus: (job, status, user) => {
+      dispatch(updateStatus(job, status, user))
     }
   };
 };
