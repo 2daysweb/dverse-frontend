@@ -3,7 +3,7 @@ import {
   FETCH_CANDIDATES_SUCCESS,
   FETCH_CANDIDATES_FAILURE,
   SELECT_CANDIDATE
-} from "../actions/index";
+} from "../actions";
 
 const initialState = {
   candidates: [],
@@ -12,7 +12,7 @@ const initialState = {
   selectedCandidate: null
 };
 
-export default function candidatesReducer(state = initialState, action) {
+ const candidatesReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_CANDIDATES_BEGIN:
       return {
@@ -46,3 +46,5 @@ export default function candidatesReducer(state = initialState, action) {
       return state;
   }
 }
+
+export default candidatesReducer

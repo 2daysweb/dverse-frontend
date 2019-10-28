@@ -3,7 +3,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
   LOGOUT
-} from "../actions/index";
+} from "../actions";
 
 const initialState = {
   user: null,
@@ -15,32 +15,32 @@ const initialState = {
   token: null
 };
 
-export default function UserReducer(state = initialState, action) {
+const AuthReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_BEGIN:
       state = {
         ...state,
         loading: true,
-        email: action.email,
-        password: action.password
+        email: action.payload.email,
+        password: action.payload.password
       };
       return state;
     case LOGIN_SUCCESS:
       state = {
         ...state,
-        user: action.user,
+        user: action.payload.user,
         loggedIn: true,
         loading: false,
         email: "",
         password: "",
-        token: action.token
+        token: action.payload.token
       };
       return state;
     case LOGIN_FAILURE:
       state = {
         ...state,
         loading: false,
-        error: action.error,
+        error: action.payload.error,
         failure: true
       };
       return state;
@@ -51,3 +51,5 @@ export default function UserReducer(state = initialState, action) {
       return state;
   }
 }
+
+export default AuthReducer

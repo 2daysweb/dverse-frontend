@@ -31,32 +31,41 @@ export const UPDATE_STATUS_BEGIN = "UPDATE_STATUS_BEGIN";
 export const UPDATE_STATUS_SUCCESS = "UPDATE_STATUS_SUCCESS";
 export const UPDATE_STATUS_FAILURE = "UPDATE_STATUS_FAILURE";
 
+export const SET_VISIBILITY_FILTER = "SET_VISIBILITY_FILTER";
+export const VisibilityFilters = {
+  SHOW_ALL: "SHOW_ALL",
+  SHOW_DRAFTED: "SHOW_DRAFTED",
+  SHOW_SUBMITTED: "SHOW_SUBMITTED",
+  SHOW_APPROVED: "SHOW_APPROVED"
+};
+
 //-------------------------------------------TYPES----------------------------------//--------------------------------
 
 export const loginBegin = (email, password) => ({
   type: LOGIN_BEGIN,
-  email: email,
-  password: password
+  payload: { email, password }
 });
 
 export const loginSuccess = data => {
   return {
     type: LOGIN_SUCCESS,
-    token: data.token,
-    user: data.user
+    payload: {
+      token: data.token,
+      user: data.user
+    }
   };
 };
 
 export const loginFailure = () => ({
   type: LOGIN_FAILURE,
-  failure: true
+  payload: { failure: true }
 });
 
 export const logout = () => ({
   type: LOGOUT
 });
 
-//-------------------------------------------------CREATORS------------------------------//------------------------------------
+//------------------------------------------CREATORS------------------------------//------------------------------------
 
 export const fetchCandidatesBegin = () => ({
   type: FETCH_CANDIDATES_BEGIN
@@ -126,6 +135,11 @@ export const selectJob = job => ({
   payload: { job }
 });
 
+export const setFilter = filter => ({
+  type: SET_VISIBILITY_FILTER,
+  payload: { filter }
+});
+
 export const updateStatusBegin = () => {
   return {
     type: UPDATE_STATUS_BEGIN
@@ -133,8 +147,8 @@ export const updateStatusBegin = () => {
 };
 
 export const updateStatusSuccess = (id, status) => ({
-    type: UPDATE_STATUS_SUCCESS,
-    payload: { id, status }
+  type: UPDATE_STATUS_SUCCESS,
+  payload: { id, status }
 });
 
 export const updateStatusFailure = error => {
@@ -144,11 +158,11 @@ export const updateStatusFailure = error => {
   };
 };
 
-//------------------------------------------------------HELPERS----------------------------------------------------------------//
+//------------------------------------------HELPERS----------------------------------------------------------------//
 
 const BASE_URL = "https://dverse-staffing-backend.herokuapp.com/";
 
-export function setUser(email, password) {
+export const setUser = (email, password) => {
   return dispatch => {
     dispatch(loginBegin(email, password));
     fetch(BASE_URL + "api/v1/login", {
@@ -173,11 +187,11 @@ export function setUser(email, password) {
         }
       });
   };
-}
+};
 
 //----------------------------------------------------HELPERS-----------------------------------------------//
 
-export function createJob(id) {
+export const createJob = id => {
   return dispatch => {
     dispatch(createJobBegin());
     return fetch(BASE_URL + "api/v1/jobs", {
@@ -197,9 +211,9 @@ export function createJob(id) {
       })
       .catch(error => dispatch(createJobFailure(error)));
   };
-}
+};
 
-export function deleteSelected(id) {
+export const deleteSelected = id => {
   return dispatch => {
     dispatch(deleteJobBegin());
     return fetch(BASE_URL + "api/v1/jobs/" + id, {
@@ -217,13 +231,13 @@ export function deleteSelected(id) {
       })
       .catch(error => dispatch(deleteJobFailure(error)));
   };
-}
+};
 
-export function editJob() {
+export const editJob = () => {
   return null;
-}
+};
 
-export function fetchCandidates() {
+export const fetchCandidates = () => {
   return dispatch => {
     dispatch(fetchCandidatesBegin());
     return fetch(BASE_URL + "api/v1/users")
@@ -234,26 +248,27 @@ export function fetchCandidates() {
       })
       .catch(error => dispatch(fetchCandidatesFailure(error)));
   };
-}
+};
 
-export function fetchJobs() {
+export const fetchJobs = () => {
   return dispatch => {
     dispatch(fetchJobsBegin());
     return fetch(BASE_URL + "api/v1/jobs")
       .then(resp => resp.json())
-      .then(jobs => {console.log("IN FETCH JOBS JOBS: ", jobs)
-        dispatch(fetchJobsSuccess(jobs));
-        return;
-      })
+      .then(jobs => dispatch(fetchJobsSuccess(jobs)))
       .catch(error => dispatch(fetchJobsFailure(error)));
   };
-}
+};
 
-export function setJob(job) {
+export const setVisibilityFilter = filter => {
+  return setFilter(filter);
+};
+
+export const setSelected = job => {
   return selectJob(job);
-}
+};
 
-export function updateStatus(job, status, user) {
+export const updateStatus = (job, status, user) => {
   const { id } = job;
   const user_id = user.id;
   return dispatch => {
@@ -267,10 +282,7 @@ export function updateStatus(job, status, user) {
       body: JSON.stringify({ id: id, status: status, user_id: user_id })
     })
       .then(resp => resp.json())
-      .then(job => {
-        console.log("JOB: ", job, "ID: ", id, "STATUS: ", status)
-        dispatch(updateStatusSuccess(id, status))
-        return 
-      }).catch(error => dispatch(updateStatusFailure(error)))
+      .then(job => dispatch(updateStatusSuccess(id, status)))
+      .catch(error => dispatch(updateStatusFailure(error)));
   };
-}
+};

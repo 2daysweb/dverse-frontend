@@ -14,8 +14,9 @@ import {
   SELECT_JOB,
   UPDATE_STATUS_BEGIN,
   UPDATE_STATUS_SUCCESS,
-  UPDATE_STATUS_FAILURE
-} from "../actions/index";
+  UPDATE_STATUS_FAILURE,
+  VisibilityFilters
+} from "../actions";
 
 const initialState = {
   latestClick: "",
@@ -27,7 +28,7 @@ const initialState = {
   title: ""
 };
 
-export default function jobsReducer(state = initialState, action) {
+const jobsReducer = (state = initialState, action) => {
   switch (action.type) {
     case CREATE_JOB_BEGIN:
       return { ...state, loading: true, error: null };
@@ -56,7 +57,7 @@ export default function jobsReducer(state = initialState, action) {
     case DELETE_JOB_SUCCESS:
       return {
         ...state,
-        latestClick:"",
+        latestClick: "",
         loading: false,
         error: null,
         jobs: state.jobs.filter(job => job.id !== action.payload.id)
@@ -105,7 +106,6 @@ export default function jobsReducer(state = initialState, action) {
         error: action.payload.error
       };
     case SELECT_JOB:
-      console.log("SELECTED_JOB", action.payload.job)
       return {
         ...state,
         latestClick: "Show",
@@ -121,14 +121,14 @@ export default function jobsReducer(state = initialState, action) {
     case UPDATE_STATUS_SUCCESS:
       return {
         ...state,
-        latestClick: "",
+        latestClick: "Show",
         loading: false,
         error: null,
         jobs: state.jobs.map(job => {
-          return job.id === action.payload.id ? 
-          {...job, status: action.payload.status} : job
-        }
-        )
+          return job.id === action.payload.id
+            ? { ...job, status: action.payload.status }
+            : job;
+        })
       };
     case UPDATE_STATUS_FAILURE:
       return {
@@ -137,4 +137,21 @@ export default function jobsReducer(state = initialState, action) {
         error: action.payload.error
       };
   }
-}
+};
+
+export const getVisibleJobs = (jobs, filter) => {
+  switch (filter) {
+    case VisibilityFilters.SHOW_ALL:
+      return jobs;
+    case VisibilityFilters.SHOW_DRAFTED:
+      return jobs.filter(j => j.status === "draft");
+    case VisibilityFilters.SHOW_SUBMITTED:
+      return jobs.filter(j => j.status === "submitted");
+    case VisibilityFilters.SHOW_APPROVED:
+      return jobs.filter(j => j.status === "approved");
+    default:
+      throw new Error("Unknown filter: " + filter);
+  }
+};
+
+export default jobsReducer;
