@@ -1,14 +1,4 @@
 import React from "react";
-import { LinkContainer } from "react-router-bootstrap";
-import {
-  Button,
-  Col,
-  Nav,
-  Navbar,
-  Form,
-  FormControl,
-  Row
-} from "react-bootstrap";
 import { logout } from "../../../actions";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
@@ -22,15 +12,15 @@ const NavBar = props => {
   const {
     user,
     history,
-    location: { pathname }
+    location: { pathname },
   } = props;
+
 
   if (pathname === "/admin") {
     return null;
   }
-
   const logout = () => {
-    history.push("/login");
+    history.push("/");
     props.logout();
   };
 

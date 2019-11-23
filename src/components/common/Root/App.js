@@ -8,10 +8,12 @@ import CandidateDashboard from "../../candidate/Dashboard";
 import CandidateJobsContainer from "../../../containers/candidate/JobsContainer";
 import EmployerDashboard from "../../employer/Dashboard";
 import EmployerJobsContainer from "../../../containers/employer/JobsContainer";
+import FilterBar from "../../../components/common/FilterBar";
 import Landing from "../../common/Landing";
 import Login from "../../common/Login";
 import NavBar from "../../common/Nav";
 import Profile from "../../common/Profile";
+import {setVisibilityFilter} from '../../../actions'
 import SignUp from "../../common/SignUp";
 
 class App extends Component {
@@ -32,7 +34,7 @@ class App extends Component {
   };
 
   render() {
-    const { user, loggedIn } = this.props;
+    const { user, loggedIn, setVisibilityFilter } = this.props;
     return (
       <div className="app">
         <NavBar user={user} />
@@ -50,12 +52,15 @@ class App extends Component {
           <Route
             exact
             path="/admindashboard"
-            render={() => <AdminDashboard />}
+            render={props => {
+              console.log(props.children);
+              return <AdminDashboard />;
+            }}
           />
           <Route
             exact
             path="/submittedjobs"
-            render={props => <AdminJobsContainer user={props.user} />}
+            render={props => <AdminJobsContainer user={user} />}
           />
           <Route
             exact
@@ -65,19 +70,21 @@ class App extends Component {
           <Route
             exact
             path="/employerdashboard"
-            render={() => <EmployerDashboard />}
+            render={props => {
+              console.log(props);
+              return <EmployerDashboard />;
+            }}
           />
           <Route
             exact
             path="/alljobs"
-            render={() => <EmployerJobsContainer user={user} />}
+            render={() => (
+              <>
+                <FilterBar setFilter={setVisibilityFilter} />
+                <EmployerJobsContainer user={user} />
+              </>
+            )}
           />
-          <Route
-            exact
-            path="/pendingjobs"
-            render={() => <EmployerJobsContainer user={user} />}
-          />
-
           <Route
             exact
             path="/employerjobs"
@@ -119,13 +126,23 @@ class App extends Component {
   }
 }
 const mapStateToProps = state => {
-  return {
-    loggedIn: state.auth.loggedIn,
-    user: state.auth.user
+ 
+    const {auth:{loggedIn, user}, jobs: {jobs}
+    } = state
+    return {
+    jobs:jobs,
+    loggedIn: loggedIn,
+    user: user
   };
 };
-
+const mapDispatchToProps = dispatch => {
+  return {
+    setVisibilityFilter: filter => {
+      dispatch(setVisibilityFilter(filter));
+    }
+  };
+};
 export default connect(
   mapStateToProps,
-  null
+ mapDispatchToProps
 )(App);

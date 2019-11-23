@@ -1,28 +1,30 @@
 import React from "react";
-import FilterLink from "../FilterLink";
+import FilterBtn from "../FilterBtn";
+import styles from './index.css'
 import { VisibilityFilters } from "../../../actions";
 
-const Footer = props => {
+
+const FilterBar = props => {
   const { setFilter } = props;
 
   return (
-    <div>
-      <FilterLink
+    <div className={'filter-bar-container'} >
+      <FilterBtn
         setFilter={setFilter}
         filter={VisibilityFilters.SHOW_ALL}
         name={"All"}
       />
-      <FilterLink
+      <FilterBtn
         setFilter={setFilter}
         filter={VisibilityFilters.SHOW_DRAFTED}
         name={"Approved"}
       />
-      <FilterLink
+      <FilterBtn
         setFilter={setFilter}
         filter={VisibilityFilters.SHOW_SUBMITTED}
         name={"Submitted"}
       />
-      <FilterLink
+      <FilterBtn
         setFilter={setFilter}
         filter={VisibilityFilters.SHOW_DRAFTED}
         name={"Drafted"}
@@ -31,4 +33,4 @@ const Footer = props => {
   );
 };
 
-export default Footer;
+export default FilterBar;

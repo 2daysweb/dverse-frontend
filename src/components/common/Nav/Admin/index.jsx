@@ -2,12 +2,8 @@ import React from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import {
   Button,
-  Col,
   Nav,
-  Navbar,
-  Form,
-  FormControl,
-  Row
+  Navbar
 } from "react-bootstrap";
 
 const Admin = props => {

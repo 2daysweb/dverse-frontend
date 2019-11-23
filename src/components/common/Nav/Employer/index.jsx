@@ -21,12 +21,6 @@ const Employer = (props) => {
         <LinkContainer to="/candidates">
           <Nav.Link>Candidates</Nav.Link>
         </LinkContainer>
-        <LinkContainer to="/employjobs">
-          <Nav.Link>Active Jobs</Nav.Link>
-        </LinkContainer>
-        <LinkContainer to="/pendingjobs">
-          <Nav.Link>Pending Approval</Nav.Link>
-        </LinkContainer>
         <LinkContainer to="/draftjobs">
           <Nav.Link>Post a Job</Nav.Link>
         </LinkContainer>

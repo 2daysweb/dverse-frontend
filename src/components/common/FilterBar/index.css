@@ -1,0 +1,15 @@
+.filter-bar-container {
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.filter-bar-container > button {
+        height:75px;
+        width: 100px;
+        margin:10px;
+    } 
+.filter-bar-container > button:focus {
+        background-color:rgb(34, 55, 241);
+    } 

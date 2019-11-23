@@ -144,7 +144,7 @@ export const getVisibleJobs = (jobs, filter) => {
     case VisibilityFilters.SHOW_ALL:
       return jobs;
     case VisibilityFilters.SHOW_DRAFTED:
-      return jobs.filter(j => j.status === "draft");
+      return jobs.filter(j => j.status === "drafted");
     case VisibilityFilters.SHOW_SUBMITTED:
       return jobs.filter(j => j.status === "submitted");
     case VisibilityFilters.SHOW_APPROVED:

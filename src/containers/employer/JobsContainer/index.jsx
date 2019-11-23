@@ -2,7 +2,6 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import JobContent from "../../../components/employer/JobContent";
-import Footer from "../../../components/common/Footer";
 import JobSidebar from "../../../components/employer/JobSidebar";
 import {
   createJob,
@@ -10,7 +9,6 @@ import {
   editJob,
   fetchJobs,
   setSelected,
-  setVisibilityFilter,
   updateStatus
 } from "../../../actions";
 import { getVisibleJobs } from "../../../reducers/jobsReducer";
@@ -32,14 +30,12 @@ class JobsContainer extends Component {
       createJob,
       deleteSelected,
       setSelected,
-      setVisibilityFilter,
       updateStatus
     } = this.props;
 
     return (
       <Fragment>
-        <Footer setFilter={setVisibilityFilter} />
-        <div className="container">
+        <div className={'container'}>
           <JobSidebar
             id={user.id}
             jobs={jobs}
@@ -89,9 +85,6 @@ const mapDispatchToProps = dispatch => {
     },
     fetchJobs: () => {
       dispatch(fetchJobs());
-    },
-    setVisibilityFilter: filter => {
-      dispatch(setVisibilityFilter(filter));
     },
     setSelected: job => {
       dispatch(setSelected(job));
