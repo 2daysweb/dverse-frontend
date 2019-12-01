@@ -59,13 +59,14 @@ class JobsContainer extends Component {
 
 const mapStateToProps = state => {
   const {
+    auth: { user },
     jobs: { latestClick, jobs, selectedJob, body, title },
     visibilityFilter
   } = state;
 
   return {
     latestClick: latestClick,
-    jobs: getVisibleJobs(jobs, visibilityFilter),
+    jobs: getVisibleJobs(user, jobs, visibilityFilter),
     job: selectedJob,
     body: body,
     title: title

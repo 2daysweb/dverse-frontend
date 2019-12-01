@@ -139,19 +139,39 @@ const jobsReducer = (state = initialState, action) => {
   }
 };
 
-export const getVisibleJobs = (jobs, filter) => {
+//temp fix to get user jobs
+
+async function getUsers() {
+  const resp = await fetch(
+    "https://dverse-staffing-backend.herokuapp.com/api/v1/users"
+  );
+  const users = await resp.json();
+  return users.map(u => u.id);
+}
+
+const populateUserJobs = (jobs, obj) => {
+   jobs.forEach(j => j.users.forEach(u => 
+    obj.userJobs[u.id].push(j)))
+    return obj
+}
+
+export async function getVisibleJobs(user, jobs, filter) {
+  const users = await getUsers();
+  let tempHash = await { userJobs: Object.assign(...users.map(k => ({ [k]: [] }))) };
+  let userJobs = await populateUserJobs(jobs, tempHash)
+  debugger
   switch (filter) {
     case VisibilityFilters.SHOW_ALL:
-      return jobs;
+      return tempHash[userJobs[user.id]];
     case VisibilityFilters.SHOW_DRAFTED:
-      return jobs.filter(j => j.status === "drafted");
+      return tempHash[userJobs].filter(j => (j.status === "drafted" && j.users.includes(user.id)));
     case VisibilityFilters.SHOW_SUBMITTED:
-      return jobs.filter(j => j.status === "submitted");
+      return tempHash[userJobs[user.id]].filter(j => j.status === "submitted");
     case VisibilityFilters.SHOW_APPROVED:
-      return jobs.filter(j => j.status === "approved");
+      return tempHash[userJobs[user.id]].filter(j => j.status === "approved");
     default:
       throw new Error("Unknown filter: " + filter);
   }
-};
+}
 
 export default jobsReducer;
