@@ -2,12 +2,8 @@ import React from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import {
   Button,
-  Col,
   Nav,
   Navbar,
-  Form,
-  FormControl,
-  Row
 } from "react-bootstrap";
 
 const Employer = (props) => {

@@ -1,20 +1,11 @@
 import {
-  CREATE_JOB_BEGIN,
-  CREATE_JOB_SUCCESS,
-  CREATE_JOB_FAILURE,
-  DELETE_JOB_BEGIN,
-  DELETE_JOB_SUCCESS,
-  DELETE_JOB_FAILURE,
-  EDIT_JOB_BEGIN,
-  EDIT_JOB_SUCCESS,
-  EDIT_JOB_CANCEL,
-  FETCH_JOBS_BEGIN,
-  FETCH_JOBS_SUCCESS,
-  FETCH_JOBS_FAILURE,
+  CREATE_JOB_BEGIN, CREATE_JOB_SUCCESS, CREATE_JOB_FAILURE,
+  DELETE_JOB_BEGIN, DELETE_JOB_SUCCESS, DELETE_JOB_FAILURE,
+  EDIT_JOB_BEGIN,EDIT_JOB_CANCEL,
+  SAVE_JOB_BEGIN, SAVE_JOB_SUCCESS, SAVE_JOB_FAILURE,
+  REQUEST_JOBS_BEGIN, REQUEST_JOBS_SUCCESS, REQUEST_JOBS_FAILURE,
   SELECT_JOB,
-  UPDATE_STATUS_BEGIN,
-  UPDATE_STATUS_SUCCESS,
-  UPDATE_STATUS_FAILURE,
+  UPDATE_STATUS_BEGIN, UPDATE_STATUS_SUCCESS, UPDATE_STATUS_FAILURE,
   VisibilityFilters
 } from "../actions";
 
@@ -24,10 +15,7 @@ const initialState = {
   error: null,
   jobs: [],
   selectedJob: null,
-  body: "",
-  title: ""
 };
-
 const jobsReducer = (state = initialState, action) => {
   switch (action.type) {
     case CREATE_JOB_BEGIN:
@@ -40,7 +28,6 @@ const jobsReducer = (state = initialState, action) => {
         error: null,
         jobs: [...state.jobs.slice(), action.payload.job]
       };
-
     case CREATE_JOB_FAILURE: {
       return {
         ...state,
@@ -60,7 +47,8 @@ const jobsReducer = (state = initialState, action) => {
         latestClick: "",
         loading: false,
         error: null,
-        jobs: state.jobs.filter(job => job.id !== action.payload.id)
+        jobs: state.jobs.filter(job => job.id !== state.selectedJob.id),
+        selectedJob:null
       };
     case DELETE_JOB_FAILURE:
       return {
@@ -68,38 +56,48 @@ const jobsReducer = (state = initialState, action) => {
         loading: false,
         error: action.payload.error
       };
-
     case EDIT_JOB_BEGIN:
       return {
         ...state,
-        latestClick: "Edit",
-        body: action.payload.body,
-        title: action.payload.title
+        latestClick: "Edit"
       };
-    case EDIT_JOB_SUCCESS:
-      return {
-        state
-      };
-    case EDIT_JOB_CANCEL:
+      case EDIT_JOB_CANCEL:
+        return {
+          ...state,
+          latestClick: ""
+        };
+    case SAVE_JOB_BEGIN:
       return {
         ...state,
-        latestClick: "Show"
+        loading:true
       };
+    case SAVE_JOB_SUCCESS:
+      return {
+        ...state,
+        latestClick: "Show",
+        loading:false
+      };
+      case SAVE_JOB_FAILURE:
+        return {
+          ...state,
+          latestClick: "",
+          loading:false
+        };
     default:
       return state;
-    case FETCH_JOBS_BEGIN:
+    case REQUEST_JOBS_BEGIN:
       return {
         ...state,
         loading: true,
         error: null
       };
-    case FETCH_JOBS_SUCCESS:
+    case REQUEST_JOBS_SUCCESS:
       return {
         ...state,
         loading: false,
         jobs: action.payload.jobs
       };
-    case FETCH_JOBS_FAILURE:
+    case REQUEST_JOBS_FAILURE:
       return {
         ...state,
         loading: false,
@@ -117,7 +115,6 @@ const jobsReducer = (state = initialState, action) => {
         loading: true,
         error: null
       };
-
     case UPDATE_STATUS_SUCCESS:
       return {
         ...state,
@@ -138,8 +135,10 @@ const jobsReducer = (state = initialState, action) => {
       };
   }
 };
-
 export const getVisibleJobs = (jobs, filter) => {
+  console.log(jobs, filter)
+  let user = JSON.parse(JSON.parse(localStorage.getItem("persist:root")).auth).user.email
+  debugger 
   switch (filter) {
     case VisibilityFilters.SHOW_ALL:
       return jobs;

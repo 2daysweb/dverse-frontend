@@ -5,8 +5,8 @@ const JobList = props => {
   const { jobs, setSelected } = props;
   return (
     <ul>
-      {jobs.length? (jobs.map(job => (
-        <Job key={job.id} job={job} setSelected={setSelected} />))):(null)
+      {jobs.length? (jobs.map(job => 
+        <Job key={job.id} job={job} setSelected={setSelected} />)):(null)
         }
     </ul>
   );

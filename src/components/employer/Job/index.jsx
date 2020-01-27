@@ -1,6 +1,6 @@
 import React from "react";
 
-const Job = props => {
+const Job = ({ job, setSelected }) => {
   const truncateBody = body => {
     if (body) {
       let truncated = body.substring(0, 6);
@@ -9,12 +9,11 @@ const Job = props => {
     }
     return "default";
   };
-
-  const { job, setSelected } = props;
   return (
     <li onClick={() => setSelected(job)}>
       <h2> {job.title} </h2>
       <p> {truncateBody(job.body)} </p>
+      <p>Status: {job.status}</p>
     </li>
   );
 };

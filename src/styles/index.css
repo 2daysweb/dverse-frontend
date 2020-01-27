@@ -2,27 +2,20 @@
 
 * {
   font-family: 'Arial, Helvetica, sans-serif'	
-	
 }
-
 body {
   margin: 0;
   padding: 0;
   background-color: #4A9EEC;
 }
-
-
-/* Styles */
 h2, input[name="title"], textarea {
   font-family: 'Arial, Helvetica, sans-serif'	
 }
-
 p.instructions {
 	font-family: monospace;
 	font-size: 32px;
 	text-align: center;
 }
-
 .job-editor input[name="title"] {
   font-size: 24px;
   font-weight: 700;
@@ -30,14 +23,12 @@ p.instructions {
   margin: 0.5em 0;
   box-sizing: border-box;
 }
-
 .job-editor textarea {
   font-size: 1em;
   border: 1px solid grey;
   box-sizing: border-box;
   resize: none;
 }
-
 .nav-bar {
   width: 100%;
   background-image: linear-gradient(to right top, #8C33E3, #696CE8, #4A9EEC);
@@ -53,13 +44,11 @@ p.instructions {
   align-items: center;
   margin-bottom: 10px;
 }
-
 .nav-item {
   list-style: none;
   color: white;
   padding: 4px;
 }
-
 .filter {
   display: flex;
   flex-direction: row;
@@ -67,61 +56,48 @@ p.instructions {
   align-items: center;
   border: 2px solid grey;
 }
-
 input {
   font-size: 24px;
   height: 40px;
   width: 100%;
   border: none;
 }
-
-
 span{
   margin: 0 23em 0 0; 
 }
-
 input::placeholder {
   padding-left: 10px;
   color: rgba(0, 0, 0, 0.55);
   font-weight: bolder;
 }
-
 div.sidebar button {
   width: 100%;
 }
-
 div.sidebar ul {
   margin: 0 0 20px 0;
   padding: 0;
   display: flex;
   flex-direction: column;
 }
-
 div.sidebar ul li {
   list-style: none;
   border-bottom: 1px solid grey;
   padding: 0 5px;
 }
-
 div.sidebar ul li:first-child {
   border-top: 1px solid grey;
 }
-
 div.sidebar ul li:hover {
   background-image: linear-gradient(#E6E6E6, #F7F7F7);
   background-repeat: no-repeat;
   background-color: #4A9EEC;
 }
-
-
-/* Layout Styles */
 .app {
   display: flex;
   flex-direction: column;
   height: calc(100vh - 10px);
   margin: 10px 10px 0 10px;
 }
-
 .container {
   flex: 1;
   width: 100%;
@@ -129,62 +105,48 @@ div.sidebar ul li:hover {
   flex-direction: row;
   justify-content: space-between;
 }
-
 .master-detail-element {
   float:left;
   margin: 10px 0px;
   padding: 20px;
   border: 2px solid grey;
 }
-
 .sidebar {
   width:25%;
   overflow: scroll;
 }
-
 .detail {
   width:75%;
 }
-
 .job-editor {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
-
 .job-editor textarea {
   flex: 1;
 }
-
 .button-row {
   margin-top: 10px;
 }
-
-
-/* Button Style */
 input[type="submit"] {
   height: auto;
   width: auto;
 }
-
 .container{
   display: flex
 }
-
 .nav-bar:hover, input[type="submit"]:hover {
   background-image: linear-gradient(to right top, #B32, #E94057, #F27121);
   background-repeat: no-repeat;
 }
-
 button:focus, input[type="submit"]:focus {
   outline: none;
 }
-
 @media all and (min-width: 480px) {
   .Login {
     padding: 60px 0;
   }
-
   .Login form {
     margin: 0 auto;
     max-width: 320px;

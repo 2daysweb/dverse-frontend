@@ -1,7 +1,7 @@
 import {
-  FETCH_CANDIDATES_BEGIN,
-  FETCH_CANDIDATES_SUCCESS,
-  FETCH_CANDIDATES_FAILURE,
+  REQUEST_CANDIDATES_BEGIN,
+  REQUEST_CANDIDATES_SUCCESS,
+  REQUEST_CANDIDATES_FAILURE,
   SELECT_CANDIDATE
 } from "../actions";
 
@@ -14,20 +14,20 @@ const initialState = {
 
  const candidatesReducer = (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_CANDIDATES_BEGIN:
+    case REQUEST_CANDIDATES_BEGIN:
       return {
         ...state,
         loading: true,
         error: null
       };
 
-    case FETCH_CANDIDATES_SUCCESS:
+    case REQUEST_CANDIDATES_SUCCESS:
       return {
         ...state,
         loading: false,
         candidates: action.payload.candidates
       };
-    case FETCH_CANDIDATES_FAILURE:
+    case REQUEST_CANDIDATES_FAILURE:
       return {
         ...state,
         loading: false,

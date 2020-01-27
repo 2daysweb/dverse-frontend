@@ -1,13 +1,8 @@
 import React from "react";
 import { LinkContainer } from "react-router-bootstrap";
-import {
-  Button,
-  Col,
+import { 
   Nav,
-  Navbar,
-  Form,
-  FormControl,
-  Row
+  Navbar
 } from "react-bootstrap";
 
 const Login = () => {

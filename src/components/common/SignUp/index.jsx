@@ -1,13 +1,9 @@
 import React, { Component } from "react";
-import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import { LinkContainer } from "react-router-bootstrap";
 import { withRouter } from "react-router-dom";
 import Candidate from "./Candidate";
 import Employer from "./Employer";
 
-const BASE_URL = "https://dverse-staffing-backend.herokuapp.com/";
+const BASE_URL = "http://localhost:3000/";
 
 class SignUp extends Component {
   state = {
@@ -32,7 +28,7 @@ class SignUp extends Component {
   };
 
   handleSubmitCandidate = () => {
-    fetch(BASE_URL + "api/v1/users", {
+    fetch(BASE_URL + "api/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -46,7 +42,7 @@ class SignUp extends Component {
   };
 
   handleSubmitEmployer = () => {
-    fetch(BASE_URL + "api/v1/users", {
+    fetch(BASE_URL + "api/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

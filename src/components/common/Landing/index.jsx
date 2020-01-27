@@ -84,7 +84,6 @@ class Landing extends Component {
         <Row>
           <Jumbotron>
             <p>
-              {" "}
               Dverse is dedicated to providing employers and job seekers with
               the best possible matches, ever, ever, ever...! Please select the
               option that best describes your needs today!

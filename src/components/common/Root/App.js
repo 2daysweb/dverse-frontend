@@ -53,7 +53,6 @@ class App extends Component {
             exact
             path="/admindashboard"
             render={props => {
-              console.log(props.children);
               return <AdminDashboard />;
             }}
           />
@@ -71,7 +70,6 @@ class App extends Component {
             exact
             path="/employerdashboard"
             render={props => {
-              console.log(props);
               return <EmployerDashboard />;
             }}
           />

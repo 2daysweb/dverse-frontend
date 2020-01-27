@@ -1,14 +1,12 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { withRouter } from "react-router-dom";
 
-const JobViewer = props => {
-  const { location, user, job, deleteSelected, edit, update } = props;
-  let renderButtons = () => {
-    const pathname = location.pathname;
+const JobViewer = ({ location, user, job, deleteSelected, edit, update }) => {
+  const renderButtons = () => {
+    const {pathname} = location
     switch (pathname) {
       case "/pendingjobs":
-        const drafted = "draft";
-
+        const drafted = "drafted";
         return (
           <button onClick={() => update(job, drafted, user)}>
             Withdraw Submission to Drafts
@@ -20,7 +18,6 @@ const JobViewer = props => {
           <div>
             <button onClick={() => edit(job)}>Edit</button>
             <button onClick={() => update(job, submitted, user)}>
-              {" "}
               Submit For Approval
             </button>
             <button onClick={() => deleteSelected(job.id)}>Delete</button>
@@ -32,11 +29,11 @@ const JobViewer = props => {
   };
 
   return (
-    <Fragment>
-      <h2>{job.title}</h2>
+    <>
+      <h2>{job.title}</h2><li>Status: {job.status}</li>
       <p>{job.body}</p>
       {renderButtons()}
-    </Fragment>
+    </>
   );
 };
 

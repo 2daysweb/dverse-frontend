@@ -1,12 +1,10 @@
 import React from "react";
 import FilterBtn from "../FilterBtn";
-import styles from './index.css'
+import styles from './styles.css'
 import { VisibilityFilters } from "../../../actions";
 
 
-const FilterBar = props => {
-  const { setFilter } = props;
-
+const FilterBar = ({setFilter}) => {
   return (
     <div className={'filter-bar-container'} >
       <FilterBtn

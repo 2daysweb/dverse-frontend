@@ -1,28 +1,24 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Form, Button } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
 import { setUser } from "../../../actions";
 
-const Login = props => {
+const Login = ({setUser}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [submitted, setSubmitted] = useState(false);
-
   const handleChange = e => {
     e.persist();
     const { name, value } = e.target;
     name === "email" ? setEmail(value) : setPassword(value);
   };
-
   const handleLoginSubmit = e => {
     e.preventDefault();
-    const { setUser } = props;
     return setUser(email, password);
   };
   return (
     <div>
-      <Fragment>
+      <>
         <h1>Administrator Login</h1>
         <Form onSubmit={e => handleLoginSubmit(e)}>
           <Form.Group controlId="formBasicEmail">
@@ -47,7 +43,7 @@ const Login = props => {
             Submit
           </Button>
         </Form>
-      </Fragment>
+      </>
     </div>
   );
 };

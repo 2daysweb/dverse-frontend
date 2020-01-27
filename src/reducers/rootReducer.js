@@ -11,7 +11,6 @@ const appReducer = combineReducers({
   jobs,
   visibilityFilter
 });
-
 const rootReducer = (state, action) => {
   if (action.type === "LOGOUT") {
     storage.removeItem("persist:root");

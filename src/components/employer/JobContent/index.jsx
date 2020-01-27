@@ -3,21 +3,18 @@ import JobEditor from "../JobEditor";
 import JobInstructions from "../JobInstructions";
 import JobViewer from "../JobViewer";
 
-const JobContent = (props) => {
+const JobContent = ({latestClick, user, job, cancel, edit, save, deleteSelected, submit, update }) => {
   let renderContent = () => {
-    const { latestClick, user } = props;
     if (latestClick === "Edit") {
-      const { handleChangeInput, handleChangeTextArea, cancel, edit } = props;
       return (
         <JobEditor
-          edit={edit}
-          handleChangeTextArea={handleChangeTextArea}
-          handleChangeInput={handleChangeInput}
+          job={job}
           cancel={cancel}
+          save={save}
+          user={user}
         />
       );
     } else if (latestClick === "Show") {
-      const { job, deleteSelected, edit, submit, update } = props;
       return (
         <JobViewer
           user={user}

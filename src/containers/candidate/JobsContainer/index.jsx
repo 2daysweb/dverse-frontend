@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { fetchJobs } from "../../../actions";
 import { withRouter } from "react-router-dom";
 
-const BASE_URL = "https://dverse-staffing-backend.herokuapp.com/";
+const BASE_URL = "http://localhost:3000/";
 
 class JobsContainer extends Component {
   state = {
@@ -33,7 +33,7 @@ class JobsContainer extends Component {
     let job = this.updateJob(currJob);
     job.user_id = user.id;
 
-    return fetch(BASE_URL + "api/v1/jobs/" + id, {
+    return fetch(BASE_URL + "api/jobs/" + id, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -53,7 +53,7 @@ class JobsContainer extends Component {
   };
   handleClickDeleteBtn = () => {
     let id = this.state.currJob.id;
-    let URL = BASE_URL + "api/v1/jobs/" + id;
+    let URL = BASE_URL + "api/jobs/" + id;
     let job = { id: id };
     return fetch(URL, {
       method: "DELETE",

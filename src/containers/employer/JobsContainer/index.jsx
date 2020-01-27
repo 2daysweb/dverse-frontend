@@ -1,16 +1,9 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import JobContent from "../../../components/employer/JobContent";
 import JobSidebar from "../../../components/employer/JobSidebar";
-import {
-  createJob,
-  deleteSelected,
-  editJob,
-  fetchJobs,
-  setSelected,
-  updateStatus
-} from "../../../actions";
+import {createJob, deleteJob, editJob, editCancel, saveJob, fetchJobs, setSelected, updateStatus } from "../../../actions";
 import { getVisibleJobs } from "../../../reducers/jobsReducer";
 
 class JobsContainer extends Component {
@@ -18,28 +11,15 @@ class JobsContainer extends Component {
     const { fetchJobs } = this.props;
     fetchJobs();
   };
-
   render() {
-    const {
-      user,
-      latestClick,
-      job,
-      jobs,
-      body,
-      title,
-      createJob,
-      deleteSelected,
-      setSelected,
-      updateStatus
-    } = this.props;
-
+    const { user, latestClick, job, jobs, body, title, create, deleteJob, cancel, edit, save, setSelected, updateStatus } = this.props;
     return (
-      <Fragment>
+      <>
         <div className={'container'}>
           <JobSidebar
             id={user.id}
             jobs={jobs}
-            create={createJob}
+            create={create}
             setSelected={setSelected}
           />
           <JobContent
@@ -48,21 +28,20 @@ class JobsContainer extends Component {
             job={job}
             body={body}
             title={title}
-            deleteSelected={deleteSelected}
+            cancel={cancel}
+            edit={edit}
+            save={save}
+            deleteSelected={deleteJob}
             update={updateStatus}
           />
         </div>
-      </Fragment>
+      </>
     );
   }
 }
-
 const mapStateToProps = state => {
   const {
-    jobs: { latestClick, jobs, selectedJob, body, title },
-    visibilityFilter
-  } = state;
-
+    jobs: { latestClick, jobs, selectedJob, body, title }, visibilityFilter} = state;
   return {
     latestClick: latestClick,
     jobs: getVisibleJobs(jobs, visibilityFilter),
@@ -71,23 +50,28 @@ const mapStateToProps = state => {
     title: title
   };
 };
-
 const mapDispatchToProps = dispatch => {
   return {
-    createJob: id => {
+    create: id => {
       dispatch(createJob(id));
     },
-    deleteSelected: id => {
-      dispatch(deleteSelected(id));
+    deleteJob: id => {
+      dispatch(deleteJob(id));
     },
-    editJob: job => {
-      dispatch(editJob(job));
+    edit: () => {
+      dispatch(editJob());
+    },
+    cancel: () => {
+      dispatch(editCancel());
     },
     fetchJobs: () => {
       dispatch(fetchJobs());
     },
     setSelected: job => {
       dispatch(setSelected(job));
+    },
+    save: (job, body, title) => {
+      dispatch(saveJob(job, body, title))
     },
     updateStatus: (job, status, user) => {
       dispatch(updateStatus(job, status, user));

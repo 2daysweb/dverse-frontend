@@ -1,56 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 
-const JobEditor = (props) => {
-
-  const { handleChangeInput } = props
-
-  const handleChangeTitle = e => {
+const JobEditor = ({ job, cancel, save, user }) => {
+  const [title, setTitle] = useState(job.title);
+  const [body, setBody] = useState(job.body);
+  const handleChange = e => {
     e.persist();
-    let title = e.target.value;
-    handleChangeInput(title);
+    const { name, value } = e.target;
+    name === "title" ? setTitle(value) : setBody(value);
   };
-
-  const handleChangeTextArea = e => {
-    e.persist();
-    let body = e.target.value;
-    handleChangeInput(body);
-  };
-
   return (
-    <div>
+    <Form onSubmit={() => save(job, title, body, user)}>
       <Form.Row>
-        <Form.Group controlId="firstName">
-          <Form.Control
-            onChange={handleChangeTitle}
-            name="title"
-            value={props.currTitle}
-          />
+        <Form.Group controlId="title">
+          <Form.Control onChange={handleChange} name="title" value={title} />
         </Form.Group>
       </Form.Row>
-      <Form.Group controlId="exampleForm.ControlTextarea1">
+      <Form.Group controlId="body">
         <Form.Label />
         <Form.Control
           as="textarea"
           rows="3"
-          onChange={handleChangeTextArea}
+          onChange={handleChange}
           name="body"
-          value={props.currBody}
+          value={body}
         />
       </Form.Group>
       <div className="button-row">
-        <input
-          onClick={() => {
-            props.saveJob(props.currJob);
-          }}
-          type="submit"
-          value="Save"
-        />
-        <button onClick={props.cancelJob} type="button">
+        <input type="submit" value="Save" />
+        <button onClick={cancel} type="button">
           Cancel
         </button>
       </div>
-    </div>
+    </Form>
   );
 };
 
